@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แจ้งซ่อมคอมพิวเตอร์ - Repair System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .sidebar-bg {
+            background-color: #21325b;
+        }
+        /* เอฟเฟกต์ตอนเลือกโต๊ะใน Modal */
+        .desk-selected {
+            border-color: #2563eb !important;
+            background-color: #eff6ff !important;
+            color: #1e40af !important;
+        }
+        /* Animation สำหรับตัวเลขแจ้งเตือน */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .notification-badge {
+            animation: pulse-ring 2s infinite;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-gray-800">
+
+    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+        </div>
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+            <a href="home_it.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-house w-6 text-center"></i>
+                <span class="ml-3 font-medium ">Dashboard</span>
+            </a>
+            <a href="ลงทะเบียนอุปกรณ์_it.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-gear w-6 text-center"></i>
+                <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white">
+                <i class="fa-solid fa-wrench w-6 text-center"></i>
+                <span class="ml-3">แจ้งซ่อม</span>
+            </a>
+            
+            <a href="รับงาน_it.html" class="flex items-center justify-between px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors relative">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-clipboard-list w-6 text-center"></i>
+                    <span class="ml-3">รับงาน</span>
+                </div>
+                <span class="notification-badge bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                    3
+                </span>
+            </a>
+
+            <a href="รายการงาน_it.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-list w-6 text-center"></i>
+                <span class="ml-3">รายการงาน</span>
+            </a>
+        </nav>
+        
+        <div class="p-4 mb-4">
+            <a href="login.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
+                <span class="ml-3">ออกจากระบบ</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-y-auto p-8">
+        <div class="max-w-[1400px] mx-auto w-full transition-all duration-500">
+            
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-gray-800">แจ้งซ่อมคอมพิวเตอร์</h2>
+                <p class="text-base text-gray-500 mt-2">กรอกข้อมูลเพื่อส่งคำร้องซ่อม</p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-12">
+                <form action="#" method="POST" class="space-y-10">
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-end">
+                        <div class="lg:col-span-2">
+                            <span class="block text-sm font-semibold text-slate-500 mb-4">*เลือกอุปกรณ์ที่จะซ่อม</span>
+                            <div class="flex flex-wrap gap-3">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="device_type" value="คอมพิวเตอร์" class="peer sr-only" checked>
+                                    <div class="px-8 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-medium transition-all border border-slate-200 shadow-sm">
+                                        คอมพิวเตอร์
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="device_type" value="Notebook" class="peer sr-only">
+                                    <div class="px-8 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-medium transition-all border border-slate-200 shadow-sm">
+                                        Notebook
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="device_type" value="Printer" class="peer sr-only">
+                                    <div class="px-8 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-medium transition-all border border-slate-200 shadow-sm">
+                                        Printer
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="device_type" value="อื่นๆ" class="peer sr-only">
+                                    <div class="px-8 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-medium transition-all border border-slate-200 shadow-sm">
+                                        อื่นๆ
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <label class="block text-sm font-semibold text-slate-500 mb-3">เลือกสำนักงาน</label>
+                            <select name="office_location" class="w-full border border-slate-200 text-slate-700 text-base rounded-xl px-5 py-3.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all">
+                                <option value="">เลือกสำนักงาน</option>
+                                <option value="office1">สำนักงาน 1</option>
+                                <option value="office2">สำนักงาน 2</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 pt-8 text-slate-400">
+                                <i class="fa-solid fa-chevron-down text-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-slate-100">
+
+                    <div class="space-y-8">
+                        <span class="block text-sm font-semibold text-slate-500">*กรอกข้อมูลรายละเอียด</span>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">กอง</label>
+                                <input type="text" placeholder="เช่น กองยุทธศาสตร์และงบประมาณ" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">ฝ่าย</label>
+                                <input type="text" placeholder="กรอกข้อมูลฝ่าย" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">จัดซื้อมาจาก</label>
+                                <input type="text" placeholder="กรอกที่อยู่จัดซื้อ" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                            </div>
+                            <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">วันที่จัดซื้อ</label>
+                            <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-600 transition-all">
+                        </div>
+                            <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">วันที่แจ้งซ่อม</label>
+                            <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-600 transition-all">
+                        </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">เลขครุภัณฑ์</label>
+                                <input type="text" placeholder="กรอกเลขครุภัณฑ์" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                            </div>
+                            <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">ระยะเวลารับประกันความชำรุดบกพร่อง</label>
+                            <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-600 transition-all">
+                        </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">Windows</label>
+                                <input type="text" placeholder="กรอกรหัสผลิตภัณฑ์" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">Antivirus</label>
+                                <input type="text" placeholder="xxxxxxxxxxxxxxxxxxxx" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                        <div class="lg:col-span-2">
+                            <label class="block text-sm font-semibold text-slate-700 mb-3">รายละเอียดปัญหา</label>
+                            <textarea rows="5" placeholder="ระบุอาการเสียเบื้องต้น..." class="w-full border border-slate-200 rounded-2xl px-5 py-4 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"></textarea>
+                        </div>
+                        <div class="flex flex-col justify-end gap-4">
+                            <div class="p-5 bg-blue-50 rounded-2xl border border-blue-100">
+                                <h4 class="font-bold text-blue-900 mb-1">ตำแหน่งโต๊ะ</h4>
+                                <p class="text-sm text-blue-600 mb-4" id="selectedDeskText">ยังไม่ได้ระบุตำแหน่ง</p>
+                                <button type="button" onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-base font-medium py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-desktop"></i>
+                                    เลือกผังโต๊ะคอม
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-5 pt-10 border-t border-slate-50">
+                        <button type="button" class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-base font-semibold py-3.5 px-10 rounded-xl transition-all">
+                            ยกเลิก
+                        </button>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold py-3.5 px-10 rounded-xl transition-all shadow-xl shadow-blue-600/20 active:scale-95">
+                            ส่งคำร้อง
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div id="floorPlanModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
+        <div class="flex min-h-full items-center justify-center p-6">
+            <div class="relative transform overflow-hidden rounded-3xl bg-white p-10 text-left shadow-2xl transition-all w-full max-w-2xl">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-2xl font-bold text-slate-800">เลือกตำแหน่งที่ตั้งโต๊ะ</h3>
+                    <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
+                        <i class="fa-solid fa-circle-xmark text-2xl"></i>
+                    </button>
+                </div>
+                <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl p-10">
+                    <div id="deskContainer" class="grid grid-cols-4 gap-4"></div>
+                </div>
+                <div class="mt-8 flex justify-end">
+                    <button onclick="confirmSelection()" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/20">
+                        ยืนยันตำแหน่ง
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('floorPlanModal');
+        const deskContainer = document.getElementById('deskContainer');
+        const selectedText = document.getElementById('selectedDeskText');
+        let tempSelected = null;
+
+        function initDesks() {
+            for (let i = 1; i <= 12; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'desk-btn aspect-square bg-white border-2 border-slate-200 rounded-xl flex flex-col items-center justify-center hover:border-blue-400 hover:bg-blue-50 transition-all group p-2 shadow-sm';
+                btn.innerHTML = `
+                    <i class="fa-solid fa-computer text-slate-300 group-hover:text-blue-500 text-xl mb-1"></i>
+                    <span class="text-[10px] font-bold text-slate-400 group-hover:text-blue-600">โต๊ะ ${i}</span>
+                `;
+                btn.onclick = () => {
+                    document.querySelectorAll('.desk-btn').forEach(b => b.classList.remove('desk-selected'));
+                    btn.classList.add('desk-selected');
+                    tempSelected = i;
+                };
+                deskContainer.appendChild(btn);
+            }
+        }
+
+        function openModal() { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+        function closeModal() { modal.classList.add('hidden'); document.body.style.overflow = 'auto'; }
+
+        function confirmSelection() {
+            if (tempSelected) {
+                selectedText.innerText = `โต๊ะหมายเลข ${tempSelected}`;
+                selectedText.classList.add('font-bold', 'text-blue-800');
+                closeModal();
+            } else { alert('กรุณาเลือกโต๊ะก่อนกดยืนยัน'); }
+        }
+
+        window.onclick = function(event) { if (event.target == modal) closeModal(); }
+        initDesks();
+    </script>
+</body>
+</html>

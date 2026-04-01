@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair System - Login & Schedule</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .bg-left {
+            background-color: #6b7280; 
+            background-image: url('ย่าโม.png'); /* เปลี่ยนเป็นรูปสำรองหากไม่มีไฟล์ ย่าโม.png */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .bg-right {
+            background-color: #e6dac3; 
+        }
+
+        /* สไตล์ช่องปฏิทิน */
+        .calendar-grid div {
+            border: 1px solid #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 75px; 
+            font-size: 1.125rem; 
+            transition: background-color 0.2s;
+            position: relative; 
+        }
+
+        .calendar-grid div.current-month:hover {
+            background-color: #f3f4f6; 
+            cursor: pointer;
+        }
+        
+        .calendar-grid div.active-day {
+            background-color: #cfa45d;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: scale(1.02);
+            z-index: 10;
+            border: none;
+            border-radius: 6px;
+        }
+        
+        .calendar-grid div.weekend {
+            color: #ef4444; 
+        }
+        
+        .calendar-grid div.other-month {
+            color: #d1d5db;
+            background-color: rgba(249, 250, 251, 0.5);
+        }
+        
+        .event-dot {
+            position: absolute;
+            bottom: 8px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="flex flex-col lg:flex-row min-h-screen">
+
+    <div class="bg-left w-full lg:w-1/2 min-h-screen relative flex items-center justify-center p-8">
+        <div class="absolute inset-0 bg-black/40 z-0"></div> 
+        
+        <div class="glass-panel w-full max-w-sm rounded-2xl p-10 text-center shadow-2xl relative z-10">
+            <h1 class="text-3xl font-bold text-white mb-6 tracking-widest drop-shadow-md uppercase">LOG IN</h1>
+            <p class="text-white/80 text-xs mb-8">กรุณาระบุ Username เพื่อแยกสิทธิ์การใช้งาน</p>
+            
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <input type="text" id="usernameInput" placeholder="Username (admin, it, user)" class="w-full px-5 py-3.5 rounded-lg border-none bg-white/95 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#cfa45d] shadow-sm text-gray-800 placeholder-gray-400 transition-all text-sm" required>
+                </div>
+                
+                <div class="relative">
+                    <input type="password" id="passwordInput" placeholder="Password" class="w-full px-5 py-3.5 rounded-lg border-none bg-white/95 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#cfa45d] shadow-sm text-gray-800 placeholder-gray-400 pr-12 transition-all text-sm" required>
+                    <button type="button" id="togglePasswordBtn" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-[#cfa45d] transition-colors focus:outline-none">
+                        <i id="eyeIcon" class="fa-solid fa-eye text-sm"></i>
+                    </button>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-[#cfa45d] hover:bg-[#b58c49] text-white font-bold py-3.5 rounded-lg transition-colors shadow-lg text-sm tracking-wide">
+                        เข้าสู่ระบบ
+                    </button>
+                </div>
+                <p class="text-white/60 text-[10px] mt-4 italic">Admin: admin | IT: it | User: user (Pass: 1234)</p>
+            </form>
+        </div>
+    </div>
+
+    <div class="bg-right w-full lg:w-1/2 min-h-screen flex items-center justify-center p-6 md:p-10">
+        <div class="bg-white rounded-3xl shadow-xl w-full max-w-3xl p-8 md:p-10 flex flex-col h-full max-h-[90vh]">
+            
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 id="monthDisplay" class="text-3xl font-extrabold text-[#1f2937] tracking-tight">May 2026</h2>
+                    <p class="text-gray-400 mt-1 text-sm font-medium">จัดการตารางงานของคุณ</p>
+                </div>
+                <div class="flex gap-3">
+                    <button id="prevMonth" class="w-9 h-9 rounded-full bg-gray-50 hover:bg-[#f3f4f6] text-gray-500 transition-colors flex items-center justify-center shadow-sm border border-gray-100 focus:outline-none">
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                    </button>
+                    <button id="nextMonth" class="w-9 h-9 rounded-full bg-gray-50 hover:bg-[#f3f4f6] text-gray-500 transition-colors flex items-center justify-center shadow-sm border border-gray-100 focus:outline-none">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-7 text-center mb-2 pb-2">
+                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Mon</div>
+                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Tue</div>
+                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Wed</div>
+                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Thu</div>
+                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Fri</div>
+                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Sat</div>
+                <div class="text-[11px] font-bold text-red-400 uppercase tracking-widest">Sun</div>
+            </div>
+
+            <div id="calendarGrid" class="grid grid-cols-7 calendar-grid mb-8 flex-grow border-t border-l border-gray-50">
+            </div>
+
+            <div class="mt-auto">
+                <h3 id="scheduleTitle" class="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fa-regular fa-calendar-check text-[#cfa45d]"></i>
+                    Schedule (18 May)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-center gap-4 p-4 rounded-xl bg-[#f8f9fa]">
+                        <div class="w-10 h-10 rounded-lg bg-[#e8f5e9] flex flex-col items-center justify-center text-[#2e7d32] font-bold flex-shrink-0 leading-none">
+                            <span class="text-sm">09</span>
+                            <span class="text-[9px]">AM</span>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800 text-sm">ซ่อมคอมพิวเตอร์ PC</p>
+                            <p class="text-[11px] text-gray-500 mt-0.5">กองยุทธศาสตร์และงบประมาณ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 p-4 rounded-xl bg-[#f8f9fa]">
+                        <div class="w-10 h-10 rounded-lg bg-[#fff8e1] flex flex-col items-center justify-center text-[#f57f17] font-bold flex-shrink-0 leading-none">
+                            <span class="text-sm">11</span>
+                            <span class="text-[9px]">AM</span>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800 text-sm">ซ่อมเครื่องปริ้น</p>
+                            <p class="text-[11px] text-gray-500 mt-0.5">กองสวัสดิการสังคม</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- 1. สคริปต์สลับแสดง/ซ่อนรหัสผ่าน ---
+        const passwordInput = document.getElementById('passwordInput');
+        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        togglePasswordBtn.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            if(type === 'text') {
+                eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+
+        // --- 2. สคริปต์ Login แยกสิทธิ์ (Admin, IT, User) ---
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('usernameInput').value.trim().toLowerCase();
+            const password = passwordInput.value;
+
+            // ตรวจสอบเงื่อนไข (ในที่นี้ตั้งรหัสผ่านง่ายๆ คือ 1234 เหมือนกันหมด)
+            if (password === '1234') {
+                if (username === 'admin') {
+                    alert('ยินดีต้อนรับ Admin: กำลังพาคุณไปหน้าจัดการระบบ...');
+                    window.location.href = 'home_ad.html'; 
+                } else if (username === 'it') {
+                    alert('ยินดีต้อนรับ IT Technician: กำลังเปิดตารางงานซ่อม...');
+                    window.location.href = 'home_it.html';
+                } else if (username === 'user') {
+                    alert('ยินดีต้อนรับ User: กำลังพาคุณไปหน้าแจ้งซ่อม...');
+                    window.location.href = 'home.html';
+                } else {
+                    alert('ไม่พบชื่อผู้ใช้นี้ในระบบ (ลอง: admin, it, หรือ user)');
+                }
+            } else {
+                alert('รหัสผ่านไม่ถูกต้อง! (รหัสผ่านคือ 1234)');
+            }
+        });
+
+        // --- 3. สคริปต์จัดการปฏิทิน ---
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        
+        let currentDate = new Date(2026, 4, 18); 
+        let selectedDate = new Date(2026, 4, 18); 
+
+        const events = {
+            "2026-4-3": "bg-yellow-400",
+            "2026-4-8": "bg-green-500",
+            "2026-4-19": "bg-purple-500",
+            "2026-4-30": "bg-red-500"
+        };
+
+        const monthDisplay = document.getElementById('monthDisplay');
+        const calendarGrid = document.getElementById('calendarGrid');
+        const scheduleTitle = document.getElementById('scheduleTitle');
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            monthDisplay.textContent = `${monthNames[month]} ${year}`;
+            scheduleTitle.innerHTML = `<i class="fa-regular fa-calendar-check text-[#cfa45d]"></i> Schedule (${selectedDate.getDate()} ${monthNames[selectedDate.getMonth()]})`;
+
+            let firstDay = new Date(year, month, 1).getDay();
+            firstDay = (firstDay === 0) ? 6 : firstDay - 1; 
+
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+            let html = '';
+
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const prevDate = daysInPrevMonth - i;
+                html += `<div class="other-month border-r border-b border-gray-50">${prevDate}</div>`;
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const currentDayOfWeek = new Date(year, month, day).getDay();
+                const isWeekend = (currentDayOfWeek === 0 || currentDayOfWeek === 6);
+                const isSelected = (day === selectedDate.getDate() && month === selectedDate.getMonth() && year === selectedDate.getFullYear());
+                
+                const dateKey = `${year}-${month}-${day}`;
+                const eventDot = events[dateKey] ? `<span class="event-dot ${events[dateKey]}"></span>` : '';
+
+                let classes = "current-month text-gray-700 font-medium border-r border-b border-gray-50";
+                if (isSelected) classes = "active-day";
+                else if (isWeekend) classes += " weekend bg-red-50/20"; 
+
+                html += `<div class="${classes}" onclick="selectDate(${year}, ${month}, ${day})">
+                            ${day}
+                            ${eventDot}
+                         </div>`;
+            }
+
+            const totalCells = firstDay + daysInMonth;
+            const remainingCells = 42 - totalCells; 
+            
+            for (let i = 1; i <= remainingCells; i++) {
+                html += `<div class="other-month border-r border-b border-gray-50">${i}</div>`;
+            }
+
+            calendarGrid.innerHTML = html;
+        }
+
+        window.selectDate = function(year, month, day) {
+            selectedDate = new Date(year, month, day);
+            renderCalendar();
+        }
+
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+
+        renderCalendar();
+    </script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair System Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .sidebar-bg {
+            background-color: #21325b;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-gray-800">
+
+    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+        </div>
+        
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+            <a href="index.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white">
+                <i class="fa-solid fa-house w-6 text-center"></i>
+                <span class="ml-3 font-medium">Dashboard</span>
+            </a>
+            <a href="ลงทะเบียนอุปกรณ์.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-gear w-6 text-center"></i>
+                <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
+            </a>
+            <a href="แจ้งซ่อม1.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-wrench w-6 text-center"></i>
+                <span class="ml-3">แจ้งซ่อม</span>
+            </a>
+            <a href="ประวัติการแจ้ง.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-list w-6 text-center"></i>
+                <span class="ml-3">ประวัติการแจ้ง</span>
+            </a>
+        </nav>
+        
+        <div class="p-4 mb-4">
+            <a href="login.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
+                <span class="ml-3">ออกจากระบบ</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-y-auto">
+        <div class="p-8">
+            
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                        สวัสดี นาย ข <span class="text-3xl">👋</span>
+                    </h2>
+                    <p class="text-sm text-gray-500 mt-1">ข้อมูลการแจ้งซ่อมของคุณ</p>
+                </div>
+                
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-gray-400 border-y border-r border-gray-100 relative">
+                    <div class="text-sm text-gray-500 mb-2">งานทั้งหมด</div>
+                    <div class="text-2xl font-bold text-gray-500">1</div>
+                    <i class="fa-regular fa-rectangle-list absolute top-4 right-4 text-gray-400"></i>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-yellow-400 border-y border-r border-gray-100 relative">
+                    <div class="text-sm text-gray-500 mb-2">รอดำเนินการ</div>
+                    <div class="text-2xl font-bold text-yellow-500">1</div>
+                    <i class="fa-regular fa-clock absolute top-4 right-4 text-yellow-400"></i>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-blue-500 border-y border-r border-gray-100 relative">
+                    <div class="text-sm text-gray-500 mb-2">กำลังซ่อม</div>
+                    <div class="text-2xl font-bold text-blue-600">2</div>
+                    <i class="fa-solid fa-screwdriver-wrench absolute top-4 right-4 text-blue-500"></i>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-green-500 border-y border-r border-gray-100 relative">
+                    <div class="text-sm text-gray-500 mb-2">เสร็จแล้ว</div>
+                    <div class="text-2xl font-bold text-green-500">3</div>
+                    <i class="fa-regular fa-square-check absolute top-4 right-4 text-green-500"></i>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-red-500 border-y border-r border-gray-100 relative">
+                    <div class="text-sm text-gray-500 mb-2">ไม่สามารถซ่อมได้</div>
+                    <div class="text-2xl font-bold text-red-500">1</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
+                <h3 class="text-lg font-bold mb-6">รายการแจ้งซ่อมล่าสุดของฉัน</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-100 text-gray-600">
+                                <th class="pb-4 font-semibold">รหัสเครื่อง</th>
+                                <th class="pb-4 font-semibold">อุปกรณ์</th>
+                                <th class="pb-4 font-semibold">ปัญหา</th>
+                                <th class="pb-4 font-semibold text-center">สถานะ</th>
+                                <th class="pb-4 font-semibold">วันที่</th>
+                                <th class="pb-4 font-semibold text-right">จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    <tr class="border-b border-gray-50 hover:bg-gray-50">
+        <td class="py-4">#001</td>
+        <td class="py-4">PC</td>
+        <td class="py-4">เปิดไม่ติด</td>
+        <td class="py-4 text-center">
+            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">รอดำเนินการ</span>
+        </td>
+        <td class="py-4">19/02/2026</td>
+        <td class="py-4 text-right">
+            <a href="ticket_detail01.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+        </td>
+    </tr>
+
+    <tr class="border-b border-gray-50 hover:bg-gray-50">
+        <td class="py-4">#002</td>
+        <td class="py-4">Notebook</td>
+        <td class="py-4">หน้าจอกระพริบ</td>
+        <td class="py-4 text-center">
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">กำลังซ่อม</span>
+        </td>
+        <td class="py-4">19/02/2026</td>
+        <td class="py-4 text-right">
+            <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+        </td>
+    </tr>
+
+    <tr class="hover:bg-gray-50">
+        <td class="py-4">#003</td>
+        <td class="py-4">Printer</td>
+        <td class="py-4">พิมพ์ไม่ออก</td>
+        <td class="py-4 text-center">
+            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">ไม่สามารถซ่อมได้</span>
+        </td>
+        <td class="py-4">19/02/2026</td>
+        <td class="py-4 text-right">
+            <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+        </td>
+    </tr>
+</tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-8">
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 lg:col-span-2">
+                    <h3 class="text-lg font-bold mb-6">สถิติการแจ้งของฉันทั้งหมด</h3>
+                    <div class="relative h-72">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                    <h3 class="text-lg font-bold mb-6">สรุปสถานะงานซ่อม</h3>
+                    <div class="relative h-48 mb-6 flex justify-center">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                    
+                    <div class="space-y-4 pl-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-5 h-5 bg-[#eab308] rounded-sm"></div>
+                            <span class="font-medium text-gray-700 text-sm">รอดำเนินการ</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-5 h-5 bg-[#3b82f6] rounded-sm"></div>
+                            <span class="font-medium text-gray-700 text-sm">กำลังซ่อม</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-5 h-5 bg-[#22c55e] rounded-sm"></div>
+                            <span class="font-medium text-gray-700 text-sm">เสร็จแล้ว</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-5 h-5 bg-[#ef4444] rounded-sm"></div>
+                            <span class="font-medium text-gray-700 text-sm">ไม่สามารถซ่อมได้</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // --- Bar Chart Setup ---
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['PC', 'Note Book', 'Printer', 'Monitor', 'โทรศัพท์ ip phone', 'เว็บไซต์'],
+                datasets: [{
+                    data: [16, 45, 27, 30, 50, 10],
+                    backgroundColor: [
+                        '#00c2ff', // PC (Cyan)
+                        '#ff7a45', // Note Book (Orange)
+                        '#f5a623', // Printer (Yellow-orange)
+                        '#fcd34d', // Monitor (Yellow)
+                        '#bbf7d0', // โทรศัพท์ (Light Green)
+                        '#86efac'  // เว็บไซต์ (Green)
+                    ],
+                    borderWidth: 0,
+                    borderRadius: 2,
+                    barPercentage: 0.6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: true }
+                },
+                scales: {
+                    y: {
+                        display: false, // Hide Y axis as in the design
+                        beginAtZero: true
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { family: "'Prompt', sans-serif", size: 10 } }
+                    }
+                },
+                animation: {
+                    onComplete: function() {
+                        var ctx = this.ctx;
+                        ctx.font = Chart.helpers.fontString(10, 'normal', "'Prompt', sans-serif");
+                        ctx.fillStyle = "#666";
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+
+                        this.data.datasets.forEach(function (dataset, i) {
+                            var meta = this.getDatasetMeta(i);
+                            meta.data.forEach(function (bar, index) {
+                                var data = dataset.data[index];
+                                ctx.fillText(data, bar.x, bar.y - 5);
+                            });
+                        }, this);
+                    }
+                }
+            }
+        });
+
+        // --- Pie Chart Setup ---
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['รอดำเนินการ (C)', 'กำลังซ่อม (A)', 'เสร็จแล้ว (B)', 'ไม่สามารถซ่อมได้ (D)'],
+                datasets: [{
+                    data: [27, 16, 45, 1],
+                    backgroundColor: [
+                        '#eab308', // Yellow
+                        '#3b82f6', // Blue
+                        '#22c55e', // Green
+                        '#ef4444'  // Red
+                    ],
+                    borderWidth: 1,
+                    borderColor: '#333' // Dark border around pie slices
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        display: false // Hide default legend, using custom HTML legend below
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ประวัติการแจ้งซ่อม - Repair System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .sidebar-bg {
+            background-color: #21325b;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-gray-800">
+
+    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+        </div>
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+            <a href="home.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-house w-6 text-center"></i>
+                <span class="ml-3 font-medium">Dashboard</span>
+            </a>
+            <a href="ลงทะเบียนอุปกรณ์.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-gear w-6 text-center"></i>
+                <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
+            </a>
+            <a href="แจ้งซ่อม1.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-wrench w-6 text-center"></i>
+                <span class="ml-3">แจ้งซ่อม</span>
+            </a>
+            <a href="ประวัติการแจ้ง.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white">
+                <i class="fa-solid fa-list w-6 text-center"></i>
+                <span class="ml-3">ประวัติการแจ้ง</span>
+            </a>
+        </nav>
+        
+        <div class="p-4 mb-4">
+            <a href="login.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
+                <span class="ml-3">ออกจากระบบ</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-y-auto">
+        <div class="p-8">
+            
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">ประวัติการแจ้งซ่อมทั้งหมดของฉัน</h2>
+                <p class="text-sm text-gray-500 mt-1">จัดการและติดตามสถานะงานซ่อม</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-gray-400 border-y border-r border-gray-100 relative">
+                    <div class="text-sm text-gray-500 mb-2">งานทั้งหมด</div>
+                    <div class="text-2xl font-bold text-gray-500">1</div>
+                    <i class="fa-regular fa-rectangle-list absolute top-4 right-4 text-gray-400"></i>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-yellow-400 border-y border-r border-gray-100 relative">
+                    <div class="text-sm text-gray-500 mb-2">รอดำเนินการ</div>
+                    <div class="text-2xl font-bold text-yellow-500">1</div>
+                    <i class="fa-regular fa-clock absolute top-4 right-4 text-yellow-400"></i>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-blue-500 border-y border-r border-gray-100 relative">
+                    <div class="text-sm text-gray-500 mb-2">กำลังซ่อม</div>
+                    <div class="text-2xl font-bold text-blue-600">2</div>
+                    <i class="fa-solid fa-screwdriver-wrench absolute top-4 right-4 text-blue-500"></i>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-green-500 border-y border-r border-gray-100 relative">
+                    <div class="text-sm text-gray-500 mb-2">เสร็จแล้ว</div>
+                    <div class="text-2xl font-bold text-green-500">3</div>
+                    <i class="fa-regular fa-square-check absolute top-4 right-4 text-green-500"></i>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-red-500 border-y border-r border-gray-100 relative">
+                    <div class="text-sm text-gray-500 mb-2">ไม่สามารถซ่อมได้</div>
+                    <div class="text-2xl font-bold text-red-500">1</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <input type="text" placeholder="ค้นหาชื่อผู้แจ้ง / เลขที่งาน" class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400">
+                    </div>
+                    <div class="relative">
+                        <select class="w-full border border-gray-200 bg-gray-50 text-gray-600 text-sm rounded-lg px-4 py-2 focus:outline-none appearance-none">
+                            <option value="">ทุกสถานะ</option>
+                            <option value="pending">รอดำเนินการ</option>
+                            <option value="in_progress">กำลังซ่อม</option>
+                            <option value="completed">เสร็จแล้ว</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                            <i class="fa-solid fa-caret-down text-xs"></i>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <input type="text" placeholder="mm/dd/yyyy" class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400 text-gray-600">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <i class="fa-regular fa-calendar text-gray-400"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" class="w-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-600 text-sm py-2 rounded-lg transition-colors">
+                            รีเซ็ตตัวกรอง
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-100">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-100 text-gray-700 font-bold">
+                                <th class="pb-4">รหัสเครื่อง</th>
+                                <th class="pb-4">อุปกรณ์</th>
+                                <th class="pb-4">ปัญหา</th>
+                                <th class="pb-4 text-center">สถานะ</th>
+                                <th class="pb-4">วันที่</th>
+                                <th class="pb-4 text-right">จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-50 hover:bg-gray-50">
+        <td class="py-4">#001</td>
+        <td class="py-4">PC</td>
+        <td class="py-4">เปิดไม่ติด</td>
+        <td class="py-4 text-center">
+            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">รอดำเนินการ</span>
+        </td>
+        <td class="py-4">19/02/2026</td>
+        <td class="py-4 text-right">
+            <a href="ticket_detail01.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+        </td>
+    </tr>
+                            <tr class="border-b border-gray-50 hover:bg-gray-50">
+                                <td class="py-4 text-gray-600">#002</td>
+                                <td class="py-4 text-gray-600">Notebook</td>
+                                <td class="py-4 text-gray-600">หน้าจอกระพริบ</td>
+                                <td class="py-4 text-center">
+                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">กำลังซ่อม</span>
+                                </td>
+                                <td class="py-4 text-gray-600">19/02/2026</td>
+                                <td class="py-4 text-right"><a href="#" class="text-blue-500 hover:underline text-xs">ดูรายละเอียด</a></td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-4 text-gray-600">#003</td>
+                                <td class="py-4 text-gray-600">Printer</td>
+                                <td class="py-4 text-gray-600">พิมพ์ไม่ออก</td>
+                                <td class="py-4 text-center">
+                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">เสร็จแล้ว</span>
+                                </td>
+                                <td class="py-4 text-gray-600">19/02/2026</td>
+                                <td class="py-4 text-right"><a href="#" class="text-blue-500 hover:underline text-xs">ดูรายละเอียด</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="flex justify-center items-center gap-1">
+                <button class="px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 rounded bg-gray-50 border border-gray-200 transition-colors">ก่อนหน้า</button>
+                <button class="w-8 py-1.5 text-sm bg-blue-600 text-white font-medium rounded shadow-sm">1</button>
+                <button class="w-8 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded bg-white border border-gray-200 transition-colors">2</button>
+                <button class="w-8 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded bg-white border border-gray-200 transition-colors">3</button>
+                <button class="px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 rounded bg-gray-50 border border-gray-200 transition-colors">ถัดไป</button>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

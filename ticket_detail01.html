@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Details - Repair System (Adjusted Timeline)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Prompt', sans-serif; background-color: #f1f5f9; }
+        .sidebar-bg { background-color: #21325b; }
+        
+        /* สไตล์พิเศษสำหรับสถานะ "ปัจจุบัน" ที่ให้มันดูเด่นขึ้น */
+        .is-current {
+            position: relative;
+        }
+        .is-current .timeline-dot {
+            background-color: #2563eb !important; /* bg-blue-600 */
+            box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.15); /* ring effect */
+        }
+        .is-current .timeline-text {
+            color: #2563eb !important; /* text-blue-600 */
+            font-weight: 700 !important; /* bold */
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-gray-800">
+
+    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+        </div>
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+            <a href="home.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-house w-6 text-center"></i>
+                <span class="ml-3 font-medium">Dashboard</span>
+            </a>
+            <a href="ลงทะเบียนอุปกรณ์.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-gear w-6 text-center"></i>
+                <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
+            </a>
+            <a href="แจ้งซ่อม1.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-wrench w-6 text-center"></i>
+                <span class="ml-3">แจ้งซ่อม</span>
+            </a>
+            <a href="ประวัติการแจ้ง.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white shadow-lg">
+                <i class="fa-solid fa-list w-6 text-center"></i>
+                <span class="ml-3 font-medium">ประวัติการแจ้ง</span>
+            </a>
+        </nav>
+        <div class="p-4 mb-4 border-t border-white/10">
+            <a href="login.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
+                <span class="ml-3">ออกจากระบบ</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-y-auto">
+        <div class="p-10 max-w-6xl w-full mx-auto">
+            
+            <div class="flex justify-between items-start mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Ticket #001</h2>
+                    <p class="text-slate-500 mt-1">รายละเอียดงานซ่อม</p>
+                </div>
+                <span class="px-4 py-1.5 bg-blue-100 text-blue-600 text-sm font-semibold rounded-full border border-blue-200">
+                    กำลังซ่อม
+                </span>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
+                <h3 class="text-lg font-bold text-slate-800 mb-6">ข้อมูลผู้แจ้ง</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12">
+                    <div class="flex">
+                        <span class="font-bold text-slate-700 min-w-[100px]">ชื่อ:</span>
+                        <span class="text-slate-600">สมชาย</span>
+                    </div>
+                    <div class="flex">
+                        <span class="font-bold text-slate-700 min-w-[100px]">แผนก:</span>
+                        <span class="text-slate-600">IT</span>
+                    </div>
+                    <div class="flex">
+                        <span class="font-bold text-slate-700 min-w-[100px]">อุปกรณ์:</span>
+                        <span class="text-slate-600">PC</span>
+                    </div>
+                    <div class="flex">
+                        <span class="font-bold text-slate-700 min-w-[100px]">วันที่แจ้ง:</span>
+                        <span class="text-slate-600">19/02/2026</span>
+                    </div>
+                    <div class="flex">
+                        <span class="font-bold text-slate-700 min-w-[100px]">รหัสเครื่อง:</span>
+                        <span class="text-slate-600">0444-00-8888</span>
+                    </div>
+                    <div class="flex">
+                        <span class="font-bold text-slate-700 min-w-[100px]">ที่อยู่:</span>
+                        <span class="text-slate-600">กองยุทธศาสตร์และงบประมาณ</span>
+                    </div>
+                    <div class="flex md:col-span-2 border-t border-slate-50 pt-4 mt-2">
+                        <span class="font-bold text-slate-700 min-w-[100px]">ปัญหา:</span>
+                        <span class="text-slate-600">เครื่องเปิดไม่ติด มีเสียงพัดลมดัง</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+                <h3 class="text-lg font-bold text-slate-800 mb-10">สถานะการดำเนินงาน</h3>
+                
+                <div class="relative max-w-3xl mx-auto space-y-12 before:absolute before:inset-0 before:left-2.5 before:-translate-x-px before:h-full before:w-0.5 before:bg-slate-100">
+                    
+                    <div class="relative flex items-center group is-complete pl-12">
+                        <div class="timeline-dot absolute left-0 flex items-center justify-center w-5 h-5 rounded-full border border-white bg-emerald-500 shadow shrink-0"></div>
+                        <div>
+                            <div class="font-bold text-slate-800 timeline-text">รับแจ้งงาน</div>
+                            <time class="text-xs text-slate-400">19/02/2026 09:00</time>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-center group is-complete pl-12">
+                        <div class="timeline-dot absolute left-0 flex items-center justify-center w-5 h-5 rounded-full border border-white bg-emerald-500 shadow shrink-0"></div>
+                        <div>
+                            <div class="font-bold text-slate-800 timeline-text">รับงานโดยช่าง</div>
+                            <time class="text-xs text-slate-400">19/02/2026 09:30</time>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-center group is-current pl-12">
+                        <div class="timeline-dot absolute left-0 flex items-center justify-center w-5 h-5 rounded-full border border-white bg-blue-500 shadow shrink-0 ring-4 ring-blue-100"></div>
+                        <div>
+                            <div class="font-bold text-blue-600 timeline-text">กำลังซ่อม</div>
+                            <time class="text-xs text-slate-400">19/02/2026 10:15</time>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-center group pl-12">
+                        <div class="timeline-dot absolute left-0 flex items-center justify-center w-5 h-5 rounded-full border border-white bg-slate-300 shadow shrink-0"></div>
+                        <div>
+                            <div class="font-bold text-slate-400 timeline-text hover:text-slate-800 transition-colors cursor-default">เสร็จสิ้น</div>
+                            <time class="text-xs text-slate-300">--/--/---- --:--</time>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // ไม่มี JavaScript ในหน้านี้ แต่สามารถเพิ่มได้เพื่อจัดการสถานะอย่างไดนามิกในอนาคต
+    </script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair System - สถิติการแจ้งซ่อมรายเดือน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            /* สร้างพื้นหลังให้คล้ายกับในภาพที่มีมิติเล็กน้อย */
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        }
+        .sidebar-bg {
+            background-color: #21325b;
+        }
+        /* Custom scrollbar สำหรับตาราง */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        
+        
+    </style>
+
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full overflow-y-auto relative">
+        <div class="p-8 max-w-7xl mx-auto w-full">
+            
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-[#21325b]">สถิติการแจ้งซ่อมรายเดือน 2569</h2>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-4 mb-6">
+                <div class="relative w-48">
+                    <select class="w-full appearance-none border border-gray-300 rounded-lg py-2.5 px-4 pr-10 text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm cursor-pointer">
+                        <option value="2569">2569</option>
+                        <option value="2568">2568</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                </div>
+
+                <div class="relative w-64">
+                    <select class="w-full appearance-none border border-gray-300 rounded-lg py-2.5 px-4 pr-10 text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm cursor-pointer">
+                        <option value="01">ม.ค.</option>
+                        <option value="02">ก.พ.</option>
+                        <option value="03">มี.ค.</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                </div>
+
+                <button class="bg-[#10b981] hover:bg-[#059669] text-white rounded-lg shadow-sm flex items-center overflow-hidden transition-colors ml-4">
+                    <div class="px-4 py-2.5 flex items-center gap-2">
+                        <i class="fa-solid fa-file-excel text-lg"></i>
+                        <span class="font-medium">Export Excel</span>
+                    </div>
+                    <div class="px-3 py-2.5 bg-black/10 border-l border-white/20 flex items-center justify-center hover:bg-black/20">
+                        <i class="fa-solid fa-chevron-down text-sm"></i>
+                    </div>
+                </button>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+                <div class="p-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-6">สถานะงานซ่อมแยกตามหน่วยงาน</h3>
+                    
+                    <div class="border border-gray-100 rounded-lg p-1">
+                        <div class="p-4">
+                            <h4 class="font-bold text-gray-800">รายการแจ้งซ่อมล่าสุด</h4>
+                        </div>
+                        
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left text-sm whitespace-nowrap">
+                                <thead>
+                                    <tr class="text-gray-700 font-semibold border-b border-gray-100">
+                                        <th class="pb-4 pt-2 px-6">เลขที่</th>
+                                        <th class="pb-4 pt-2 px-6">ผู้แจ้ง</th>
+                                        <th class="pb-4 pt-2 px-6 text-center">โต๊ะ</th>
+                                        <th class="pb-4 pt-2 px-6">แผนก</th>
+                                        <th class="pb-4 pt-2 px-6">อุปกรณ์</th>
+                                        <th class="pb-4 pt-2 px-6">ปัญหา</th>
+                                        <th class="pb-4 pt-2 px-6 text-center">สถานะ</th>
+                                        <th class="pb-4 pt-2 px-6 text-center">วันที่</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 divide-y divide-gray-50">
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="py-4 px-6">#001</td>
+                                        <td class="py-4 px-6">สมชาย</td>
+                                        <td class="py-4 px-6 text-center">A1</td>
+                                        <td class="py-4 px-6">กองสวัสดิการ</td>
+                                        <td class="py-4 px-6">PC</td>
+                                        <td class="py-4 px-6">เปิดไม่ติด</td>
+                                        <td class="py-4 px-6 text-center">
+                                            <span class="bg-[#fef3c7] text-[#d97706] px-4 py-1.5 rounded-full text-xs font-medium">รอดำเนินการ</span>
+                                        </td>
+                                        <td class="py-4 px-6 text-center">19/02/2026</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="py-4 px-6">#001</td>
+                                        <td class="py-4 px-6">ชายน้อย</td>
+                                        <td class="py-4 px-6 text-center">B1</td>
+                                        <td class="py-4 px-6">กองสาธารณสุข</td>
+                                        <td class="py-4 px-6">Notebook</td>
+                                        <td class="py-4 px-6">หน้าจอกระพริบ</td>
+                                        <td class="py-4 px-6 text-center">
+                                            <span class="bg-[#dbeafe] text-[#2563eb] px-4 py-1.5 rounded-full text-xs font-medium">กำลังซ่อม</span>
+                                        </td>
+                                        <td class="py-4 px-6 text-center">19/02/2026</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="py-4 px-6">#001</td>
+                                        <td class="py-4 px-6">ชายใหญ่</td>
+                                        <td class="py-4 px-6 text-center">C1</td>
+                                        <td class="py-4 px-6">สำนักคลัง</td>
+                                        <td class="py-4 px-6">Printer</td>
+                                        <td class="py-4 px-6">พิมพ์ไม่ออก</td>
+                                        <td class="py-4 px-6 text-center">
+                                            <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
+                                        </td>
+                                        <td class="py-4 px-6 text-center">19/02/2026</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="py-4 px-6">#001</td>
+                                        <td class="py-4 px-6">ชายใหญ่</td>
+                                        <td class="py-4 px-6 text-center">C1</td>
+                                        <td class="py-4 px-6">สำนักคลัง</td>
+                                        <td class="py-4 px-6">Printer</td>
+                                        <td class="py-4 px-6">พิมพ์ไม่ออก</td>
+                                        <td class="py-4 px-6 text-center">
+                                            <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
+                                        </td>
+                                        <td class="py-4 px-6 text-center">19/02/2026</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="py-4 px-6">#001</td>
+                                        <td class="py-4 px-6">ชายใหญ่</td>
+                                        <td class="py-4 px-6 text-center">C1</td>
+                                        <td class="py-4 px-6">สำนักคลัง</td>
+                                        <td class="py-4 px-6">Printer</td>
+                                        <td class="py-4 px-6">พิมพ์ไม่ออก</td>
+                                        <td class="py-4 px-6 text-center">
+                                            <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
+                                        </td>
+                                        <td class="py-4 px-6 text-center">19/02/2026</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="py-4 px-6">#001</td>
+                                        <td class="py-4 px-6">ชายใหญ่</td>
+                                        <td class="py-4 px-6 text-center">C1</td>
+                                        <td class="py-4 px-6">สำนักคลัง</td>
+                                        <td class="py-4 px-6">Printer</td>
+                                        <td class="py-4 px-6">พิมพ์ไม่ออก</td>
+                                        <td class="py-4 px-6 text-center">
+                                            <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
+                                        </td>
+                                        <td class="py-4 px-6 text-center">19/02/2026</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="py-4 px-6">#001</td>
+                                        <td class="py-4 px-6">ชายใหญ่</td>
+                                        <td class="py-4 px-6 text-center">C1</td>
+                                        <td class="py-4 px-6">สำนักคลัง</td>
+                                        <td class="py-4 px-6">Printer</td>
+                                        <td class="py-4 px-6">พิมพ์ไม่ออก</td>
+                                        <td class="py-4 px-6 text-center">
+                                            <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
+                                        </td>
+                                        <td class="py-4 px-6 text-center">19/02/2026</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="py-4 px-6">#001</td>
+                                        <td class="py-4 px-6">ชายใหญ่</td>
+                                        <td class="py-4 px-6 text-center">C1</td>
+                                        <td class="py-4 px-6">สำนักคลัง</td>
+                                        <td class="py-4 px-6">Printer</td>
+                                        <td class="py-4 px-6">พิมพ์ไม่ออก</td>
+                                        <td class="py-4 px-6 text-center">
+                                            <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
+                                        </td>
+                                        <td class="py-4 px-6 text-center">19/02/2026</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center items-center gap-2 mb-8">
+                <button class="px-4 py-2 border border-gray-200 rounded-md bg-white text-gray-600 hover:bg-gray-50 font-medium text-sm transition-colors">
+                    ก่อนหน้า
+                </button>
+                <button class="w-10 h-10 flex justify-center items-center rounded-md bg-blue-600 text-white font-medium shadow-sm transition-colors">
+                    1
+                </button>
+                <button class="w-10 h-10 flex justify-center items-center rounded-md bg-transparent border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium transition-colors">
+                    2
+                </button>
+                <button class="w-10 h-10 flex justify-center items-center rounded-md bg-transparent border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium transition-colors">
+                    3
+                </button>
+                <button class="px-4 py-2 border border-gray-200 rounded-md bg-white text-gray-600 hover:bg-gray-50 font-medium text-sm transition-colors">
+                    ถัดไป
+                </button>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

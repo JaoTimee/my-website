@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เพิ่มข้อมูลอุปกรณ์ - Repair System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .sidebar-bg {
+            background-color: #21325b;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .desk-selected {
+            border-color: #2563eb !important;
+            background-color: #eff6ff !important;
+            color: #1e40af !important;
+        }
+        /* Animation สำหรับตัวเลขแจ้งเตือน */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .notification-badge {
+            animation: pulse-ring 2s infinite;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-gray-800">
+
+    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+        </div>
+         <nav class="flex-1 px-4 space-y-2 mt-4">
+            <a href="home_it.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-house w-6 text-center"></i>
+                <span class="ml-3 font-medium ">Dashboard</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white">
+                <i class="fa-solid fa-gear w-6 text-center"></i>
+                <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
+            </a>
+            <a href="แจ้งซ่อม_it.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-wrench w-6 text-center"></i>
+                <span class="ml-3">แจ้งซ่อม</span>
+            </a>
+            <a href="รับงาน_it.html" class="flex items-center justify-between px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors relative">
+    <div class="flex items-center">
+        <i class="fa-solid fa-clipboard-list w-6 text-center"></i>
+        <span class="ml-3">รับงาน</span>
+    </div>
+    <span class="notification-badge bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+        3
+    </span>
+            </a>
+            <a href="รายการงาน_it.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-list w-6 text-center"></i>
+                <span class="ml-3">รายการงาน</span>
+            </a>
+        </nav>
+        
+        <div class="p-4 mb-4">
+            <a href="login.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
+                <span class="ml-3">ออกจากระบบ</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-y-auto p-8">
+        <div class="max-w-[1400px] mx-auto w-full transition-all duration-500">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">เพิ่มข้อมูลอุปกรณ์</h2>
+                <p class="text-base text-gray-500 mt-1">กรอกข้อมูลอุปกรณ์ของคุณเพื่อใช้ในการออก QR Code</p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-10 md:p-12">
+                <form action="#" method="POST" id="repairForm">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">กอง</label>
+                            <input type="text" placeholder="เช่น กองยุทธศาสตร์และงบประมาณ" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">ฝ่าย</label>
+                            <input type="text" placeholder="กรอกข้อมูลฝ่าย" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">จัดซื้อมาจาก</label>
+                            <input type="text" placeholder="กรอกชื่อบริษัท/ร้านค้า" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">วันที่จัดซื้อ</label>
+                            <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-600 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">ประเภทอุปกรณ์</label>
+                            <div class="relative">
+                                <select class="w-full border border-gray-200 text-gray-700 text-sm rounded-xl px-5 py-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white appearance-none cursor-pointer transition-all">
+                                    <option value="">เลือกประเภท</option>
+                                    <option value="pc">คอมพิวเตอร์ (PC)</option>
+                                    <option value="notebook">Notebook</option>
+                                    <option value="printer">Printer</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">เลขครุภัณฑ์</label>
+                            <input type="text" placeholder="กรอกเลขครุภัณฑ์" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">ระยะเวลารับประกันความชำรุดบกพร่อง</label>
+                            <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-600 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Windows (Product Key)</label>
+                            <input type="text" placeholder="รหัสเปิดใช้งาน" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Antivirus (License)</label>
+                            <input type="text" placeholder="รหัสหรือเวอร์ชัน" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                        </div>
+                    </div>
+
+                    <div class="mb-12 p-8 bg-blue-50 rounded-2xl border border-blue-100">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-blue-900">ตำแหน่งโต๊ะคอมพิวเตอร์</h4>
+                                <p class="text-base text-blue-700" id="selectedDeskText">ยังไม่ได้ระบุตำแหน่ง</p>
+                            </div>
+                            <button type="button" onclick="openModal()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-3 px-8 rounded-xl shadow-md transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-desktop"></i>
+                                เลือกผังโต๊ะคอม
+                            </button>
+                        </div>
+                        <input type="hidden" name="desk_id" id="deskIdInput">
+                    </div>
+
+                    <div class="flex justify-end gap-4 pt-8 border-t border-gray-100">
+                        <button type="button" class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium py-3 px-10 rounded-xl transition-colors">
+                            ยกเลิก
+                        </button>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-3 px-10 rounded-xl transition-all shadow-lg active:scale-95">
+                            บันทึกเป็น QR Code
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div id="floorPlanModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"></div>
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative transform overflow-hidden rounded-3xl bg-white p-8 text-left shadow-2xl transition-all w-full max-w-2xl">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">ผังที่นั่งห้องคอมพิวเตอร์</h3>
+                        <p class="text-xs text-gray-500">กรุณาเลือกโต๊ะที่อุปกรณ์นี้ตั้งอยู่</p>
+                    </div>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                        <i class="fa-solid fa-circle-xmark text-2xl"></i>
+                    </button>
+                </div>
+
+                <div class="bg-gray-100 rounded-xl p-8 border border-gray-200">
+                    <div id="deskContainer" class="grid grid-cols-4 gap-4"></div>
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button onclick="confirmSelection()" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-2.5 rounded-lg font-bold transition-all shadow-lg active:scale-95">
+                        ยืนยันตำแหน่ง
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="qrCodeModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"></div>
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative transform overflow-hidden rounded-3xl bg-white p-8 text-center shadow-2xl transition-all w-full max-w-sm">
+                
+                <h3 class="text-xl font-bold text-gray-800 mb-2">QR Code อุปกรณ์</h3>
+                <p class="text-sm text-gray-500 mb-6">บันทึกข้อมูลสำเร็จ สามารถดาวน์โหลด QR Code เพื่อนำไปติดที่อุปกรณ์ได้เลย</p>
+                
+                <div class="flex justify-center mb-8">
+                    <div class="p-4 border border-gray-200 rounded-2xl shadow-sm bg-gray-50">
+                        <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Equipment_IT_999" alt="QR Code" class="w-48 h-48 mix-blend-multiply">
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-3">
+                    <button onclick="closeQrModal()" class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium py-2.5 px-6 rounded-xl transition-colors w-full">
+                        ยกเลิก
+                    </button>
+                    <button onclick="downloadQrCode()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2.5 px-6 rounded-xl transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2 w-full">
+                        <i class="fa-solid fa-download"></i> ดาวน์โหลด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- ระบบผังโต๊ะ ---
+        const modal = document.getElementById('floorPlanModal');
+        const deskContainer = document.getElementById('deskContainer');
+        const selectedText = document.getElementById('selectedDeskText');
+        const deskInput = document.getElementById('deskIdInput');
+        let currentSelected = null;
+
+        function initDesks() {
+            for (let i = 1; i <= 12; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'desk-btn aspect-square bg-white border-2 border-gray-200 rounded-xl flex flex-col items-center justify-center hover:border-blue-400 hover:bg-blue-50 transition-all group p-2 shadow-sm';
+                btn.innerHTML = `
+                    <i class="fa-solid fa-computer text-gray-300 group-hover:text-blue-400 text-xl mb-1"></i>
+                    <span class="text-[10px] font-bold text-gray-400 group-hover:text-blue-500">โต๊ะ ${i}</span>
+                `;
+                btn.onclick = () => selectDesk(i, btn);
+                deskContainer.appendChild(btn);
+            }
+        }
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function selectDesk(num, element) {
+            document.querySelectorAll('.desk-btn').forEach(b => b.classList.remove('desk-selected'));
+            element.classList.add('desk-selected');
+            currentSelected = num;
+        }
+
+        function confirmSelection() {
+            if (currentSelected) {
+                selectedText.innerText = `ระบุตำแหน่งแล้ว: โต๊ะหมายเลข ${currentSelected}`;
+                selectedText.className = "text-base text-green-600 font-bold";
+                deskInput.value = currentSelected;
+                closeModal();
+            } else {
+                alert('กรุณาเลือกโต๊ะก่อนกดยืนยัน');
+            }
+        }
+
+        initDesks();
+
+
+        // --- 🟢 ระบบแสดง Modal QR Code ---
+        const qrModal = document.getElementById('qrCodeModal');
+        const repairForm = document.getElementById('repairForm');
+
+        // เมื่อกด Submit
+        repairForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // กันไม่ให้เว็บ Refresh
+            
+            qrModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        // ฟังก์ชันปิด Pop-up QR Code
+        function closeQrModal() {
+            qrModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ฟังก์ชันจำลองการดาวน์โหลด
+        function downloadQrCode() {
+            const qrImageUrl = document.getElementById('qrImage').src;
+            
+            // ใช้ <a> แท็กเพื่อสั่งโหลดไฟล์
+            const link = document.createElement('a');
+            link.href = qrImageUrl;
+            link.download = 'equipment-qr-code.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            closeQrModal();
+        }
+
+        // ปิด Pop-up หากคลิกพื้นที่สีดำรอบนอก
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+            if (event.target == qrModal) closeQrModal();
+        }
+    </script>
+</body>
+</html>
