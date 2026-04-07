@@ -19,29 +19,42 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         th { user-select: none; }
+        footer { background-color: #21325b; }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
 
-    <main class="flex-1 flex flex-col overflow-y-auto relative">
+    <main class="flex-1 flex flex-col overflow-y-auto relative custom-scrollbar">
         
-        <div class="sticky top-0 z-30 bg-white/90 backdrop-blur-md px-8 py-4 flex justify-between items-center border-b-2 border-[#21325b]/10 shadow-sm">
-            <div class="w-1/4 hidden md:block text-xs text-gray-400 font-medium uppercase tracking-widest">Admin Dashboard</div>
-            <div class="flex-1 text-center">
-                <h1 class="text-2xl md:text-3xl font-bold system-title flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-screwdriver-wrench text-[#21325b]"></i>
-                    ระบบแจ้งซ่อม อบจ.นม.
-                </h1>
-            </div>
-            <div class="w-1/4 flex justify-end">
-                <button onclick="window.location.href='Login.html'" class="bg-[#21325b] hover:bg-[#1a2849] text-white px-5 py-2 rounded-full font-medium transition-all shadow-md flex items-center gap-2 transform active:scale-95 border-2 border-transparent hover:border-yellow-400">
-                    <i class="fa-solid fa-user-lock"></i>
-                    <span class="hidden sm:inline">เข้าสู่ระบบ</span>
-                </button>
-            </div>
+        <div class="sticky top-0 z-30 bg-[#21325b] px-8 py-4 flex justify-between items-center border-b-4 border-yellow-400 shadow-xl">
+    
+    <div class="w-1/4 hidden md:flex items-center gap-3">
+        <div class="h-10 w-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/20 shadow-inner">
+            <i class="fa-solid fa-chart-pie text-yellow-400 text-xl"></i>
         </div>
+        <div class="flex flex-col">
+            <span class="text-white font-bold text-sm tracking-tight">KORAT PAO</span>
+            <span class="text-yellow-400/80 text-[10px] font-medium uppercase tracking-widest">IT Service</span>
+        </div>
+    </div>
 
-        <div class="px-8 pb-8 pt-6">
+    <div class="flex-1 text-center">
+        <h1 class="text-2xl md:text-3xl font-extrabold flex items-center justify-center gap-3">
+            <i class="fa-solid fa-screwdriver-wrench text-yellow-400 drop-shadow-md"></i>
+            <span class="text-white tracking-tight drop-shadow-sm">ระบบแจ้งซ่อม <span class="text-yellow-400">อบจ.นครราชสีมา</span></span>
+        </h1>
+    </div>
+
+    <div class="w-1/4 flex justify-end">
+        <button onclick="window.location.href='login.html'" 
+            class="group relative border-2 border-yellow-400/50 hover:border-yellow-400 bg-white/5 hover:bg-yellow-400 text-yellow-400 hover:text-[#21325b] px-6 py-2 rounded-full font-bold transition-all duration-300 flex items-center gap-2 shadow-lg active:scale-95">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span class="hidden sm:inline">เข้าสู่ระบบ</span>
+        </button>
+    </div>
+</div>
+
+        <div class="px-8 pb-8 pt-6 flex-1">
             
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
                 <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-gray-400 border-y border-r border-gray-100">
@@ -73,7 +86,7 @@
                     </h3>
                     <span class="text-[10px] text-gray-400 uppercase tracking-widest italic">คลิกที่หัวข้อเพื่อเรียงลำดับข้อมูล</span>
                 </div>
-                <div class="overflow-x-auto overflow-y-auto max-h-[350px] custom-scrollbar px-4 pb-4">
+                <div class="overflow-x-auto overflow-y-auto max-h-[350px] px-4 pb-4">
                     <table class="w-full text-left text-sm border-separate border-spacing-0">
                         <thead class="text-gray-500 sticky top-0 bg-white z-10 shadow-sm">
                             <tr>
@@ -94,8 +107,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody id="table-body" class="text-gray-600">
-                            </tbody>
+                        <tbody id="table-body" class="text-gray-600"></tbody>
                     </table>
                 </div>
             </div>
@@ -126,6 +138,44 @@
                 <div class="relative h-[300px] w-full"><canvas id="lineChart"></canvas></div>
             </div>
         </div>
+
+        <footer class="text-white pt-10 pb-6 px-8">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 border-b border-white/10 pb-8 mb-6">
+                <div>
+                    <h4 class="text-lg font-bold mb-4 flex items-center gap-2 italic">
+                        <i class="fa-solid fa-building-columns text-yellow-400"></i> อบจ. นครราชสีมา
+                    </h4>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        ศูนย์ประสานงานและบริหารจัดการงานเทคโนโลยีสารสนเทศ <br>
+                        องค์การบริหารส่วนจังหวัดนครราชสีมา <br>
+                        ถ.มิตรภาพ ต.ในเมือง อ.เมือง จ.นครราชสีมา 30000
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">เมนูแนะนำ</h4>
+                    <ul class="text-gray-300 text-sm space-y-2">
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors"><i class="fa-solid fa-angle-right mr-2 text-xs"></i>แจ้งซ่อมออนไลน์</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors"><i class="fa-solid fa-angle-right mr-2 text-xs"></i>ตรวจสอบสถานะ</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors"><i class="fa-solid fa-angle-right mr-2 text-xs"></i>คู่มือการใช้งาน</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">ติดต่อเจ้าหน้าที่</h4>
+                    <div class="text-gray-300 text-sm space-y-3">
+                        <p class="flex items-center gap-3"><i class="fa-solid fa-phone text-yellow-400"></i> 044-244-xxx (ฝ่าย IT)</p>
+                        <p class="flex items-center gap-3"><i class="fa-solid fa-envelope text-yellow-400"></i> helpdesk@koratpao.go.th</p>
+                        <div class="flex gap-4 mt-4">
+                            <a href="#" class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center hover:bg-blue-500 transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center hover:bg-green-400 transition-all"><i class="fa-brands fa-line"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-xs text-gray-400">
+                <p>&copy; 2026 Repair System Korat PAO. All Rights Reserved. | พัฒนาโดย ฝ่ายเทคโนโลยีสารสนเทศ อบจ.นม.</p>
+            </div>
+        </footer>
+
     </main>
 
     <script>
@@ -133,7 +183,7 @@
         let repairData = [
             { id: '#001', name: 'สมชาย', device: 'PC', status: 'รอดำเนินการ', date: '19/02/2026', sClass: 'bg-yellow-100 text-yellow-700' },
             { id: '#002', name: 'ชายฝ้าย', device: 'Notebook', status: 'กำลังซ่อม', date: '19/02/2026', sClass: 'bg-blue-100 text-blue-700' },
-            { id: '#003', name: 'ชายใหญ่', device: 'Printer', status: 'ไม่ผ่าน', date: '19/02/2026', sClass: 'bg-red-100 text-red-600' },
+            { id: '#003', name: 'ชายใหญ่', device: 'Printer', status: 'ซ่อมไม่ได้', date: '19/02/2026', sClass: 'bg-red-100 text-red-600' },
             { id: '#004', name: 'วิภาดา', device: 'Monitor', status: 'เสร็จแล้ว', date: '20/02/2026', sClass: 'bg-green-100 text-green-700' },
             { id: '#005', name: 'มานะ', device: 'iPad', status: 'กำลังซ่อม', date: '21/02/2026', sClass: 'bg-blue-100 text-blue-700' },
             { id: '#006', name: 'กิตติ', device: 'Keyboard', status: 'เสร็จแล้ว', date: '21/02/2026', sClass: 'bg-green-100 text-green-700' },
@@ -156,7 +206,6 @@
             `).join('');
         }
 
-        // ฟังก์ชันเรียงลำดับที่ฉลาดขึ้น (รองรับภาษาไทย)
         function sortTable(key) {
             if (currentSort.key === key) {
                 currentSort.order = currentSort.order === 'asc' ? 'desc' : 'asc';
@@ -164,37 +213,27 @@
                 currentSort.key = key;
                 currentSort.order = 'asc';
             }
-
-            // อัปเดต Icon ทุกตัว
             const keys = ['id', 'name', 'device', 'status', 'date'];
             keys.forEach(k => {
                 const icon = document.getElementById(`sort-icon-${k}`);
                 if (k === key) {
                     icon.className = currentSort.order === 'asc' ? 'fa-solid fa-sort-up ml-1 text-blue-600' : 'fa-solid fa-sort-down ml-1 text-blue-600';
                     icon.style.opacity = '1';
-                } else {
-                    icon.className = 'fa-solid fa-sort ml-1 opacity-30';
-                }
+                } else { icon.className = 'fa-solid fa-sort ml-1 opacity-30'; }
             });
 
             repairData.sort((a, b) => {
                 let vA = a[key], vB = b[key];
-                
-                // จัดการเรื่องวันที่
                 if (key === 'date') {
                     vA = a.date.split('/').reverse().join('');
                     vB = b.date.split('/').reverse().join('');
                 }
-
-                // ใช้ localeCompare สำหรับตัวอักษรไทยและอังกฤษ
                 let comparison = vA.localeCompare(vB, 'th', { sensitivity: 'base' });
                 return currentSort.order === 'asc' ? comparison : -comparison;
             });
-
             renderTable(repairData);
         }
 
-        // --- CHART LOGIC (คงเดิมจากเวอร์ชันก่อน) ---
         const deviceDetails = {
             'PC': [5, 4, 6, 1], 'Notebook': [10, 15, 18, 2], 'Printer': [8, 2, 15, 2],
             'Monitor': [3, 7, 20, 0], 'IP Phone': [12, 8, 30, 0], 'Web': [2, 3, 5, 0], 'RESET': [2, 3, 2, 1]
@@ -225,8 +264,7 @@
             },
             options: { 
                 responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-                onClick: (e, el) => el.length > 0 ? updateCharts(barChart.data.labels[el[0].index]) : updateCharts('RESET'),
-                onHover: (e, el) => e.native.target.style.cursor = el[0] ? 'pointer' : 'default'
+                onClick: (e, el) => el.length > 0 ? updateCharts(barChart.data.labels[el[0].index]) : updateCharts('RESET')
             }
         });
 
@@ -239,7 +277,6 @@
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
         });
 
-        // เริ่มต้นแสดงผล
         window.onload = () => renderTable(repairData);
     </script>
 </body>
