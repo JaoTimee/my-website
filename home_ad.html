@@ -16,7 +16,6 @@
         .sidebar-bg {
             background-color: #21325b;
         }
-        
     </style>
 </head>
 <body class="flex h-screen overflow-hidden text-gray-800">
@@ -29,7 +28,7 @@
         <nav class="flex-1 px-4 space-y-2 mt-4">
             <a href="#" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white">
                 <i class="fa-solid fa-house w-6 text-center"></i>
-                <span class="ml-3 font-medium ">Dashboard</span>
+                <span class="ml-3 font-medium">Dashboard</span>
             </a>
             <a href="ลงทะเบียนอุปกรณ์_ad.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-gear w-6 text-center"></i>
@@ -43,12 +42,6 @@
                 <i class="fa-solid fa-user w-6 text-center"></i>
                 <span class="ml-3">จัดการผู้ใช้</span>
             </a>
-            
-            
-    </div>
-    
-    </span>
-            </a>
             <a href="รายการงาน_ad.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-list w-6 text-center"></i>
                 <span class="ml-3">รายการงาน</span>
@@ -60,7 +53,7 @@
         </nav>
         
         <div class="p-4 mb-4">
-            <a href="index.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+            <a href="login.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
                 <span class="ml-3">ออกจากระบบ</span>
             </a>
@@ -69,14 +62,13 @@
 
     <main class="flex-1 flex flex-col overflow-y-auto">
         <div class="p-8">
-            
             <div class="mb-8">
                 <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                    Dashboard <span class="text-3xl"></span>
+                    Dashboard
                 </h2>
             </div>
 
-           <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
                 <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-gray-400 border-y border-r border-gray-100 relative">
                     <div class="text-sm text-gray-500 mb-2">งานทั้งหมด</div>
                     <div class="text-2xl font-bold text-gray-500">1</div>
@@ -117,8 +109,7 @@
                                 <th class="pb-3 px-4">แผนก</th>
                                 <th class="pb-3 px-4">อุปกรณ์</th>
                                 <th class="pb-3 px-4">ปัญหา</th>
-                                <th class="pb-3 px-4 text-center">สถานะ</th>
-                                <th class="pb-3 px-4">วันที่</th>
+                                <th class="pb-3 px-4">วันที่</th> <th class="pb-3 px-4 text-center">สถานะ</th>
                                 <th class="pb-3 px-4 text-center">จัดการ</th>
                             </tr>
                         </thead>
@@ -130,10 +121,9 @@
                                 <td class="py-4 px-4">กองสวัสดิการ</td>
                                 <td class="py-4 px-4">PC</td>
                                 <td class="py-4 px-4">เปิดไม่ติด</td>
-                                <td class="py-4 px-4 text-center">
+                                <td class="py-4 px-4">19/02/2026</td> <td class="py-4 px-4 text-center">
                                     <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">รอดำเนินการ</span>
                                 </td>
-                                <td class="py-4 px-4">19/02/2026</td>
                                 <td class="py-4 px-4 text-center">
                                     <a href="status_it.html" class="text-blue-500 hover:underline">ดูรายละเอียด</a>
                                 </td>
@@ -145,10 +135,9 @@
                                 <td class="py-4 px-4">กองสาธารณสุข</td>
                                 <td class="py-4 px-4">Notebook</td>
                                 <td class="py-4 px-4">หน้าจอกระพริบ</td>
-                                <td class="py-4 px-4 text-center">
+                                <td class="py-4 px-4">19/02/2026</td> <td class="py-4 px-4 text-center">
                                     <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">กำลังซ่อม</span>
                                 </td>
-                                <td class="py-4 px-4">19/02/2026</td>
                                 <td class="py-4 px-4 text-center">
                                     <a href="ticket_detail.html" class="text-blue-500 hover:underline">ดูรายละเอียด</a>
                                 </td>
@@ -160,10 +149,9 @@
                                 <td class="py-4 px-4">สำนักคลัง</td>
                                 <td class="py-4 px-4">Printer</td>
                                 <td class="py-4 px-4">พิมพ์ไม่ออก</td>
-                                <td class="py-4 px-4 text-center">
+                                <td class="py-4 px-4">19/02/2026</td> <td class="py-4 px-4 text-center">
                                     <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">ไม่สามารถซ่อมได้</span>
                                 </td>
-                                <td class="py-4 px-4">19/02/2026</td>
                                 <td class="py-4 px-4 text-center">
                                     <a href="ticket_detail.html" class="text-blue-500 hover:underline">ดูรายละเอียด</a>
                                 </td>
@@ -187,7 +175,6 @@
                         <div class="relative h-60 w-60 mb-6 md:mb-0">
                             <canvas id="pieChart"></canvas>
                         </div>
-                        
                         <div class="space-y-4 w-full md:w-1/2">
                             <div class="flex items-center gap-3">
                                 <div class="w-6 h-6 bg-[#eab308] rounded-sm"></div>
@@ -210,26 +197,23 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-8 cursor-pointer hover:shadow-md hover:border-blue-300 transition-all" 
-                 onclick="window.location.href='สถิติ_ad.html'"> <div class="p-6 pb-2 flex justify-between items-center">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-8 cursor-pointer hover:shadow-md hover:border-blue-300 transition-all" onclick="window.location.href='สถิติ_ad.html'"> 
+                <div class="p-6 pb-2 flex justify-between items-center">
                     <h3 class="text-xl font-bold text-[#21325b]">สถิติการแจ้งซ่อมรายเดือน 2569</h3>
-                    
                     <select onclick="event.stopPropagation()" class="border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none font-medium w-32 shadow-sm cursor-pointer">
                         <option value="2569">2569</option>
                         <option value="2568">2568</option>
                     </select>
                 </div>
-                
                 <div class="p-6 relative h-[400px] w-full">
                     <canvas id="lineChart"></canvas>
                 </div>
             </div>
-
         </div>
     </main>
 
     <script>
-        // --- Bar Chart Setup ---
+        // Bar Chart
         const barCtx = document.getElementById('barChart').getContext('2d');
         new Chart(barCtx, {
             type: 'bar',
@@ -237,9 +221,7 @@
                 labels: ['PC', 'Note Book', 'Printer', 'Monitor', 'โทรศัพท์ ip phone', 'เว็บไซต์'],
                 datasets: [{
                     data: [16, 45, 27, 30, 50, 10],
-                    backgroundColor: [
-                        '#00c2ff', '#ff7a45', '#f5a623', '#fcd34d', '#bbf7d0', '#86efac'
-                    ],
+                    backgroundColor: ['#00c2ff', '#ff7a45', '#f5a623', '#fcd34d', '#bbf7d0', '#86efac'],
                     borderWidth: 0,
                     borderRadius: 2,
                     barPercentage: 0.6
@@ -252,27 +234,11 @@
                 scales: {
                     y: { display: false, beginAtZero: true },
                     x: { grid: { display: false }, ticks: { font: { family: "'Prompt', sans-serif", size: 10 } } }
-                },
-                animation: {
-                    onComplete: function() {
-                        var ctx = this.ctx;
-                        ctx.font = Chart.helpers.fontString(12, '600', "'Prompt', sans-serif");
-                        ctx.fillStyle = "#475569"; 
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'bottom';
-                        this.data.datasets.forEach(function (dataset, i) {
-                            var meta = this.getDatasetMeta(i);
-                            meta.data.forEach(function (bar, index) {
-                                var data = dataset.data[index];
-                                ctx.fillText(data, bar.x, bar.y - 5);
-                            });
-                        }, this);
-                    }
                 }
             }
         });
 
-        // --- Pie Chart Setup ---
+        // Pie Chart
         const pieCtx = document.getElementById('pieChart').getContext('2d');
         new Chart(pieCtx, {
             type: 'pie',
@@ -292,8 +258,7 @@
             }
         });
 
-        // --- Line Chart Setup (สถิติรายเดือน) ---
-        // 🟢 เอาลูกเล่นคลิกที่จุดออก เพราะเราเปลี่ยนให้คลิกที่ทั้งกล่องแทนแล้ว
+        // Line Chart
         const lineCtx = document.getElementById('lineChart').getContext('2d');
         new Chart(lineCtx, {
             type: 'line',
@@ -309,50 +274,21 @@
                     pointBorderColor: '#8b5cf6', 
                     pointBorderWidth: 2,
                     pointRadius: 8, 
-                    pointHoverRadius: 10,
                     tension: 0, 
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                // ปิดการคลิกที่ตัวจุดของ Chart.js เพื่อไม่ให้กวนกับการคลิกกล่อง
-                events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove'],
-                layout: {
-                    padding: { top: 20, right: 20, bottom: 10, left: 10 }
-                },
-                plugins: {
-                    legend: { display: false }, 
-                    tooltip: {
-                        titleFont: { family: "'Prompt', sans-serif" },
-                        bodyFont: { family: "'Prompt', sans-serif" },
-                    }
-                },
+                plugins: { legend: { display: false } },
                 scales: {
                     y: {
                         beginAtZero: true,
                         max: 450,
-                        ticks: {
-                            stepSize: 100,
-                            font: { family: "'Prompt', sans-serif", size: 11, color: '#6b7280' },
-                            padding: 10
-                        },
-                        border: { display: false }, 
-                        grid: {
-                            color: '#f3f4f6', 
-                            drawBorder: false,
-                        }
+                        ticks: { font: { family: "'Prompt', sans-serif", size: 11 } }
                     },
                     x: {
-                        ticks: {
-                            font: { family: "'Prompt', sans-serif", size: 12, color: '#6b7280' },
-                            padding: 10
-                        },
-                        grid: {
-                            display: false, 
-                            drawBorder: true,
-                            borderColor: '#d1d5db' 
-                        }
+                        ticks: { font: { family: "'Prompt', sans-serif", size: 12 } }
                     }
                 }
             }
