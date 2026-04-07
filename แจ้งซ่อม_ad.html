@@ -71,7 +71,7 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col overflow-y-auto p-8">
+     <main class="flex-1 flex flex-col overflow-y-auto p-8">
         <div class="max-w-[1400px] mx-auto w-full transition-all duration-500">
             
             <div class="mb-10">
@@ -80,49 +80,29 @@
             </div>
 
             <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-12">
-                <form action="#" method="POST" class="space-y-10">
+                <form id="repairForm" action="#" method="POST" class="space-y-10">
                     
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-end">
-                        <div class="lg:col-span-2">
-                            <span class="block text-sm font-semibold text-slate-500 mb-4">*เลือกอุปกรณ์ที่จะซ่อม</span>
-                            <div class="flex flex-wrap gap-3">
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="device_type" value="คอมพิวเตอร์" class="peer sr-only" checked>
-                                    <div class="px-8 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-medium transition-all border border-slate-200 shadow-sm">
-                                        คอมพิวเตอร์
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="device_type" value="Notebook" class="peer sr-only">
-                                    <div class="px-8 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-medium transition-all border border-slate-200 shadow-sm">
-                                        Notebook
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="device_type" value="Printer" class="peer sr-only">
-                                    <div class="px-8 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-medium transition-all border border-slate-200 shadow-sm">
-                                        Printer
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="device_type" value="อื่นๆ" class="peer sr-only">
-                                    <div class="px-8 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-medium transition-all border border-slate-200 shadow-sm">
-                                        อื่นๆ
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="relative">
-                            <label class="block text-sm font-semibold text-slate-500 mb-3">เลือกสำนักงาน</label>
-                            <select name="office_location" class="w-full border border-slate-200 text-slate-700 text-base rounded-xl px-5 py-3.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all">
-                                <option value="">เลือกสำนักงาน</option>
-                                <option value="office1">สำนักงาน 1</option>
-                                <option value="office2">สำนักงาน 2</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 pt-8 text-slate-400">
-                                <i class="fa-solid fa-chevron-down text-sm"></i>
-                            </div>
+                    <div>
+                        <span class="block text-sm font-semibold text-slate-500 mb-4">*เลือกอุปกรณ์ที่จะซ่อม</span>
+                        <div class="flex flex-wrap gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="device_type" value="คอมพิวเตอร์" class="peer sr-only" checked required>
+                                <div class="px-8 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-medium transition-all border border-slate-200 shadow-sm">
+                                    คอมพิวเตอร์
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="device_type" value="Notebook" class="peer sr-only">
+                                <div class="px-8 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-medium transition-all border border-slate-200 shadow-sm">
+                                    Notebook
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="device_type" value="Printer" class="peer sr-only">
+                                <div class="px-8 py-3 rounded-xl bg-slate-100 text-slate-700 text-sm peer-checked:bg-blue-600 peer-checked:text-white peer-checked:font-medium transition-all border border-slate-200 shadow-sm">
+                                    Printer
+                                </div>
+                            </label>
                         </div>
                     </div>
 
@@ -131,41 +111,52 @@
                     <div class="space-y-8">
                         <span class="block text-sm font-semibold text-slate-500">*กรอกข้อมูลรายละเอียด</span>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                            <div>
+                            <div class="relative">
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">กอง</label>
-                                <input type="text" placeholder="เช่น กองยุทธศาสตร์และงบประมาณ" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                                <select name="division" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required>
+                                    <option value="">เลือกกอง</option>
+                                    <option value="ยุทธศาสตร์">กองยุทธศาสตร์และงบประมาณ</option>
+                                    <option value="ช่าง">กองช่าง</option>
+                                    <option value="คลัง">กองคลัง</option>
+                                    <option value="สาธารณสุข">กองสาธารณสุข</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 pt-8 text-slate-400">
+                                    <i class="fa-solid fa-chevron-down text-sm"></i>
+                                </div>
                             </div>
+
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">ฝ่าย</label>
-                                <input type="text" placeholder="กรอกข้อมูลฝ่าย" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                                <input type="text" placeholder="กรอกข้อมูลฝ่าย" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">จัดซื้อมาจาก</label>
-                                <input type="text" placeholder="กรอกที่อยู่จัดซื้อ" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                                <input type="text" placeholder="กรอกที่อยู่จัดซื้อ" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
                             </div>
                             <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">วันที่จัดซื้อ</label>
-                            <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-600 transition-all">
-                        </div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">วันที่จัดซื้อ</label>
+                                <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                            </div>
                             <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">วันที่แจ้งซ่อม</label>
-                            <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-600 transition-all">
-                        </div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">วันที่แจ้งซ่อม</label>
+                                <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                            </div>
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">เลขครุภัณฑ์</label>
-                                <input type="text" placeholder="กรอกเลขครุภัณฑ์" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                                <input type="text" placeholder="กรอกเลขครุภัณฑ์" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
                             </div>
                             <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">ระยะเวลารับประกันความชำรุดบกพร่อง</label>
-                            <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-600 transition-all">
-                        </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Windows</label>
-                                <input type="text" placeholder="กรอกรหัสผลิตภัณฑ์" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">ระยะเวลารับประกัน</label>
+                                <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
                             </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Antivirus</label>
-                                <input type="text" placeholder="xxxxxxxxxxxxxxxxxxxx" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+
+                            <div id="windowsField">
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">Windows (ไม่บังคับ)</label>
+                                <input type="text" id="windowsInput" placeholder="กรอกรหัสผลิตภัณฑ์" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                            </div>
+                            <div id="antivirusField" class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">Antivirus (ไม่บังคับ)</label>
+                                <input type="text" id="antivirusInput" placeholder="ระบุชื่อซอฟต์แวร์ป้องกันไวรัส" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
                             </div>
                         </div>
                     </div>
@@ -173,12 +164,13 @@
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
                         <div class="lg:col-span-2">
                             <label class="block text-sm font-semibold text-slate-700 mb-3">รายละเอียดปัญหา</label>
-                            <textarea rows="5" placeholder="ระบุอาการเสียเบื้องต้น..." class="w-full border border-slate-200 rounded-2xl px-5 py-4 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"></textarea>
+                            <textarea rows="5" placeholder="ระบุอาการเสียเบื้องต้น..." class="w-full border border-slate-200 rounded-2xl px-5 py-4 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required></textarea>
                         </div>
                         <div class="flex flex-col justify-end gap-4">
                             <div class="p-5 bg-blue-50 rounded-2xl border border-blue-100">
                                 <h4 class="font-bold text-blue-900 mb-1">ตำแหน่งโต๊ะ</h4>
                                 <p class="text-sm text-blue-600 mb-4" id="selectedDeskText">ยังไม่ได้ระบุตำแหน่ง</p>
+                                <input type="hidden" name="desk_number" id="deskIdInput" required>
                                 <button type="button" onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-base font-medium py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2">
                                     <i class="fa-solid fa-desktop"></i>
                                     เลือกผังโต๊ะคอม
@@ -188,14 +180,13 @@
                     </div>
 
                     <div class="flex justify-end gap-5 pt-10 border-t border-slate-50">
-                        <button type="button" class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-base font-semibold py-3.5 px-10 rounded-xl transition-all">
-                            ยกเลิก
+                        <button type="reset" class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-base font-semibold py-3.5 px-10 rounded-xl transition-all">
+                            ล้างข้อมูล
                         </button>
                         <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold py-3.5 px-10 rounded-xl transition-all shadow-xl shadow-blue-600/20 active:scale-95">
                             ส่งคำร้อง
                         </button>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -227,7 +218,33 @@
         const modal = document.getElementById('floorPlanModal');
         const deskContainer = document.getElementById('deskContainer');
         const selectedText = document.getElementById('selectedDeskText');
+        const deskIdInput = document.getElementById('deskIdInput');
+        const deviceRadios = document.querySelectorAll('input[name="device_type"]');
+        const windowsField = document.getElementById('windowsField');
+        const antivirusField = document.getElementById('antivirusField');
+        const windowsInput = document.getElementById('windowsInput');
+        const antivirusInput = document.getElementById('antivirusInput');
+        
         let tempSelected = null;
+
+        // ฟังก์ชันซ่อน/แสดง และล้างข้อมูล Windows/Antivirus
+        function handleDeviceChange() {
+            const selectedValue = document.querySelector('input[name="device_type"]:checked').value;
+            if (selectedValue === 'Printer') {
+                windowsField.classList.add('hidden');
+                antivirusField.classList.add('hidden');
+                // ล้างค่าเมื่อถูกซ่อน
+                windowsInput.value = "";
+                antivirusInput.value = "";
+            } else {
+                windowsField.classList.remove('hidden');
+                antivirusField.classList.remove('hidden');
+            }
+        }
+
+        deviceRadios.forEach(radio => {
+            radio.addEventListener('change', handleDeviceChange);
+        });
 
         function initDesks() {
             for (let i = 1; i <= 12; i++) {
@@ -254,12 +271,24 @@
             if (tempSelected) {
                 selectedText.innerText = `โต๊ะหมายเลข ${tempSelected}`;
                 selectedText.classList.add('font-bold', 'text-blue-800');
+                deskIdInput.value = tempSelected; // ใส่ค่าลงใน hidden input เพื่อ validation
                 closeModal();
             } else { alert('กรุณาเลือกโต๊ะก่อนกดยืนยัน'); }
         }
 
+        // ดักจับการส่งฟอร์มเพื่อตรวจสอบตำแหน่งโต๊ะ
+        document.getElementById('repairForm').addEventListener('submit', function(e) {
+            if(!deskIdInput.value) {
+                e.preventDefault();
+                alert('กรุณาเลือกตำแหน่งโต๊ะคอมพิวเตอร์ก่อนส่งคำร้อง');
+                openModal();
+            }
+        });
+
         window.onclick = function(event) { if (event.target == modal) closeModal(); }
+        
         initDesks();
+        handleDeviceChange();
     </script>
 </body>
 </html>
