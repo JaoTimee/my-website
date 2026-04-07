@@ -45,7 +45,7 @@
         </nav>
         
         <div class="p-4 mb-4">
-            <a href="index.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+            <a href="login.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
                 <span class="ml-3">ออกจากระบบ</span>
             </a>
@@ -62,7 +62,6 @@
                     </h2>
                     <p class="text-sm text-gray-500 mt-1">ข้อมูลการแจ้งซ่อมของคุณ</p>
                 </div>
-                
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
@@ -101,51 +100,45 @@
                                 <th class="pb-4 font-semibold">รหัสเครื่อง</th>
                                 <th class="pb-4 font-semibold">อุปกรณ์</th>
                                 <th class="pb-4 font-semibold">ปัญหา</th>
-                                <th class="pb-4 font-semibold text-center">สถานะ</th>
-                                <th class="pb-4 font-semibold">วันที่</th>
+                                <th class="pb-4 font-semibold">วันที่</th> <th class="pb-4 font-semibold text-center">สถานะ</th>
                                 <th class="pb-4 font-semibold text-right">จัดการ</th>
                             </tr>
                         </thead>
                         <tbody>
-    <tr class="border-b border-gray-50 hover:bg-gray-50">
-        <td class="py-4">#001</td>
-        <td class="py-4">PC</td>
-        <td class="py-4">เปิดไม่ติด</td>
-        <td class="py-4 text-center">
-            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">รอดำเนินการ</span>
-        </td>
-        <td class="py-4">19/02/2026</td>
-        <td class="py-4 text-right">
-            <a href="ticket_detail01.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
-        </td>
-    </tr>
-
-    <tr class="border-b border-gray-50 hover:bg-gray-50">
-        <td class="py-4">#002</td>
-        <td class="py-4">Notebook</td>
-        <td class="py-4">หน้าจอกระพริบ</td>
-        <td class="py-4 text-center">
-            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">กำลังซ่อม</span>
-        </td>
-        <td class="py-4">19/02/2026</td>
-        <td class="py-4 text-right">
-            <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
-        </td>
-    </tr>
-
-    <tr class="hover:bg-gray-50">
-        <td class="py-4">#003</td>
-        <td class="py-4">Printer</td>
-        <td class="py-4">พิมพ์ไม่ออก</td>
-        <td class="py-4 text-center">
-            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">ไม่สามารถซ่อมได้</span>
-        </td>
-        <td class="py-4">19/02/2026</td>
-        <td class="py-4 text-right">
-            <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
-        </td>
-    </tr>
-</tbody>
+                            <tr class="border-b border-gray-50 hover:bg-gray-50">
+                                <td class="py-4">#001</td>
+                                <td class="py-4">PC</td>
+                                <td class="py-4">เปิดไม่ติด</td>
+                                <td class="py-4">19/02/2026</td> <td class="py-4 text-center">
+                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">รอดำเนินการ</span>
+                                </td>
+                                <td class="py-4 text-right">
+                                    <a href="ticket_detail01.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-50 hover:bg-gray-50">
+                                <td class="py-4">#002</td>
+                                <td class="py-4">Notebook</td>
+                                <td class="py-4">หน้าจอกระพริบ</td>
+                                <td class="py-4">19/02/2026</td> <td class="py-4 text-center">
+                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">กำลังซ่อม</span>
+                                </td>
+                                <td class="py-4 text-right">
+                                    <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-4">#003</td>
+                                <td class="py-4">Printer</td>
+                                <td class="py-4">พิมพ์ไม่ออก</td>
+                                <td class="py-4">19/02/2026</td> <td class="py-4 text-center">
+                                    <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">ไม่สามารถซ่อมได้</span>
+                                </td>
+                                <td class="py-4 text-right">
+                                    <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -189,7 +182,7 @@
     </main>
 
     <script>
-        // --- Bar Chart Setup ---
+        // Bar Chart
         const barCtx = document.getElementById('barChart').getContext('2d');
         new Chart(barCtx, {
             type: 'bar',
@@ -197,14 +190,7 @@
                 labels: ['PC', 'Note Book', 'Printer', 'Monitor', 'โทรศัพท์ ip phone', 'เว็บไซต์'],
                 datasets: [{
                     data: [16, 45, 27, 30, 50, 10],
-                    backgroundColor: [
-                        '#00c2ff', // PC (Cyan)
-                        '#ff7a45', // Note Book (Orange)
-                        '#f5a623', // Printer (Yellow-orange)
-                        '#fcd34d', // Monitor (Yellow)
-                        '#bbf7d0', // โทรศัพท์ (Light Green)
-                        '#86efac'  // เว็บไซต์ (Green)
-                    ],
+                    backgroundColor: ['#00c2ff', '#ff7a45', '#f5a623', '#fcd34d', '#bbf7d0', '#86efac'],
                     borderWidth: 0,
                     borderRadius: 2,
                     barPercentage: 0.6
@@ -213,33 +199,22 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { enabled: true }
-                },
+                plugins: { legend: { display: false } },
                 scales: {
-                    y: {
-                        display: false, // Hide Y axis as in the design
-                        beginAtZero: true
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { font: { family: "'Prompt', sans-serif", size: 10 } }
-                    }
+                    y: { display: false, beginAtZero: true },
+                    x: { grid: { display: false }, ticks: { font: { family: "'Prompt', sans-serif", size: 10 } } }
                 },
                 animation: {
                     onComplete: function() {
                         var ctx = this.ctx;
-                        ctx.font = Chart.helpers.fontString(10, 'normal', "'Prompt', sans-serif");
+                        ctx.font = "10px Prompt";
                         ctx.fillStyle = "#666";
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'bottom';
-
                         this.data.datasets.forEach(function (dataset, i) {
                             var meta = this.getDatasetMeta(i);
                             meta.data.forEach(function (bar, index) {
-                                var data = dataset.data[index];
-                                ctx.fillText(data, bar.x, bar.y - 5);
+                                ctx.fillText(dataset.data[index], bar.x, bar.y - 5);
                             });
                         }, this);
                     }
@@ -247,32 +222,23 @@
             }
         });
 
-        // --- Pie Chart Setup ---
+        // Pie Chart
         const pieCtx = document.getElementById('pieChart').getContext('2d');
         new Chart(pieCtx, {
             type: 'pie',
             data: {
-                labels: ['รอดำเนินการ (C)', 'กำลังซ่อม (A)', 'เสร็จแล้ว (B)', 'ไม่สามารถซ่อมได้ (D)'],
+                labels: ['รอดำเนินการ', 'กำลังซ่อม', 'เสร็จแล้ว', 'ไม่สามารถซ่อมได้'],
                 datasets: [{
                     data: [27, 16, 45, 1],
-                    backgroundColor: [
-                        '#eab308', // Yellow
-                        '#3b82f6', // Blue
-                        '#22c55e', // Green
-                        '#ef4444'  // Red
-                    ],
+                    backgroundColor: ['#eab308', '#3b82f6', '#22c55e', '#ef4444'],
                     borderWidth: 1,
-                    borderColor: '#333' // Dark border around pie slices
+                    borderColor: '#333'
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { 
-                        display: false // Hide default legend, using custom HTML legend below
-                    }
-                }
+                plugins: { legend: { display: false } }
             }
         });
     </script>
