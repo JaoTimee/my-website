@@ -10,7 +10,6 @@
     <style>
         body {
             font-family: 'Prompt', sans-serif;
-            /* สร้างพื้นหลังให้คล้ายกับในภาพที่มีมิติเล็กน้อย */
             background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
         }
         .sidebar-bg {
@@ -63,13 +62,11 @@
                 <span class="ml-3">แจ้งซ่อม</span>
             </a>
             <a href="รับงาน_it.html" class="flex items-center justify-between px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors relative">
-    <div class="flex items-center">
-        <i class="fa-solid fa-clipboard-list w-6 text-center"></i>
-        <span class="ml-3">รับงาน</span>
-    </div>
-    <span class="notification-badge bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-        3
-    </span>
+                <div class="flex items-center">
+                    <i class="fa-solid fa-clipboard-list w-6 text-center"></i>
+                    <span class="ml-3">รับงาน</span>
+                </div>
+                <span class="notification-badge bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">3</span>
             </a>
             <a href="รายการงาน_it.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-list w-6 text-center"></i>
@@ -78,7 +75,7 @@
         </nav>
         
         <div class="p-4 mb-4">
-            <a href="index.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-lg transition-colors">
+            <a href="Login.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-lg transition-colors">
                 <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
                 <span class="ml-3 text-sm">ออกจากระบบ</span>
             </a>
@@ -144,8 +141,7 @@
                                         <th class="pb-4 pt-2 px-6">แผนก</th>
                                         <th class="pb-4 pt-2 px-6">อุปกรณ์</th>
                                         <th class="pb-4 pt-2 px-6">ปัญหา</th>
-                                        <th class="pb-4 pt-2 px-6 text-center">สถานะ</th>
-                                        <th class="pb-4 pt-2 px-6 text-center">วันที่</th>
+                                        <th class="pb-4 pt-2 px-6 text-center">วันที่</th> <th class="pb-4 pt-2 px-6 text-center">สถานะ</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-gray-600 divide-y divide-gray-50">
@@ -156,94 +152,34 @@
                                         <td class="py-4 px-6">กองสวัสดิการ</td>
                                         <td class="py-4 px-6">PC</td>
                                         <td class="py-4 px-6">เปิดไม่ติด</td>
+                                        <td class="py-4 px-6 text-center">19/02/2026</td>
                                         <td class="py-4 px-6 text-center">
                                             <span class="bg-[#fef3c7] text-[#d97706] px-4 py-1.5 rounded-full text-xs font-medium">รอดำเนินการ</span>
                                         </td>
-                                        <td class="py-4 px-6 text-center">19/02/2026</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="py-4 px-6">#001</td>
+                                        <td class="py-4 px-6">#002</td>
                                         <td class="py-4 px-6">ชายน้อย</td>
                                         <td class="py-4 px-6 text-center">B1</td>
                                         <td class="py-4 px-6">กองสาธารณสุข</td>
                                         <td class="py-4 px-6">Notebook</td>
                                         <td class="py-4 px-6">หน้าจอกระพริบ</td>
+                                        <td class="py-4 px-6 text-center">19/02/2026</td>
                                         <td class="py-4 px-6 text-center">
                                             <span class="bg-[#dbeafe] text-[#2563eb] px-4 py-1.5 rounded-full text-xs font-medium">กำลังซ่อม</span>
                                         </td>
-                                        <td class="py-4 px-6 text-center">19/02/2026</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="py-4 px-6">#001</td>
+                                        <td class="py-4 px-6">#003</td>
                                         <td class="py-4 px-6">ชายใหญ่</td>
                                         <td class="py-4 px-6 text-center">C1</td>
                                         <td class="py-4 px-6">สำนักคลัง</td>
                                         <td class="py-4 px-6">Printer</td>
                                         <td class="py-4 px-6">พิมพ์ไม่ออก</td>
+                                        <td class="py-4 px-6 text-center">19/02/2026</td>
                                         <td class="py-4 px-6 text-center">
                                             <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
                                         </td>
-                                        <td class="py-4 px-6 text-center">19/02/2026</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="py-4 px-6">#001</td>
-                                        <td class="py-4 px-6">ชายใหญ่</td>
-                                        <td class="py-4 px-6 text-center">C1</td>
-                                        <td class="py-4 px-6">สำนักคลัง</td>
-                                        <td class="py-4 px-6">Printer</td>
-                                        <td class="py-4 px-6">พิมพ์ไม่ออก</td>
-                                        <td class="py-4 px-6 text-center">
-                                            <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
-                                        </td>
-                                        <td class="py-4 px-6 text-center">19/02/2026</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="py-4 px-6">#001</td>
-                                        <td class="py-4 px-6">ชายใหญ่</td>
-                                        <td class="py-4 px-6 text-center">C1</td>
-                                        <td class="py-4 px-6">สำนักคลัง</td>
-                                        <td class="py-4 px-6">Printer</td>
-                                        <td class="py-4 px-6">พิมพ์ไม่ออก</td>
-                                        <td class="py-4 px-6 text-center">
-                                            <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
-                                        </td>
-                                        <td class="py-4 px-6 text-center">19/02/2026</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="py-4 px-6">#001</td>
-                                        <td class="py-4 px-6">ชายใหญ่</td>
-                                        <td class="py-4 px-6 text-center">C1</td>
-                                        <td class="py-4 px-6">สำนักคลัง</td>
-                                        <td class="py-4 px-6">Printer</td>
-                                        <td class="py-4 px-6">พิมพ์ไม่ออก</td>
-                                        <td class="py-4 px-6 text-center">
-                                            <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
-                                        </td>
-                                        <td class="py-4 px-6 text-center">19/02/2026</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="py-4 px-6">#001</td>
-                                        <td class="py-4 px-6">ชายใหญ่</td>
-                                        <td class="py-4 px-6 text-center">C1</td>
-                                        <td class="py-4 px-6">สำนักคลัง</td>
-                                        <td class="py-4 px-6">Printer</td>
-                                        <td class="py-4 px-6">พิมพ์ไม่ออก</td>
-                                        <td class="py-4 px-6 text-center">
-                                            <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
-                                        </td>
-                                        <td class="py-4 px-6 text-center">19/02/2026</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="py-4 px-6">#001</td>
-                                        <td class="py-4 px-6">ชายใหญ่</td>
-                                        <td class="py-4 px-6 text-center">C1</td>
-                                        <td class="py-4 px-6">สำนักคลัง</td>
-                                        <td class="py-4 px-6">Printer</td>
-                                        <td class="py-4 px-6">พิมพ์ไม่ออก</td>
-                                        <td class="py-4 px-6 text-center">
-                                            <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
-                                        </td>
-                                        <td class="py-4 px-6 text-center">19/02/2026</td>
                                     </tr>
                                 </tbody>
                             </table>
