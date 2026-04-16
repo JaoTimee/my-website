@@ -312,7 +312,7 @@
                 // ดึง วัน เดือน ปี ออกมา และเติมเลข 0 ข้างหน้าถ้าเป็นเลขตัวเดียว
                 const day = String(now.getDate()).padStart(2, '0');
                 const month = String(now.getMonth() + 1).padStart(2, '0'); // เดือนใน JS เริ่มจาก 0 เลยต้อง +1
-                const year = now.getFullYear(); // ถ้าอยากได้ พ.ศ. ให้ +543 เข้าไปครับ เช่น now.getFullYear() + 543
+                const year = now.getFullYear() + 543; // แปลงเป็น พ.ศ.
 
                 // เปลี่ยน type เป็น text เพื่อให้เราจัดฟอร์แมตเองได้
                 todayInput.type = 'text'; 
@@ -359,6 +359,50 @@
                         subdivision.value = urlParams.get('subdivision');
                         subdivision.classList.add('locked-field');
                     }
+                }
+
+                // --- ดึงค่าจัดซื้อมาจาก ---
+                const supplier = document.getElementById('supplier');
+                if(supplier && urlParams.has('supplier')) {
+                    supplier.value = urlParams.get('supplier');
+                    supplier.readOnly = true;
+                    supplier.classList.add('locked-field');
+                }
+
+                // --- ดึงค่าวันที่จัดซื้อ ---
+                const purchaseDate = document.getElementById('purchase_date');
+                if(purchaseDate && urlParams.has('purchase_date') && urlParams.get('purchase_date') !== '') {
+                    const pDateValue = urlParams.get('purchase_date');
+                    purchaseDate.type = 'text'; 
+                    const pDateObj = new Date(pDateValue);
+                    if (!isNaN(pDateObj)) {
+                        const pDay = String(pDateObj.getDate()).padStart(2, '0');
+                        const pMonth = String(pDateObj.getMonth() + 1).padStart(2, '0');
+                        const pYear = pDateObj.getFullYear() + 543; // แปลงเป็น พ.ศ.
+                        purchaseDate.value = `${pDay}/${pMonth}/${pYear}`;
+                    } else {
+                        purchaseDate.value = pDateValue;
+                    }
+                    purchaseDate.readOnly = true;
+                    purchaseDate.classList.add('locked-field');
+                }
+
+                // --- ดึงค่าระยะเวลารับประกันถึง ---
+                const warrantyDate = document.getElementById('warranty_date');
+                if(warrantyDate && urlParams.has('warranty_date') && urlParams.get('warranty_date') !== '') {
+                    const wDateValue = urlParams.get('warranty_date');
+                    warrantyDate.type = 'text';
+                    const wDateObj = new Date(wDateValue);
+                    if (!isNaN(wDateObj)) {
+                        const wDay = String(wDateObj.getDate()).padStart(2, '0');
+                        const wMonth = String(wDateObj.getMonth() + 1).padStart(2, '0');
+                        const wYear = wDateObj.getFullYear() + 543; // แปลงเป็น พ.ศ.
+                        warrantyDate.value = `${wDay}/${wMonth}/${wYear}`;
+                    } else {
+                        warrantyDate.value = wDateValue;
+                    }
+                    warrantyDate.readOnly = true;
+                    warrantyDate.classList.add('locked-field');
                 }
 
                 // --- ดึงค่าตำแหน่งโต๊ะ ---
