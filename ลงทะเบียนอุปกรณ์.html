@@ -108,17 +108,17 @@
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">จัดซื้อมาจาก</label>
-                                <input type="text" placeholder="กรอกชื่อบริษัท/ร้านค้า" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                                <input type="text" id="supplier" placeholder="กรอกชื่อบริษัท/ร้านค้า" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
                             </div>
                             
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">วันที่จัดซื้อ</label>
-                                <input type="date" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                                <input type="date" id="purchase_date" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
                             </div>
 
                             <div class="relative">
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">ประเภทอุปกรณ์</label>
-                                <select id="device_type" name="device_type" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required onchange="handleDeviceChange()">
+                                <select id="device_type" name="device_type" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required>
                                     <option value="" disabled selected>เลือกประเภทอุปกรณ์</option>
                                     <option value="คอมพิวเตอร์">คอมพิวเตอร์ (PC)</option>
                                     <option value="Notebook">Notebook</option>
@@ -136,14 +136,13 @@
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">เลขครุภัณฑ์</label>
-                                <input type="text" placeholder="กรอกเลขครุภัณฑ์" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                                <input type="text" id="serial_number" placeholder="กรอกเลขครุภัณฑ์" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
                             </div>
                             
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">ระยะเวลารับประกันถึง</label>
-                                <input type="date" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                                <input type="date" id="warranty_date" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
                             </div>
-
                             
                             <div class="md:col-span-2 mt-4">
                                 <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -205,10 +204,10 @@
         <div class="flex min-h-full items-center justify-center p-4">
             <div class="relative transform overflow-hidden rounded-3xl bg-white p-10 text-center shadow-2xl transition-all w-full max-w-sm">
                 <h3 class="text-xl font-bold text-slate-800 mb-2">QR Code อุปกรณ์</h3>
-                <p class="text-sm text-slate-500 mb-8">บันทึกข้อมูลและสร้าง QR Code สำเร็จ</p>
+                <p class="text-sm text-slate-500 mb-8">สแกนเพื่อไปยังหน้าแจ้งซ่อม</p>
                 <div class="flex justify-center mb-10">
                     <div class="p-5 border border-slate-200 rounded-2xl shadow-sm bg-slate-50">
-                        <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=Equipment_12345" alt="QR Code" class="w-48 h-48 mix-blend-multiply">
+                        <img id="qrImage" src="" alt="QR Code" class="w-48 h-48 mix-blend-multiply">
                     </div>
                 </div>
                 <div class="flex justify-center gap-4">
@@ -229,11 +228,6 @@
         const selectedText = document.getElementById('selectedDeskText');
         const deskIdInput = document.getElementById('deskIdInput');
         
-        const windowsField = document.getElementById('windowsField');
-        const antivirusField = document.getElementById('antivirusField');
-        const windowsInput = document.getElementById('windowsInput');
-        const antivirusInput = document.getElementById('antivirusInput');
-        
         // ข้อมูล กอง และ ฝ่าย
         const subData = {
             "สำนักปลัด": ["ฝ่ายอำนวยการ", "ฝ่ายนิติการ", "ฝ่ายส่งเสริมการท่องเที่ยว", "ฝ่ายประสานงานองค์กรปกครองส่วนท้องถิ่น", "ฝ่ายป้องกันและบรรเทาสาธารณภัย", "งานหน้าห้องปลัดองค์การบริหารส่วนจังหวัด"],
@@ -248,7 +242,6 @@
             "กองการเจ้าหน้าที่": ["ฝ่ายสรรหาและบรรจุแต่งตั้ง", "ฝ่ายวินัยและส่งเสริมคุณธรรม", "ฝ่ายบุคลากรทางการศึกษา", "ฝ่ายสรรหาและเลือกสรร", "ฝ่ายบริหารงานทั่วไป กองการเจ้าหน้าที่"],
         };
 
-        // ฟังก์ชันเมื่อเปลี่ยน กอง ให้แสดงตัวเลือก ฝ่าย ที่สอดคล้องกัน
         function handleDivisionChange() {
             const division = document.getElementById('division').value;
             const subdivision = document.getElementById('subdivision');
@@ -271,24 +264,8 @@
             }
         }
 
-        // ฟังก์ชันเมื่อเปลี่ยน ประเภทอุปกรณ์ (แสดง/ซ่อน Windows & Antivirus)
-        function handleDeviceChange() {
-            const deviceType = document.getElementById('device_type').value;
-            // ซ่อนฟิลด์ถ้าเป็น Printer หรืออื่นๆ
-            if (deviceType === 'Printer' || deviceType === 'เครื่องแสกน' || deviceType === 'เครื่องปริ้น' || deviceType === 'เครื่องฉายโปรเจกเตอร์' || deviceType === 'อื่นๆ') {
-                windowsField.classList.add('hidden');
-                antivirusField.classList.add('hidden');
-                windowsInput.value = "";
-                antivirusInput.value = "";
-            } else {
-                windowsField.classList.remove('hidden');
-                antivirusField.classList.remove('hidden');
-            }
-        }
-
         let tempSelected = null;
 
-        // สร้างผังโต๊ะ
         function initDesks() {
             for (let i = 1; i <= 12; i++) {
                 const btn = document.createElement('button');
@@ -310,7 +287,6 @@
         function openModal() { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
         function closeModal() { modal.classList.add('hidden'); document.body.style.overflow = 'auto'; }
 
-        // ยืนยันการเลือกโต๊ะ
         function confirmSelection() {
             if (tempSelected) {
                 selectedText.innerText = `โต๊ะหมายเลข ${tempSelected}`;
@@ -320,9 +296,10 @@
             } else { alert('กรุณาเลือกโต๊ะก่อนกดยืนยัน'); }
         }
 
-        // --- ระบบ QR Code Modal ---
+        // --- ระบบ QR Code แปลงเป็น URL พารามิเตอร์ ---
         const qrModal = document.getElementById('qrCodeModal');
         const repairForm = document.getElementById('repairForm');
+        const qrImage = document.getElementById('qrImage');
 
         repairForm.addEventListener('submit', function(event) {
             event.preventDefault(); 
@@ -331,6 +308,32 @@
                 openModal();
                 return;
             }
+
+            // 1. ดึงข้อมูลจากฟอร์ม
+            const division = document.getElementById('division').value;
+            const subdivision = document.getElementById('subdivision').value;
+            const deviceType = document.getElementById('device_type').value;
+            const serialNumber = document.getElementById('serial_number').value;
+            const deskId = deskIdInput.value;
+
+            // 2. ตั้งค่า URL ของหน้าแจ้งซ่อม (***ต้องเปลี่ยนเป็นลิงก์ ngrok หรือ IP คอมพิวเตอร์ของคุณ***)
+            const baseUrl = "https://your-ngrok-url.ngrok-free.app/แจ้งซ่อม1.html"; 
+
+            // 3. นำข้อมูลมาต่อท้าย URL
+            const queryParams = new URLSearchParams({
+                device_type: deviceType,
+                serial_number: serialNumber,
+                division: division,
+                subdivision: subdivision,
+                desk_id: deskId
+            }).toString();
+
+            const targetUrl = `${baseUrl}?${queryParams}`;
+
+            // 4. สร้าง QR Code
+            const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(targetUrl)}&charset-source=UTF-8`;
+            
+            qrImage.src = qrImageUrl;
             qrModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         });
@@ -342,13 +345,25 @@
 
         function downloadQrCode() {
             const qrImageUrl = document.getElementById('qrImage').src;
-            const link = document.createElement('a');
-            link.href = qrImageUrl;
-            link.download = 'equipment-qr-code.png';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            closeQrModal();
+            const serialNo = document.getElementById('serial_number').value || 'equipment';
+            
+            fetch(qrImageUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `QR_${serialNo}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    window.URL.revokeObjectURL(url);
+                    closeQrModal();
+                })
+                .catch(error => {
+                    console.error('Download failed:', error);
+                    window.open(qrImageUrl, '_blank');
+                });
         }
 
         window.onclick = function(event) { 
@@ -356,7 +371,6 @@
             if (event.target == qrModal) closeQrModal();
         }
         
-        // กำหนดให้หน้าเว็บรันผังโต๊ะเมื่อโหลดเสร็จ
         initDesks();
     </script>
 </body>
