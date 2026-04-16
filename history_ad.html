@@ -7,6 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+
     <style>
         body {
             font-family: 'Prompt', sans-serif;
@@ -42,12 +45,6 @@
                 <i class="fa-solid fa-user w-6 text-center"></i>
                 <span class="ml-3">จัดการผู้ใช้</span>
             </a>
-            
-            
-    </div>
-    
-    </span>
-            </a>
             <a href="รายการงาน_ad.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-list w-6 text-center"></i>
                 <span class="ml-3">รายการงาน</span>
@@ -59,7 +56,7 @@
         </nav>
         
         <div class="p-4 mb-4">
-            <a href="index.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+            <a href="login.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
                 <span class="ml-3">ออกจากระบบ</span>
             </a>
@@ -118,7 +115,7 @@
                     </div>
                 </div>
 
-                <button class="bg-[#10b981] hover:bg-[#059669] text-white rounded-lg shadow-sm flex items-center overflow-hidden transition-colors w-full md:w-auto h-[42px]">
+                <button onclick="exportToExcel()" class="bg-[#10b981] hover:bg-[#059669] text-white rounded-lg shadow-sm flex items-center overflow-hidden transition-colors w-full md:w-auto h-[42px] cursor-pointer">
                     <div class="px-4 py-2 flex items-center gap-2 h-full">
                         <i class="fa-solid fa-file-excel"></i>
                         <span class="font-medium text-sm">Export Excel</span>
@@ -135,7 +132,7 @@
                 </div>
                 
                 <div class="overflow-x-auto min-h-[300px]">
-                    <table class="w-full text-left text-sm whitespace-nowrap">
+                    <table id="technicianTable" class="w-full text-left text-sm whitespace-nowrap">
                         <thead>
                             <tr class="text-gray-800 font-bold border-b border-gray-200 bg-white">
                                 <th class="py-4 px-6 w-[20%]">ชื่อช่าง</th>
@@ -204,5 +201,27 @@
 
         </div>
     </main>
+
+    <script>
+        function exportToExcel() {
+            // 1. ดึงตาราง HTML จากหน้าเว็บ
+            let originalTable = document.getElementById("technicianTable");
+            
+            // 2. จำลอง (Clone) ตารางนี้ขึ้นมาไว้ในหน่วยความจำ (เพื่อไม่ให้กระทบตารางบนหน้าเว็บ)
+            let clonedTable = originalTable.cloneNode(true);
+            
+            // 3. วนลูปเพื่อลบคอลัมน์สุดท้าย (คอลัมน์ "จัดการ") ออกจากทุกแถวในตารางจำลอง
+            // แถว (rows) รวมถึงทั้งส่วนหัว (thead) และข้อมูล (tbody)
+            for (let i = 0; i < clonedTable.rows.length; i++) {
+                clonedTable.rows[i].deleteCell(-1); // -1 หมายถึงให้ลบเซลล์ "สุดท้าย" ของแถวนั้นๆ
+            }
+            
+            // 4. แปลงตารางที่ลบคอลัมน์แล้วให้กลายเป็นสมุดงาน Excel
+            let workbook = XLSX.utils.table_to_book(clonedTable, { sheet: "ประวัติช่าง" });
+            
+            // 5. สั่งเซฟและดาวน์โหลดไฟล์ลงเครื่อง
+            XLSX.writeFile(workbook, "Technician_History_Report.xlsx");
+        }
+    </script>
 </body>
 </html>
