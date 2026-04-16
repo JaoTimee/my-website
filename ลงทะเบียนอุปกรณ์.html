@@ -309,23 +309,31 @@
                 return;
             }
 
-            // 1. ดึงข้อมูลจากฟอร์ม
+            // 1. ดึงข้อมูลจากฟอร์ม (ดึงข้อมูลให้ครบทุกฟิลด์)
             const division = document.getElementById('division').value;
             const subdivision = document.getElementById('subdivision').value;
             const deviceType = document.getElementById('device_type').value;
             const serialNumber = document.getElementById('serial_number').value;
             const deskId = deskIdInput.value;
+            
+            // ข้อมูลที่เพิ่มมาใหม่
+            const supplier = document.getElementById('supplier').value;
+            const purchaseDate = document.getElementById('purchase_date').value;
+            const warrantyDate = document.getElementById('warranty_date').value;
 
-            // เปลี่ยนเป็นลิงก์ GitHub Pages ของคุณ ตามด้วยชื่อไฟล์
+            // 2. เปลี่ยนเป็นลิงก์ GitHub Pages ของคุณ ตามด้วยชื่อไฟล์
             const baseUrl = "https://jaotimee.github.io/my-website/แจ้งซ่อม1.html";
-
+            
             // 3. นำข้อมูลมาต่อท้าย URL
             const queryParams = new URLSearchParams({
                 device_type: deviceType,
                 serial_number: serialNumber,
                 division: division,
                 subdivision: subdivision,
-                desk_id: deskId
+                desk_id: deskId,
+                supplier: supplier,           // ส่งค่าจัดซื้อมาจาก
+                purchase_date: purchaseDate,  // ส่งค่าวันที่จัดซื้อ
+                warranty_date: warrantyDate   // ส่งค่าระยะเวลารับประกันถึง
             }).toString();
 
             const targetUrl = `${baseUrl}?${queryParams}`;
