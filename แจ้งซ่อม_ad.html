@@ -71,7 +71,7 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col overflow-y-auto p-8">
+   <main class="flex-1 flex flex-col overflow-y-auto p-8">
         <div class="max-w-[1400px] mx-auto w-full transition-all duration-500">
             
             <div class="mb-10">
@@ -86,8 +86,6 @@
                         <span class="block text-sm font-semibold text-slate-500">*กรอกข้อมูลรายละเอียด</span>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                             
-                            
-
                             <div class="relative">
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">กอง / สำนัก</label>
                                 <select id="division" name="division" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required onchange="handleDivisionChange()">
@@ -120,12 +118,12 @@
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">จัดซื้อมาจาก</label>
-                                <input type="text" placeholder="กรอกที่อยู่จัดซื้อ" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                                <input type="text" id="supplier" placeholder="กรอกที่อยู่จัดซื้อ" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
                             </div>
                             
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">วันที่จัดซื้อ</label>
-                                <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">วันที่จัดซื้อ <span class="text-xs text-gray-400 font-normal ml-1">(ดด/วว/ปปปป)</span></label>
+                                <input type="date" id="purchase_date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
                             </div>
                             <div class="relative">
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">ประเภทอุปกรณ์</label>
@@ -134,10 +132,10 @@
                                     <option value="คอมพิวเตอร์">คอมพิวเตอร์ (PC)</option>
                                     <option value="Notebook">Notebook</option>
                                     <option value="Printer">Printer</option>
-                                    <option value="Printer">โปรแกรม</option>
-                                    <option value="Printer">เครื่องแสกน</option>
-                                    <option value="Printer">เครื่องปริ้น</option>
-                                    <option value="Printer">เครื่องฉายโปรเจกเตอร์</option>
+                                    <option value="โปรแกรม">โปรแกรม</option>
+                                    <option value="เครื่องแสกน">เครื่องแสกน</option>
+                                    <option value="เครื่องปริ้น">เครื่องปริ้น</option>
+                                    <option value="เครื่องฉายโปรเจกเตอร์">เครื่องฉายโปรเจกเตอร์</option>
                                     <option value="อื่นๆ">อื่นๆ</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 pt-8 text-slate-400">
@@ -146,33 +144,32 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">เลขครุภัณฑ์</label>
-                                <input type="text" placeholder="กรอกเลขครุภัณฑ์" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                                <input type="text" id="serial_number" name="serial_number" placeholder="กรอกเลขครุภัณฑ์" class="w-full border border-slate-200 rounded-xl px-5 py-3.5 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">วันที่แจ้งซ่อม</label>
-                                <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">วันที่แจ้งซ่อม </label>
+                                <input type="date" id="repair_date" name="repair_date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
                             </div>
                             
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">ระยะเวลารับประกันถึง</label>
-                                <input type="date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">ระยะเวลารับประกันถึง <span class="text-xs text-gray-400 font-normal ml-1">(ดด/วว/ปปปป)</span></label>
+                                <input type="date" id="warranty_date" class="w-full border border-gray-200 rounded-xl px-5 py-3 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
                             </div>
-
                             
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
                         <div class="lg:col-span-2">
-                            <label class="block text-sm font-semibold text-slate-700 mb-3">รายละเอียดปัญหา</label>
-                            <textarea rows="5" placeholder="ระบุอาการเสียเบื้องต้น..." class="w-full border border-slate-200 rounded-2xl px-5 py-4 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required></textarea>
+                            <label class="block text-sm font-semibold text-slate-700 mb-3">รายละเอียดปัญหา <span class="text-red-500">*</span></label>
+                            <textarea id="problem_desc" name="problem_desc" rows="5" placeholder="ระบุอาการเสียเบื้องต้น..." class="w-full border border-slate-200 rounded-2xl px-5 py-4 text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required></textarea>
                         </div>
                         <div class="flex flex-col justify-end gap-4">
                             <div class="p-5 bg-blue-50 rounded-2xl border border-blue-100">
                                 <h4 class="font-bold text-blue-900 mb-1">ตำแหน่งโต๊ะ</h4>
                                 <p class="text-sm text-blue-600 mb-4" id="selectedDeskText">ยังไม่ได้ระบุตำแหน่ง</p>
                                 <input type="hidden" name="desk_number" id="deskIdInput" required>
-                                <button type="button" onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-base font-medium py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2">
+                                <button type="button" id="selectDeskBtn" onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-base font-medium py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2">
                                     <i class="fa-solid fa-desktop"></i>
                                     เลือกผังโต๊ะคอม
                                 </button>
@@ -220,11 +217,7 @@
         const deskContainer = document.getElementById('deskContainer');
         const selectedText = document.getElementById('selectedDeskText');
         const deskIdInput = document.getElementById('deskIdInput');
-        
-        const windowsField = document.getElementById('windowsField');
-        const antivirusField = document.getElementById('antivirusField');
-        const windowsInput = document.getElementById('windowsInput');
-        const antivirusInput = document.getElementById('antivirusInput');
+        const selectDeskBtn = document.getElementById('selectDeskBtn');
         
         const subData = {
             "สำนักปลัด": ["ฝ่ายอำนวยการ", "ฝ่ายนิติการ", "ฝ่ายส่งเสริมการท่องเที่ยว", "ฝ่ายประสานงานองค์กรปกครองส่วนท้องถิ่น", "ฝ่ายป้องกันและบรรเทาสาธารณภัย", "งานหน้าห้องปลัดองค์การบริหารส่วนจังหวัด"],
@@ -262,18 +255,9 @@
             }
         }
 
-        // ฟังก์ชันเมื่อเปลี่ยน ประเภทอุปกรณ์ (แสดง/ซ่อน Windows & Antivirus)
+        // ฟังก์ชันเมื่อเปลี่ยน ประเภทอุปกรณ์
         function handleDeviceChange() {
-            const deviceType = document.getElementById('device_type').value;
-            if (deviceType === 'Printer' || deviceType === 'อื่นๆ') {
-                windowsField.classList.add('hidden');
-                antivirusField.classList.add('hidden');
-                windowsInput.value = "";
-                antivirusInput.value = "";
-            } else {
-                windowsField.classList.remove('hidden');
-                antivirusField.classList.remove('hidden');
-            }
+            // ไม่ได้ใช้การซ่อน field ในหน้านี้ แต่คงไว้ตามโครงสร้างเดิม
         }
 
         let tempSelected = null;
@@ -319,6 +303,131 @@
         window.onclick = function(event) { if (event.target == modal) closeModal(); }
         
         initDesks();
+
+        // -------------------------------------------------------------
+        // ระบบดึงข้อมูลจาก URL (QR Code) มากรอกลงฟอร์มอัตโนมัติ
+        // -------------------------------------------------------------
+        window.onload = function() {
+            // 1. ตั้งค่า "วันที่แจ้งซ่อม" ให้เป็นวันที่ปัจจุบันอัตโนมัติ (แบบ วัน/เดือน/ปี)
+            const todayInput = document.getElementById('repair_date');
+            if(todayInput) {
+                const now = new Date();
+                
+                // ดึง วัน เดือน ปี ออกมา และเติมเลข 0 ข้างหน้าถ้าเป็นเลขตัวเดียว
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0'); // เดือนใน JS เริ่มจาก 0 เลยต้อง +1
+                const year = now.getFullYear() + 543; // แปลงเป็น พ.ศ.
+
+                // เปลี่ยน type เป็น text เพื่อให้เราจัดฟอร์แมตเองได้
+                todayInput.type = 'text'; 
+                
+                // นำมาต่อกันแบบ วัน/เดือน/ปี
+                todayInput.value = `${day}/${month}/${year}`; 
+                
+                todayInput.readOnly = true;
+                todayInput.classList.add('locked-field');
+            }
+
+            // 2. ดึงค่าจาก URL
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // เช็คว่ามีค่าส่งมาหรือไม่ (ดูจาก serial_number)
+            if(urlParams.has('serial_number')) {
+                
+                // --- ดึงค่าประเภทอุปกรณ์ ---
+                const deviceType = document.getElementById('device_type');
+                if(deviceType) {
+                    deviceType.value = urlParams.get('device_type');
+                    deviceType.classList.add('locked-field'); // ล็อคไม่ให้กดเปลี่ยน
+                }
+
+                // --- ดึงค่าเลขครุภัณฑ์ ---
+                const serialNumber = document.getElementById('serial_number');
+                if(serialNumber) {
+                    serialNumber.value = urlParams.get('serial_number');
+                    serialNumber.readOnly = true;
+                    serialNumber.classList.add('locked-field');
+                }
+
+                // --- ดึงค่ากอง/สำนัก และ ฝ่าย ---
+                const division = document.getElementById('division');
+                const subdivision = document.getElementById('subdivision');
+                if(division) {
+                    division.value = urlParams.get('division');
+                    division.classList.add('locked-field');
+                    
+                    // รันฟังก์ชันนี้เพื่อให้ช่อง "ฝ่าย" มีตัวเลือกโผล่ขึ้นมา
+                    handleDivisionChange(); 
+                    
+                    if(subdivision) {
+                        subdivision.value = urlParams.get('subdivision');
+                        subdivision.classList.add('locked-field');
+                    }
+                }
+
+                // --- ดึงค่าจัดซื้อมาจาก ---
+                const supplier = document.getElementById('supplier');
+                if(supplier && urlParams.has('supplier')) {
+                    supplier.value = urlParams.get('supplier');
+                    supplier.readOnly = true;
+                    supplier.classList.add('locked-field');
+                }
+
+                // --- ดึงค่าวันที่จัดซื้อ ---
+                const purchaseDate = document.getElementById('purchase_date');
+                if(purchaseDate && urlParams.has('purchase_date') && urlParams.get('purchase_date') !== '') {
+                    const pDateValue = urlParams.get('purchase_date');
+                    purchaseDate.type = 'text'; 
+                    const pDateObj = new Date(pDateValue);
+                    if (!isNaN(pDateObj)) {
+                        const pDay = String(pDateObj.getDate()).padStart(2, '0');
+                        const pMonth = String(pDateObj.getMonth() + 1).padStart(2, '0');
+                        const pYear = pDateObj.getFullYear() + 543; // แปลงเป็น พ.ศ.
+                        purchaseDate.value = `${pDay}/${pMonth}/${pYear}`;
+                    } else {
+                        purchaseDate.value = pDateValue;
+                    }
+                    purchaseDate.readOnly = true;
+                    purchaseDate.classList.add('locked-field');
+                }
+
+                // --- ดึงค่าระยะเวลารับประกันถึง ---
+                const warrantyDate = document.getElementById('warranty_date');
+                if(warrantyDate && urlParams.has('warranty_date') && urlParams.get('warranty_date') !== '') {
+                    const wDateValue = urlParams.get('warranty_date');
+                    warrantyDate.type = 'text';
+                    const wDateObj = new Date(wDateValue);
+                    if (!isNaN(wDateObj)) {
+                        const wDay = String(wDateObj.getDate()).padStart(2, '0');
+                        const wMonth = String(wDateObj.getMonth() + 1).padStart(2, '0');
+                        const wYear = wDateObj.getFullYear() + 543; // แปลงเป็น พ.ศ.
+                        warrantyDate.value = `${wDay}/${wMonth}/${wYear}`;
+                    } else {
+                        warrantyDate.value = wDateValue;
+                    }
+                    warrantyDate.readOnly = true;
+                    warrantyDate.classList.add('locked-field');
+                }
+
+                // --- ดึงค่าตำแหน่งโต๊ะ ---
+                const deskId = urlParams.get('desk_id');
+                if(deskId) {
+                    deskIdInput.value = deskId;
+                    selectedText.innerText = `โต๊ะหมายเลข ${deskId}`;
+                    selectedText.classList.add('font-bold', 'text-blue-800');
+                    // ซ่อนปุ่มเลือกโต๊ะไปเลย เพราะถูกล็อคตำแหน่งมาแล้ว
+                    if(selectDeskBtn) {
+                        selectDeskBtn.style.display = 'none';
+                    }
+                }
+
+                // โฟกัสไปที่ช่องรายละเอียดปัญหาเลย เพื่อให้ผู้ใช้พร้อมพิมพ์ทันที
+                const problemDesc = document.getElementById('problem_desc');
+                if(problemDesc) {
+                    problemDesc.focus();
+                }
+            }
+        };
     </script>
 </body>
 </html>
