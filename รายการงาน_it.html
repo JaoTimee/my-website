@@ -78,7 +78,7 @@
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
                 <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-gray-400 border-y border-r border-gray-100 relative">
                     <div class="text-sm text-gray-500 mb-2">งานทั้งหมด</div>
-                    <div class="text-2xl font-bold text-gray-500">1</div>
+                    <div class="text-2xl font-bold text-gray-500">3</div>
                     <i class="fa-regular fa-rectangle-list absolute top-4 right-4 text-gray-400"></i>
                 </div>
                 <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-yellow-400 border-y border-r border-gray-100 relative">
@@ -88,27 +88,27 @@
                 </div>
                 <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-blue-500 border-y border-r border-gray-100 relative">
                     <div class="text-sm text-gray-500 mb-2">กำลังซ่อม</div>
-                    <div class="text-2xl font-bold text-blue-600">2</div>
+                    <div class="text-2xl font-bold text-blue-600">1</div>
                     <i class="fa-solid fa-screwdriver-wrench absolute top-4 right-4 text-blue-500"></i>
                 </div>
                 <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-green-500 border-y border-r border-gray-100 relative">
                     <div class="text-sm text-gray-500 mb-2">เสร็จแล้ว</div>
-                    <div class="text-2xl font-bold text-green-500">3</div>
+                    <div class="text-2xl font-bold text-green-500">1</div>
                     <i class="fa-regular fa-square-check absolute top-4 right-4 text-green-500"></i>
                 </div>
                 <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-red-500 border-y border-r border-gray-100 relative">
                     <div class="text-sm text-gray-500 mb-2">ไม่สามารถซ่อมได้</div>
-                    <div class="text-2xl font-bold text-red-500">1</div>
+                    <div class="text-2xl font-bold text-red-500">0</div>
                 </div>
             </div>
 
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
-                        <input type="text" placeholder="ค้นหาชื่อผู้แจ้ง / เลขที่งาน" class="w-full border border-gray-300 rounded-lg py-2.5 px-4 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <input type="text" id="searchInput" placeholder="ค้นหาชื่อผู้แจ้ง / เลขที่งาน" class="w-full border border-gray-300 rounded-lg py-2.5 px-4 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
                     </div>
                     <div class="relative">
-                        <select class="w-full appearance-none border border-gray-300 rounded-lg py-2.5 px-4 pr-10 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors">
+                        <select id="statusFilter" class="w-full appearance-none border border-gray-300 rounded-lg py-2.5 px-4 pr-10 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors">
                             <option value="">ทุกสถานะ</option>
                             <option value="รอดำเนินการ">รอดำเนินการ</option>
                             <option value="กำลังซ่อม">กำลังซ่อม</option>
@@ -119,10 +119,10 @@
                         </div>
                     </div>
                     <div class="relative">
-                        <input type="date" class="w-full border border-gray-300 rounded-lg py-2.5 px-4 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors" style="color-scheme: light;">
+                        <input type="date" id="dateFilter" class="w-full border border-gray-300 rounded-lg py-2.5 px-4 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors" style="color-scheme: light;">
                     </div>
                     <div>
-                        <button class="w-full border border-gray-300 text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-lg py-2.5 px-4 text-sm font-medium transition-colors shadow-sm">
+                        <button id="resetBtn" class="w-full border border-gray-300 text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-lg py-2.5 px-4 text-sm font-medium transition-colors shadow-sm">
                             รีเซ็ตตัวกรอง
                         </button>
                     </div>
@@ -144,11 +144,12 @@
                                 <th class="py-4 px-6 text-center">แผนก</th>
                                 <th class="py-4 px-6 text-center">อุปกรณ์</th>
                                 <th class="py-4 px-6 text-center">ปัญหา</th>
-                                <th class="py-4 px-6 text-center">วันที่</th> <th class="py-4 px-6 text-center">สถานะ</th>
+                                <th class="py-4 px-6 text-center">วันที่</th> 
+                                <th class="py-4 px-6 text-center">สถานะ</th>
                                 <th class="py-4 px-6 text-center">จัดการ</th>
                             </tr>
                         </thead>
-                        <tbody class="text-gray-600 divide-y divide-gray-100">
+                        <tbody id="tableBody" class="text-gray-600 divide-y divide-gray-100">
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="py-4 px-6">#001</td>
                                 <td class="py-4 px-6 text-center">สมชาย</td>
@@ -156,7 +157,8 @@
                                 <td class="py-4 px-6 text-center">กองสวัสดิการ</td>
                                 <td class="py-4 px-6 text-center">PC</td>
                                 <td class="py-4 px-6 text-center">เปิดไม่ติด</td>
-                                <td class="py-4 px-6 text-center">19/02/2026</td> <td class="py-4 px-6 text-center">
+                                <td class="py-4 px-6 text-center">19/02/2026</td> 
+                                <td class="py-4 px-6 text-center">
                                     <span class="bg-[#fef3c7] text-[#d97706] px-4 py-1.5 rounded-full text-xs font-medium">รอดำเนินการ</span>
                                 </td>
                                 <td class="py-4 px-6 text-center">
@@ -164,13 +166,14 @@
                                 </td>
                             </tr>
                             <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="py-4 px-6">#001</td>
+                                <td class="py-4 px-6">#002</td>
                                 <td class="py-4 px-6 text-center">ชายน้อย</td>
                                 <td class="py-4 px-6 text-center">B1</td>
                                 <td class="py-4 px-6 text-center">กองสาธารณสุข</td>
                                 <td class="py-4 px-6 text-center">Notebook</td>
                                 <td class="py-4 px-6 text-center">หน้าจอกระพริบ</td>
-                                <td class="py-4 px-6 text-center">19/02/2026</td> <td class="py-4 px-6 text-center">
+                                <td class="py-4 px-6 text-center">19/02/2026</td> 
+                                <td class="py-4 px-6 text-center">
                                     <span class="bg-[#dbeafe] text-[#2563eb] px-4 py-1.5 rounded-full text-xs font-medium">กำลังซ่อม</span>
                                 </td>
                                 <td class="py-4 px-6 text-center">
@@ -178,13 +181,14 @@
                                 </td>
                             </tr>
                             <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="py-4 px-6">#001</td>
+                                <td class="py-4 px-6">#003</td>
                                 <td class="py-4 px-6 text-center">ชายใหญ่</td>
                                 <td class="py-4 px-6 text-center">C1</td>
                                 <td class="py-4 px-6 text-center">สำนักคลัง</td>
                                 <td class="py-4 px-6 text-center">Printer</td>
                                 <td class="py-4 px-6 text-center">พิมพ์ไม่ออก</td>
-                                <td class="py-4 px-6 text-center">19/02/2026</td> <td class="py-4 px-6 text-center">
+                                <td class="py-4 px-6 text-center">20/02/2026</td> 
+                                <td class="py-4 px-6 text-center">
                                     <span class="bg-[#dcfce7] text-[#16a34a] px-4 py-1.5 rounded-full text-xs font-medium">เสร็จแล้ว</span>
                                 </td>
                                 <td class="py-4 px-6 text-center">
@@ -216,5 +220,62 @@
 
         </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const dateFilter = document.getElementById('dateFilter');
+            const resetBtn = document.getElementById('resetBtn');
+            const tableBody = document.getElementById('tableBody');
+            const rows = tableBody.querySelectorAll('tr');
+
+            function filterTable() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const statusValue = statusFilter.value;
+                
+                // แปลงรูปแบบวันที่จาก Input (YYYY-MM-DD) เป็น (DD/MM/YYYY) ให้ตรงกับตาราง
+                let filterDate = "";
+                if (dateFilter.value) {
+                    const [year, month, day] = dateFilter.value.split('-');
+                    filterDate = `${day}/${month}/${year}`;
+                }
+
+                rows.forEach(row => {
+                    // ดึงข้อความในทั้งแถวมาตรวจสอบสำหรับการค้นหา (ครอบคลุมทั้ง ชื่อ, เลขที่, แผนก, อาการเสีย)
+                    const textContent = row.textContent.toLowerCase();
+                    
+                    // ดึงข้อมูลในคอลัมน์ วันที่ (index 6) และ สถานะ (index 7)
+                    const dateCell = row.querySelector('td:nth-child(7)').textContent.trim();
+                    const statusCell = row.querySelector('td:nth-child(8)').textContent.trim();
+
+                    // เช็คเงื่อนไขต่างๆ
+                    const matchesSearch = textContent.includes(searchTerm);
+                    const matchesStatus = statusValue === "" || statusCell === statusValue;
+                    const matchesDate = filterDate === "" || dateCell === filterDate;
+
+                    // แสดงหรือซ่อน Row 
+                    if (matchesSearch && matchesStatus && matchesDate) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            }
+
+            // รับ Event เมื่อมีการพิมพ์หรือเลือกเงื่อนไขใหม่
+            searchInput.addEventListener('input', filterTable);
+            statusFilter.addEventListener('change', filterTable);
+            dateFilter.addEventListener('change', filterTable);
+
+            // ปุ่มรีเซ็ตตัวกรอง
+            resetBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                statusFilter.value = '';
+                dateFilter.value = '';
+                filterTable(); // เรียกใช้งานเพื่อรีเฟรชตารางให้แสดงทั้งหมด
+            });
+        });
+    </script>
 </body>
 </html>
