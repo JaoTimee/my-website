@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ประวัติการแจ้งซ่อม - Repair System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .sidebar-bg {
+            background-color: #21325b;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-gray-800">
+
+    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-900/50 z-30 hidden lg:hidden backdrop-blur-sm transition-opacity opacity-0" onclick="toggleSidebar()"></div>
+
+    <aside id="sidebar" class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-transform duration-300 fixed inset-y-0 left-0 z-40 transform -translate-x-full lg:relative lg:translate-x-0">
+        <div class="p-6 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+            <button onclick="toggleSidebar()" class="lg:hidden text-gray-300 hover:text-white">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+        </div>
+        <nav class="flex-1 px-4 space-y-2 mt-4 overflow-y-auto">
+            <a href="home.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-house w-6 text-center"></i>
+                <span class="ml-3 font-medium">Dashboard</span>
+            </a>
+            <a href="register_equipment.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-gear w-6 text-center"></i>
+                <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
+            </a>
+            <a href="Device_registration.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-computer w-6 text-center"></i>
+                <span class="ml-3">ทะเบียนอุปกรณ์</span>
+            </a>
+            <a href="report_repair.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-wrench w-6 text-center"></i>
+                <span class="ml-3">แจ้งซ่อม</span>
+            </a>
+            <a href="history.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white shadow-lg shadow-blue-900/20">
+                <i class="fa-solid fa-list w-6 text-center"></i>
+                <span class="ml-3 font-medium">ประวัติการแจ้ง</span>
+            </a>
+        </nav>
+        
+        <div class="p-4 mb-4">
+            <a href="index.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
+                <span class="ml-3">ออกจากระบบ</span>
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+        
+        <header class="lg:hidden bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-20 shadow-sm">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSidebar()" class="text-slate-600 hover:text-blue-600 focus:outline-none transition-colors">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <h1 class="text-xl font-bold text-slate-800">Repair System</h1>
+            </div>
+        </header>
+
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <div class="max-w-[1400px] mx-auto w-full p-4 sm:p-6 lg:p-8 transition-all duration-500">
+                
+                <div class="mb-6 lg:mb-8">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-gray-800">ประวัติการแจ้งซ่อมทั้งหมดของฉัน</h2>
+                    <p class="text-sm lg:text-base text-gray-500 mt-1 lg:mt-2">จัดการและติดตามสถานะงานซ่อม</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4 mb-6 lg:mb-8">
+                    <div class="bg-white rounded-xl shadow-sm p-4 lg:p-5 border-l-4 border-gray-400 border-y border-r border-gray-100 relative">
+                        <div class="text-xs lg:text-sm text-gray-500 mb-1 lg:mb-2">งานทั้งหมด</div>
+                        <div id="count-total" class="text-xl lg:text-2xl font-bold text-gray-500">3</div>
+                        <i class="fa-regular fa-rectangle-list absolute top-4 right-4 text-gray-400"></i>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm p-4 lg:p-5 border-l-4 border-yellow-400 border-y border-r border-gray-100 relative">
+                        <div class="text-xs lg:text-sm text-gray-500 mb-1 lg:mb-2">รอดำเนินการ</div>
+                        <div id="count-pending" class="text-xl lg:text-2xl font-bold text-yellow-500">1</div>
+                        <i class="fa-regular fa-clock absolute top-4 right-4 text-yellow-400"></i>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm p-4 lg:p-5 border-l-4 border-blue-500 border-y border-r border-gray-100 relative">
+                        <div class="text-xs lg:text-sm text-gray-500 mb-1 lg:mb-2">กำลังซ่อม</div>
+                        <div id="count-inprogress" class="text-xl lg:text-2xl font-bold text-blue-600">1</div>
+                        <i class="fa-solid fa-screwdriver-wrench absolute top-4 right-4 text-blue-500"></i>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm p-4 lg:p-5 border-l-4 border-green-500 border-y border-r border-gray-100 relative">
+                        <div class="text-xs lg:text-sm text-gray-500 mb-1 lg:mb-2">เสร็จแล้ว</div>
+                        <div id="count-completed" class="text-xl lg:text-2xl font-bold text-green-500">1</div>
+                        <i class="fa-regular fa-square-check absolute top-4 right-4 text-green-500"></i>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm p-4 lg:p-5 border-l-4 border-red-500 border-y border-r border-gray-100 relative">
+                        <div class="text-xs lg:text-sm text-gray-500 mb-1 lg:mb-2">ไม่สามารถซ่อมได้</div>
+                        <div id="count-unrepairable" class="text-xl lg:text-2xl font-bold text-red-500">0</div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+                        <div>
+                            <input type="text" id="searchInput" placeholder="ค้นหา รหัสเครื่อง / อุปกรณ์ / ปัญหา" class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400">
+                        </div>
+                        <div class="relative">
+                            <select id="statusFilter" class="w-full border border-gray-200 bg-gray-50 text-gray-600 text-sm rounded-lg px-4 py-2 focus:outline-none appearance-none cursor-pointer">
+                                <option value="">ทุกสถานะ</option>
+                                <option value="pending">รอดำเนินการ</option>
+                                <option value="in_progress">กำลังซ่อม</option>
+                                <option value="completed">เสร็จแล้ว</option>
+                                <option value="unrepairable">ไม่สามารถซ่อมได้</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                                <i class="fa-solid fa-caret-down text-xs"></i>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <input type="date" id="dateFilter" class="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400 text-gray-600">
+                        </div>
+                        <div>
+                            <button type="button" id="resetBtn" class="w-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-600 text-sm py-2 rounded-lg transition-colors">
+                                รีเซ็ตตัวกรอง
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-4 lg:p-6 mb-6 border border-gray-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm whitespace-nowrap lg:whitespace-normal">
+                            <thead>
+                                <tr class="border-b border-gray-100 text-gray-700 font-bold">
+                                    <th class="pb-4 px-2">รหัสการแจ้ง</th>
+                                    <th class="pb-4 px-2">อุปกรณ์</th>
+                                    <th class="pb-4 px-2">ปัญหา</th>
+                                    <th class="pb-4 px-2">วันที่แจ้ง</th> 
+                                    <th class="pb-4 px-2 text-center">สถานะ</th>
+                                    <th class="pb-4 px-2 text-right">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <tr class="border-b border-gray-50 hover:bg-gray-50">
+                                    <td class="py-4 px-2 text-gray-800 font-medium">#001</td>
+                                    <td class="py-4 px-2 text-gray-600">คอมพิวเตอร์ (PC)</td>
+                                    <td class="py-4 px-2 text-gray-600 truncate max-w-[200px]">เปิดไม่ติด</td>
+                                    <td class="py-4 px-2 text-gray-600">19/02/2026</td> 
+                                    <td class="py-4 px-2 text-center status-cell">
+                                        <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">รอดำเนินการ</span>
+                                    </td>
+                                    <td class="py-4 px-2 text-right">
+                                        <a href="ticket_detail01.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-50 hover:bg-gray-50">
+                                    <td class="py-4 px-2 text-gray-800 font-medium">#002</td>
+                                    <td class="py-4 px-2 text-gray-600">Notebook</td>
+                                    <td class="py-4 px-2 text-gray-600 truncate max-w-[200px]">หน้าจอกระพริบ</td>
+                                    <td class="py-4 px-2 text-gray-600">19/02/2026</td> 
+                                    <td class="py-4 px-2 text-center status-cell">
+                                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">กำลังซ่อม</span>
+                                    </td>
+                                    <td class="py-4 px-2 text-right"><a href="#" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 border-b border-gray-50">
+                                    <td class="py-4 px-2 text-gray-800 font-medium">#003</td>
+                                    <td class="py-4 px-2 text-gray-600">Printer</td>
+                                    <td class="py-4 px-2 text-gray-600 truncate max-w-[200px]">พิมพ์ไม่ออก หมึกจาง</td>
+                                    <td class="py-4 px-2 text-gray-600">20/02/2026</td> 
+                                    <td class="py-4 px-2 text-center status-cell">
+                                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">เสร็จแล้ว</span>
+                                    </td>
+                                    <td class="py-4 px-2 text-right"><a href="#" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="noDataMessage" class="hidden text-center py-10">
+                        <i class="fa-solid fa-folder-open text-4xl text-gray-300 mb-3"></i>
+                        <p class="text-gray-500">ไม่พบประวัติการแจ้งซ่อม</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center items-center gap-1 pb-8">
+                    <button class="px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 rounded bg-gray-50 border border-gray-200 transition-colors">ก่อนหน้า</button>
+                    <button class="w-8 py-1.5 text-sm bg-blue-600 text-white font-medium rounded shadow-sm">1</button>
+                    <button class="w-8 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded bg-white border border-gray-200 transition-colors">2</button>
+                    <button class="px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 rounded bg-gray-50 border border-gray-200 transition-colors">ถัดไป</button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ฟังก์ชันจัดการ Sidebar บนมือถือ
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            const isClosed = sidebar.classList.contains('-translate-x-full');
+            if (isClosed) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.remove('hidden');
+                setTimeout(() => sidebarOverlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('opacity-0');
+                setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("searchInput");
+            const statusFilter = document.getElementById("statusFilter");
+            const dateFilter = document.getElementById("dateFilter");
+            const resetBtn = document.getElementById("resetBtn");
+            const tableBody = document.getElementById("tableBody");
+            const noDataMessage = document.getElementById("noDataMessage");
+
+            // ฟังก์ชันโหลดข้อมูลจาก LocalStorage มาแสดงผล
+            function loadHistoryFromStorage() {
+                let repairHistory = JSON.parse(localStorage.getItem('repairHistory')) || [];
+                
+                // หากมีข้อมูลที่ผู้ใช้แจ้งเข้ามาจริงๆ ให้เคลียร์ Mock data ออกแล้วใช้ข้อมูลจริง
+                if(repairHistory.length > 0) {
+                    tableBody.innerHTML = ''; // เคลียร์ตาราง
+                    
+                    let countPending = 0, countInProgress = 0, countCompleted = 0, countUnrepairable = 0;
+
+                    // วนลูปสร้างแถวตาราง (แสดงอันล่าสุดขึ้นก่อน)
+                    for (let i = repairHistory.length - 1; i >= 0; i--) {
+                        const item = repairHistory[i];
+                        
+                        // เช็คสี Badge ตามสถานะ และนับจำนวนไปพร้อมๆ กัน
+                        let badgeClass = "bg-gray-100 text-gray-700";
+                        if (item.status === 'รอดำเนินการ') {
+                            badgeClass = "bg-yellow-100 text-yellow-700";
+                            countPending++;
+                        } else if (item.status === 'กำลังซ่อม') {
+                            badgeClass = "bg-blue-100 text-blue-700";
+                            countInProgress++;
+                        } else if (item.status === 'เสร็จแล้ว') {
+                            badgeClass = "bg-green-100 text-green-700";
+                            countCompleted++;
+                        } else if (item.status === 'ไม่สามารถซ่อมได้') {
+                            badgeClass = "bg-red-100 text-red-700";
+                            countUnrepairable++;
+                        }
+
+                        // จัดรูปแบบวันที่ให้เป็น DD/MM/YYYY (กรณีที่ Browser คืนค่ามาเป็น YYYY-MM-DD)
+                        let displayDate = item.repair_date || '-';
+                        if(displayDate.includes('-')) {
+                            const parts = displayDate.split('-');
+                            if(parts.length === 3) displayDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                        }
+
+                        const tr = document.createElement('tr');
+                        tr.className = "border-b border-gray-50 hover:bg-gray-50 transition-colors";
+                        tr.innerHTML = `
+                            <td class="py-4 px-2 text-gray-800 font-medium">${item.id || '-'}</td>
+                            <td class="py-4 px-2 text-gray-600">${item.device_type || '-'}</td>
+                            <td class="py-4 px-2 text-gray-600 truncate max-w-[150px] lg:max-w-[250px]">${item.problem_desc || '-'}</td>
+                            <td class="py-4 px-2 text-gray-600">${displayDate}</td> 
+                            <td class="py-4 px-2 text-center status-cell">
+                                <span class="${badgeClass} px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap">${item.status || 'รอดำเนินการ'}</span>
+                            </td>
+                            <td class="py-4 px-2 text-right">
+                                <a href="#" class="text-blue-500 hover:underline text-sm font-medium whitespace-nowrap">ดูรายละเอียด</a>
+                            </td>
+                        `;
+                        tableBody.appendChild(tr);
+                    }
+
+                    // อัปเดตตัวเลขในกล่องสรุปด้านบน
+                    document.getElementById('count-total').innerText = repairHistory.length;
+                    document.getElementById('count-pending').innerText = countPending;
+                    document.getElementById('count-inprogress').innerText = countInProgress;
+                    document.getElementById('count-completed').innerText = countCompleted;
+                    document.getElementById('count-unrepairable').innerText = countUnrepairable;
+                }
+            }
+
+            // เรียกใช้ฟังก์ชันตอนโหลดหน้า
+            loadHistoryFromStorage();
+
+            // จับคู่ value จาก dropdown ให้ตรงกับข้อความในตาราง
+            const statusMapping = {
+                "pending": "รอดำเนินการ",
+                "in_progress": "กำลังซ่อม",
+                "completed": "เสร็จแล้ว",
+                "unrepairable": "ไม่สามารถซ่อมได้"
+            };
+
+            // ระบบค้นหาและตัวกรอง
+            function filterTable() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const statusValue = statusFilter.value;
+                const targetStatusText = statusValue ? statusMapping[statusValue] : "";
+                
+                // แปลงรูปแบบวันที่จาก input type="date" (yyyy-mm-dd) ให้เป็น dd/mm/yyyy
+                let targetDate = "";
+                if (dateFilter.value) {
+                    const [year, month, day] = dateFilter.value.split("-");
+                    targetDate = `${day}/${month}/${year}`;
+                }
+
+                // ดึงรายการแถวตารางปัจจุบัน (เป็น HTMLCollection อัปเดตสดเสมอ)
+                const rows = tableBody.getElementsByTagName("tr");
+                let visibleCount = 0;
+
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    const rowText = row.textContent.toLowerCase();
+                    const dateCell = row.cells[3].textContent.trim();
+                    const statusCell = row.cells[4].textContent.trim();
+
+                    const matchesSearch = rowText.includes(searchTerm);
+                    const matchesStatus = targetStatusText === "" || statusCell === targetStatusText;
+                    const matchesDate = targetDate === "" || dateCell === targetDate;
+
+                    if (matchesSearch && matchesStatus && matchesDate) {
+                        row.style.display = "";
+                        visibleCount++;
+                    } else {
+                        row.style.display = "none";
+                    }
+                }
+
+                // หากค้นหาแล้วไม่เจอข้อมูลเลย
+                if(visibleCount === 0 && rows.length > 0) {
+                    noDataMessage.classList.remove('hidden');
+                } else {
+                    noDataMessage.classList.add('hidden');
+                }
+            }
+
+            // เพิ่ม Event Listener ให้กล่องค้นหาและฟิลเตอร์
+            searchInput.addEventListener("input", filterTable);
+            statusFilter.addEventListener("change", filterTable);
+            dateFilter.addEventListener("input", filterTable);
+
+            // ปุ่มรีเซ็ตตัวกรอง
+            resetBtn.addEventListener("click", function() {
+                searchInput.value = "";
+                statusFilter.value = "";
+                dateFilter.value = "";
+                filterTable();
+            });
+        });
+        
+    </script>
+</body>
+</html>

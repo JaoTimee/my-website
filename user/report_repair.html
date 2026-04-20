@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แจ้งซ่อมคอมพิวเตอร์ - Repair System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .sidebar-bg {
+            background-color: #21325b;
+        }
+        .desk-selected {
+            border-color: #2563eb !important;
+            background-color: #eff6ff !important;
+            color: #1e40af !important;
+        }
+        input:invalid, select:invalid {
+            border-color: #f87171;
+        }
+        select {
+            background-image: none !important;
+        }
+        /* คลาสสำหรับล็อคช่องไม่ให้แก้ไข (แต่ยังส่งข้อมูลได้) */
+        .locked-field {
+            pointer-events: none;
+            background-color: #f8fafc;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-gray-800">
+
+    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-900/50 z-30 hidden lg:hidden backdrop-blur-sm transition-opacity opacity-0" onclick="toggleSidebar()"></div>
+
+    <aside id="sidebar" class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-transform duration-300 fixed inset-y-0 left-0 z-40 transform -translate-x-full lg:relative lg:translate-x-0">
+        <div class="p-6 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+            <button onclick="toggleSidebar()" class="lg:hidden text-gray-300 hover:text-white">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+        </div>
+        <nav class="flex-1 px-4 space-y-2 mt-4 overflow-y-auto">
+            <a href="home.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-house w-6 text-center"></i>
+                <span class="ml-3 font-medium">Dashboard</span>
+            </a>
+            <a href="register_equipment.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-gear w-6 text-center"></i>
+                <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
+            </a>
+            <a href="Device_registration.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-computer w-6 text-center"></i>
+                <span class="ml-3">ทะเบียนอุปกรณ์</span>
+            </a>
+            <a href="report_repair.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white shadow-lg shadow-blue-900/20">
+                <i class="fa-solid fa-wrench w-6 text-center"></i>
+                <span class="ml-3 font-medium">แจ้งซ่อม</span>
+            </a>
+            <a href="history.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-list w-6 text-center"></i>
+                <span class="ml-3">ประวัติการแจ้ง</span>
+            </a>
+        </nav>
+        
+        <div class="p-4 mb-4">
+            <a href="index.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
+                <span class="ml-3">ออกจากระบบ</span>
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+        
+        <header class="lg:hidden bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-20 shadow-sm">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSidebar()" class="text-slate-600 hover:text-blue-600 focus:outline-none transition-colors">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <h1 class="text-xl font-bold text-slate-800">Repair System</h1>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <div class="max-w-[1400px] mx-auto w-full transition-all duration-500">
+                
+                <div class="mb-6 lg:mb-10">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">แจ้งซ่อมคอมพิวเตอร์</h2>
+                    <p class="text-sm sm:text-base text-gray-500 mt-2">กรอกข้อมูลเพื่อส่งคำร้องซ่อม</p>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 sm:p-8 lg:p-12">
+                    <form id="repairForm" action="#" method="POST" class="space-y-8 lg:space-y-10">
+                        
+                        <div class="space-y-6 lg:space-y-8">
+                            <span class="block text-sm font-semibold text-slate-500">*กรอกข้อมูลรายละเอียด</span>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-6 lg:gap-y-8">
+                                
+                                <div class="relative">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">กอง / สำนัก</label>
+                                    <select id="division" name="division" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required onchange="handleDivisionChange()">
+                                        <option value="" disabled selected>เลือกกอง/สำนัก</option>
+                                        <option value="สำนักปลัด">สำนักปลัด</option>
+                                        <option value="สำนักงานเลขานุการฯ">สำนักงานเลขานุการฯ</option>
+                                        <option value="สำนักคลัง">สำนักคลัง</option>
+                                        <option value="สำนักช่าง">สำนักช่าง</option>
+                                        <option value="กองสาธารณสุข">กองสาธารณสุข</option>
+                                        <option value="กองยุทธศาสตร์และงบประมาณ">กองยุทธศาสตร์และงบประมาณ</option>
+                                        <option value="สำนักการศึกษา ศาสนาและวัฒนธรรม">สำนักการศึกษา ศาสนาและวัฒนธรรม</option>
+                                        <option value="กองสวัสดิการสังคม">กองสวัสดิการสังคม</option>
+                                        <option value="หน่วยตรวจสอบภายใน">หน่วยตรวจสอบภายใน</option>
+                                        <option value="กองการเจ้าหน้าที่">กองการเจ้าหน้าที่</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 lg:px-5 pt-7 lg:pt-8 text-slate-400">
+                                        <i class="fa-solid fa-chevron-down text-sm"></i>
+                                    </div>
+                                </div>
+
+                                <div class="relative">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">ฝ่าย</label>
+                                    <select id="subdivision" name="subdivision" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required disabled>
+                                        <option value="">กรุณาเลือกกองก่อน</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 lg:px-5 pt-7 lg:pt-8 text-slate-400">
+                                        <i class="fa-solid fa-chevron-down text-sm"></i>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">จัดซื้อมาจาก</label>
+                                    <input type="text" id="supplier" placeholder="กรอกที่อยู่จัดซื้อ" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 lg:mb-3">วันที่จัดซื้อ <span class="text-xs text-gray-400 font-normal ml-1">(ดด/วว/ปปปป)</span></label>
+                                    <input type="date" id="purchase_date" class="w-full border border-gray-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                                </div>
+                                <div class="relative">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">ประเภทอุปกรณ์</label>
+                                    <select id="device_type" name="device_type" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required onchange="handleDeviceChange()">
+                                        <option value="" disabled selected>เลือกประเภทอุปกรณ์</option>
+                                        <option value="คอมพิวเตอร์">คอมพิวเตอร์ (PC)</option>
+                                        <option value="Notebook">Notebook</option>
+                                        <option value="Printer">Printer</option>
+                                        <option value="โปรแกรม">โปรแกรม</option>
+                                        <option value="เครื่องแสกน">เครื่องแสกน</option>
+                                        <option value="เครื่องปริ้น">เครื่องปริ้น</option>
+                                        <option value="เครื่องฉายโปรเจกเตอร์">เครื่องฉายโปรเจกเตอร์</option>
+                                        <option value="อื่นๆ">อื่นๆ</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 lg:px-5 pt-7 lg:pt-8 text-slate-400">
+                                        <i class="fa-solid fa-chevron-down text-sm"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">เลขครุภัณฑ์</label>
+                                    <input type="text" id="serial_number" name="serial_number" placeholder="กรอกเลขครุภัณฑ์" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 lg:mb-3">วันที่แจ้งซ่อม </label>
+                                    <input type="date" id="repair_date" name="repair_date" class="w-full border border-gray-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 lg:mb-3">ระยะเวลารับประกันถึง <span class="text-xs text-gray-400 font-normal ml-1">(ดด/วว/ปปปป)</span></label>
+                                    <input type="date" id="warranty_date" class="w-full border border-gray-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10">
+                            <div class="lg:col-span-2">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">รายละเอียดปัญหา <span class="text-red-500">*</span></label>
+                                <textarea id="problem_desc" name="problem_desc" rows="5" placeholder="ระบุอาการเสียเบื้องต้น..." class="w-full border border-slate-200 rounded-2xl px-4 lg:px-5 py-4 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required></textarea>
+                            </div>
+                            <div class="flex flex-col justify-end gap-4 mt-2 lg:mt-0">
+                                <div class="p-4 lg:p-5 bg-blue-50 rounded-2xl border border-blue-100">
+                                    <h4 class="font-bold text-blue-900 mb-1">ตำแหน่งโต๊ะ</h4>
+                                    <p class="text-sm text-blue-600 mb-4" id="selectedDeskText">ยังไม่ได้ระบุตำแหน่ง</p>
+                                    <input type="hidden" name="desk_number" id="deskIdInput" required>
+                                    <button type="button" id="selectDeskBtn" onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm lg:text-base font-medium py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2">
+                                        <i class="fa-solid fa-desktop"></i>
+                                        เลือกผังโต๊ะคอม
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-5 pt-8 lg:pt-10 border-t border-slate-50">
+                            <button type="reset" class="w-full sm:w-auto bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-sm lg:text-base font-semibold py-3.5 px-10 rounded-xl transition-all">
+                                ล้างข้อมูล
+                            </button>
+                            <button type="submit" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm lg:text-base font-semibold py-3.5 px-10 rounded-xl transition-all shadow-xl shadow-blue-600/20 active:scale-95">
+                                ส่งคำร้อง
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="floorPlanModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
+        <div class="flex min-h-full items-center justify-center p-4 sm:p-6">
+            <div class="relative transform overflow-hidden rounded-3xl bg-white p-6 sm:p-10 text-left shadow-2xl transition-all w-full max-w-2xl">
+                <div class="flex items-center justify-between mb-6 sm:mb-8">
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-800">เลือกตำแหน่งที่ตั้งโต๊ะ</h3>
+                    <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
+                        <i class="fa-solid fa-circle-xmark text-2xl"></i>
+                    </button>
+                </div>
+                <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl p-4 sm:p-10">
+                    <div id="deskContainer" class="grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-4"></div>
+                </div>
+                <div class="mt-6 sm:mt-8 flex justify-end">
+                    <button onclick="confirmSelection()" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/20">
+                        ยืนยันตำแหน่ง
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="successModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
+            <div class="relative transform overflow-hidden rounded-3xl bg-white p-8 text-center shadow-2xl transition-all w-full max-w-sm">
+                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 mb-6">
+                    <i class="fa-solid fa-check text-3xl text-green-600"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-2">แจ้งซ่อมสำเร็จ!</h3>
+                <p class="text-sm text-slate-500 mb-8">ระบบได้บันทึกข้อมูลการแจ้งซ่อมของคุณเรียบร้อยแล้ว</p>
+                <button onclick="goToHistory()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-blue-600/20 active:scale-95">
+                    ไปที่หน้าประวัติการแจ้งซ่อม
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ฟังก์ชันจัดการ Sidebar บนมือถือ
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            const isClosed = sidebar.classList.contains('-translate-x-full');
+            if (isClosed) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.remove('hidden');
+                setTimeout(() => sidebarOverlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('opacity-0');
+                setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
+            }
+        }
+
+        const modal = document.getElementById('floorPlanModal');
+        const deskContainer = document.getElementById('deskContainer');
+        const selectedText = document.getElementById('selectedDeskText');
+        const deskIdInput = document.getElementById('deskIdInput');
+        const selectDeskBtn = document.getElementById('selectDeskBtn');
+        const successModal = document.getElementById('successModal');
+        
+        const subData = {
+            "สำนักปลัด": ["ฝ่ายอำนวยการ", "ฝ่ายนิติการ", "ฝ่ายส่งเสริมการท่องเที่ยว", "ฝ่ายประสานงานองค์กรปกครองส่วนท้องถิ่น", "ฝ่ายป้องกันและบรรเทาสาธารณภัย", "งานหน้าห้องปลัดองค์การบริหารส่วนจังหวัด"],
+            "สำนักงานเลขานุการฯ": ["ฝ่ายกิจการสภา", "ฝ่ายการประชุม", "ฝ่ายส่งเสริมการมีส่วนร่วมของประชาชน"],
+            "สำนักคลัง": ["ฝ่ายบริหารงานทั่วไป", "ฝ่ายการเงิน", "ฝ่ายบัญชี", "ฝ่ายพัฒนารายได้", "ฝ่ายบำเหน็จบำนาญ", "ฝ่ายจัดหาพัสดุ", "ฝ่ายทะเบียนทรัพย์สิน", "ฝ่ายบริหารสัญญา"],
+            "สำนักช่าง": ["ฝ่ายบริหารงานทั่วไป สำนักช่าง", "ฝ่ายสำรวจ", "ฝ่ายออกแบบ", "ฝ่ายวิศวกรรมโยธา", "ฝ่ายก่อสร้างและซ่อมบำรุง", "ฝ่ายควบคุมการก่อสร้าง", "กลุ่มงานกำจัดมูลฝอยเเละสิ่งปฏิกูล", "ฝ่ายจัดการคุณภาพน้ำ", "ฝ่ายสาธารณูปโภค", "ฝ่ายเครื่องจักรกล"],
+            "กองสาธารณสุข": ["ฝ่ายบริหารงานทั่วไป กองสาธารณสุข", "ฝ่ายบริหารงานสาธารณสุข", "ฝ่ายบริการสาธารณสุข", "ฝ่ายส่งเสริมสาธารณสุข", "ฝ่ายป้องกันและควบคุมโรค", "กลุ่มโรงพยาบาลและหน่วยบริการสาธารณสุข"],
+            "กองยุทธศาสตร์และงบประมาณ": ["ฝ่ายวิเคราะห์นโยบายและแผน", "ฝ่ายงบประมาณ", "ฝ่ายตรวจติดตามและประเมินผล", "ฝ่ายสถิติข้อมูลและสารสนเทศ", "ฝ่ายประชาสัมพันธ์"],
+            "สำนักการศึกษา ศาสนาและวัฒนธรรม": ["ฝ่ายบริหารงานทั่วไป", "ฝ่ายส่งเสริมคุณภาพการศึกษา", "ฝ่ายวิชาการ", "ฝ่ายการศึกษาในระบบ", "ฝ่ายการศึกษานอกระบบและตามอัธยาศัย", "ฝ่ายส่งเสริมศาสนา", "ฝ่ายส่งเสริมกีฬาและนันทนาการ", "ฝ่ายแผนงานและโครงการ", "หน่วยงานศึกษานิเทศก์"],
+            "กองสวัสดิการสังคม": ["ฝ่ายสังคมสงเคราะห์", "ฝ่ายส่งเสริมสวัสดิการสังคม", "ฝ่ายบริหารงานทั่วไป", "ฝ่ายส่งเสริมและพัฒนาอาชีพ", "ฝ่ายสถานสงเคราะห์"],
+            "หน่วยตรวจสอบภายใน": ["งานมาตรฐานการควบคุมภายใน", "งานตรวจสอบการดำเนินงาน", "งานบริหารและติดตามการดำเนินงาน"],
+            "กองการเจ้าหน้าที่": ["ฝ่ายสรรหาและบรรจุแต่งตั้ง", "ฝ่ายวินัยและส่งเสริมคุณธรรม", "ฝ่ายบุคลากรทางการศึกษา", "ฝ่ายสรรหาและเลือกสรร", "ฝ่ายบริหารงานทั่วไป กองการเจ้าหน้าที่"],
+        };
+
+        function handleDivisionChange() {
+            const division = document.getElementById('division').value;
+            const subdivision = document.getElementById('subdivision');
+            
+            subdivision.innerHTML = '<option value="">เลือกฝ่าย</option>';
+            subdivision.disabled = false;
+
+            if (subData[division]) {
+                subData[division].forEach(item => {
+                    let opt = document.createElement('option');
+                    opt.value = item;
+                    opt.innerHTML = item;
+                    subdivision.appendChild(opt);
+                });
+            } else {
+                let opt = document.createElement('option');
+                opt.value = "ฝ่ายทั่วไป";
+                opt.innerHTML = "ฝ่ายทั่วไป";
+                subdivision.appendChild(opt);
+            }
+        }
+
+        let tempSelected = null;
+
+        function initDesks() {
+            for (let i = 1; i <= 12; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'desk-btn aspect-square bg-white border-2 border-slate-200 rounded-xl flex flex-col items-center justify-center hover:border-blue-400 hover:bg-blue-50 transition-all group p-2 shadow-sm';
+                btn.innerHTML = `
+                    <i class="fa-solid fa-computer text-slate-300 group-hover:text-blue-500 text-xl sm:text-2xl mb-1"></i>
+                    <span class="text-[10px] sm:text-xs font-bold text-slate-400 group-hover:text-blue-600">โต๊ะ ${i}</span>
+                `;
+                btn.onclick = () => {
+                    document.querySelectorAll('.desk-btn').forEach(b => b.classList.remove('desk-selected'));
+                    btn.classList.add('desk-selected');
+                    tempSelected = i;
+                };
+                deskContainer.appendChild(btn);
+            }
+        }
+
+        function openModal() { modal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+        function closeModal() { modal.classList.add('hidden'); document.body.style.overflow = 'auto'; }
+
+        function confirmSelection() {
+            if (tempSelected) {
+                selectedText.innerText = `โต๊ะหมายเลข ${tempSelected}`;
+                selectedText.classList.add('font-bold', 'text-blue-800');
+                deskIdInput.value = tempSelected;
+                closeModal();
+            } else { alert('กรุณาเลือกโต๊ะก่อนกดยืนยัน'); }
+        }
+
+        // --- ระบบการกด Submit และบันทึกลง LocalStorage ---
+        document.getElementById('repairForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // ป้องกันการรีเฟรชหน้าเว็บ
+
+            if(!deskIdInput.value) {
+                alert('กรุณาเลือกตำแหน่งโต๊ะคอมพิวเตอร์ก่อนส่งคำร้อง');
+                openModal();
+                return;
+            }
+
+            // 1. ดึงข้อมูลที่กรอกทั้งหมด
+            const newRepair = {
+                id: 'REP' + Date.now().toString().slice(-5), // สร้างรหัสอ้างอิงจำลอง
+                division: document.getElementById('division').value,
+                subdivision: document.getElementById('subdivision').value,
+                supplier: document.getElementById('supplier').value,
+                purchase_date: document.getElementById('purchase_date').value,
+                device_type: document.getElementById('device_type').value,
+                serial_number: document.getElementById('serial_number').value,
+                repair_date: document.getElementById('repair_date').value,
+                warranty_date: document.getElementById('warranty_date').value,
+                problem_desc: document.getElementById('problem_desc').value,
+                desk_number: deskIdInput.value,
+                status: 'รอดำเนินการ', // สถานะเริ่มต้น
+                created_at: new Date().toLocaleString('th-TH') // วันที่แจ้ง
+            };
+
+            // 2. ดึงข้อมูลประวัติเก่าจาก localStorage (ถ้ามี)
+            let repairHistory = JSON.parse(localStorage.getItem('repairHistory')) || [];
+            
+            // 3. เอาข้อมูลใหม่ใส่เข้าไป
+            repairHistory.push(newRepair);
+            
+            // 4. บันทึกกลับลง localStorage
+            localStorage.setItem('repairHistory', JSON.stringify(repairHistory));
+
+            // 5. แสดงหน้าต่าง Popup สำเร็จ
+            successModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        // ฟังก์ชันไปหน้าประวัติเมื่อกดปุ่มใน Popup
+        function goToHistory() {
+            window.location.href = 'ประวัติการแจ้ง.html';
+        }
+
+        // ปิด modal เมื่อคลิกพื้นที่ด้านนอก
+        window.addEventListener('click', function(event) { 
+            if (event.target === modal.querySelector('.fixed.inset-0.bg-slate-900\\/60')) {
+                closeModal();
+            }
+        });
+        
+        initDesks();
+
+        // -------------------------------------------------------------
+        // ระบบดึงข้อมูลจาก URL (QR Code) มากรอกลงฟอร์มอัตโนมัติ
+        // -------------------------------------------------------------
+        window.onload = function() {
+            const todayInput = document.getElementById('repair_date');
+            if(todayInput) {
+                const now = new Date();
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const year = now.getFullYear() + 543;
+
+                todayInput.type = 'text'; 
+                todayInput.value = `${day}/${month}/${year}`; 
+                todayInput.readOnly = true;
+                todayInput.classList.add('locked-field');
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if(urlParams.has('serial_number')) {
+                
+                const deviceType = document.getElementById('device_type');
+                if(deviceType) {
+                    deviceType.value = urlParams.get('device_type');
+                    deviceType.classList.add('locked-field');
+                }
+
+                const serialNumber = document.getElementById('serial_number');
+                if(serialNumber) {
+                    serialNumber.value = urlParams.get('serial_number');
+                    serialNumber.readOnly = true;
+                    serialNumber.classList.add('locked-field');
+                }
+
+                const division = document.getElementById('division');
+                const subdivision = document.getElementById('subdivision');
+                if(division) {
+                    division.value = urlParams.get('division');
+                    division.classList.add('locked-field');
+                    
+                    handleDivisionChange(); 
+                    
+                    if(subdivision) {
+                        subdivision.value = urlParams.get('subdivision');
+                        subdivision.classList.add('locked-field');
+                    }
+                }
+
+                const supplier = document.getElementById('supplier');
+                if(supplier && urlParams.has('supplier')) {
+                    supplier.value = urlParams.get('supplier');
+                    supplier.readOnly = true;
+                    supplier.classList.add('locked-field');
+                }
+
+                const purchaseDate = document.getElementById('purchase_date');
+                if(purchaseDate && urlParams.has('purchase_date') && urlParams.get('purchase_date') !== '') {
+                    const pDateValue = urlParams.get('purchase_date');
+                    purchaseDate.type = 'text'; 
+                    const pDateObj = new Date(pDateValue);
+                    if (!isNaN(pDateObj)) {
+                        const pDay = String(pDateObj.getDate()).padStart(2, '0');
+                        const pMonth = String(pDateObj.getMonth() + 1).padStart(2, '0');
+                        const pYear = pDateObj.getFullYear() + 543;
+                        purchaseDate.value = `${pDay}/${pMonth}/${pYear}`;
+                    } else {
+                        purchaseDate.value = pDateValue;
+                    }
+                    purchaseDate.readOnly = true;
+                    purchaseDate.classList.add('locked-field');
+                }
+
+                const warrantyDate = document.getElementById('warranty_date');
+                if(warrantyDate && urlParams.has('warranty_date') && urlParams.get('warranty_date') !== '') {
+                    const wDateValue = urlParams.get('warranty_date');
+                    warrantyDate.type = 'text';
+                    const wDateObj = new Date(wDateValue);
+                    if (!isNaN(wDateObj)) {
+                        const wDay = String(wDateObj.getDate()).padStart(2, '0');
+                        const wMonth = String(wDateObj.getMonth() + 1).padStart(2, '0');
+                        const wYear = wDateObj.getFullYear() + 543;
+                        warrantyDate.value = `${wDay}/${wMonth}/${wYear}`;
+                    } else {
+                        warrantyDate.value = wDateValue;
+                    }
+                    warrantyDate.readOnly = true;
+                    warrantyDate.classList.add('locked-field');
+                }
+
+                const deskId = urlParams.get('desk_id');
+                if(deskId) {
+                    deskIdInput.value = deskId;
+                    selectedText.innerText = `โต๊ะหมายเลข ${deskId}`;
+                    selectedText.classList.add('font-bold', 'text-blue-800');
+                    if(selectDeskBtn) {
+                        selectDeskBtn.style.display = 'none';
+                    }
+                }
+
+                const problemDesc = document.getElementById('problem_desc');
+                if(problemDesc) {
+                    problemDesc.focus();
+                }
+            }
+        };
+    </script>
+</body>
+</html>
