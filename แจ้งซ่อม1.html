@@ -225,6 +225,22 @@
         </div>
     </div>
 
+    <div id="successModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
+            <div class="relative transform overflow-hidden rounded-3xl bg-white p-8 text-center shadow-2xl transition-all w-full max-w-sm">
+                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 mb-6">
+                    <i class="fa-solid fa-check text-3xl text-green-600"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-2">แจ้งซ่อมสำเร็จ!</h3>
+                <p class="text-sm text-slate-500 mb-8">ระบบได้บันทึกข้อมูลการแจ้งซ่อมของคุณเรียบร้อยแล้ว</p>
+                <button onclick="goToHistory()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-blue-600/20 active:scale-95">
+                    ไปที่หน้าประวัติการแจ้งซ่อม
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ฟังก์ชันจัดการ Sidebar บนมือถือ
         const sidebar = document.getElementById('sidebar');
@@ -248,6 +264,7 @@
         const selectedText = document.getElementById('selectedDeskText');
         const deskIdInput = document.getElementById('deskIdInput');
         const selectDeskBtn = document.getElementById('selectDeskBtn');
+        const successModal = document.getElementById('successModal');
         
         const subData = {
             "สำนักปลัด": ["ฝ่ายอำนวยการ", "ฝ่ายนิติการ", "ฝ่ายส่งเสริมการท่องเที่ยว", "ฝ่ายประสานงานองค์กรปกครองส่วนท้องถิ่น", "ฝ่ายป้องกันและบรรเทาสาธารณภัย", "งานหน้าห้องปลัดองค์การบริหารส่วนจังหวัด"],
@@ -262,7 +279,6 @@
             "กองการเจ้าหน้าที่": ["ฝ่ายสรรหาและบรรจุแต่งตั้ง", "ฝ่ายวินัยและส่งเสริมคุณธรรม", "ฝ่ายบุคลากรทางการศึกษา", "ฝ่ายสรรหาและเลือกสรร", "ฝ่ายบริหารงานทั่วไป กองการเจ้าหน้าที่"],
         };
 
-        // ฟังก์ชันเมื่อเปลี่ยน กอง
         function handleDivisionChange() {
             const division = document.getElementById('division').value;
             const subdivision = document.getElementById('subdivision');
@@ -283,11 +299,6 @@
                 opt.innerHTML = "ฝ่ายทั่วไป";
                 subdivision.appendChild(opt);
             }
-        }
-
-        // ฟังก์ชันเมื่อเปลี่ยน ประเภทอุปกรณ์
-        function handleDeviceChange() {
-            // ไม่ได้ใช้การซ่อน field ในหน้านี้ แต่คงไว้ตามโครงสร้างเดิม
         }
 
         let tempSelected = null;
@@ -322,15 +333,53 @@
             } else { alert('กรุณาเลือกโต๊ะก่อนกดยืนยัน'); }
         }
 
+        // --- ระบบการกด Submit และบันทึกลง LocalStorage ---
         document.getElementById('repairForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // ป้องกันการรีเฟรชหน้าเว็บ
+
             if(!deskIdInput.value) {
-                e.preventDefault();
                 alert('กรุณาเลือกตำแหน่งโต๊ะคอมพิวเตอร์ก่อนส่งคำร้อง');
                 openModal();
+                return;
             }
+
+            // 1. ดึงข้อมูลที่กรอกทั้งหมด
+            const newRepair = {
+                id: 'REP' + Date.now().toString().slice(-5), // สร้างรหัสอ้างอิงจำลอง
+                division: document.getElementById('division').value,
+                subdivision: document.getElementById('subdivision').value,
+                supplier: document.getElementById('supplier').value,
+                purchase_date: document.getElementById('purchase_date').value,
+                device_type: document.getElementById('device_type').value,
+                serial_number: document.getElementById('serial_number').value,
+                repair_date: document.getElementById('repair_date').value,
+                warranty_date: document.getElementById('warranty_date').value,
+                problem_desc: document.getElementById('problem_desc').value,
+                desk_number: deskIdInput.value,
+                status: 'รอดำเนินการ', // สถานะเริ่มต้น
+                created_at: new Date().toLocaleString('th-TH') // วันที่แจ้ง
+            };
+
+            // 2. ดึงข้อมูลประวัติเก่าจาก localStorage (ถ้ามี)
+            let repairHistory = JSON.parse(localStorage.getItem('repairHistory')) || [];
+            
+            // 3. เอาข้อมูลใหม่ใส่เข้าไป
+            repairHistory.push(newRepair);
+            
+            // 4. บันทึกกลับลง localStorage
+            localStorage.setItem('repairHistory', JSON.stringify(repairHistory));
+
+            // 5. แสดงหน้าต่าง Popup สำเร็จ
+            successModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
         });
 
-        // ทำให้ปุ่มกดยกเลิกทำงานปิด modal ถูกต้องเมื่อคลิกพื้นที่ด้านนอก
+        // ฟังก์ชันไปหน้าประวัติเมื่อกดปุ่มใน Popup
+        function goToHistory() {
+            window.location.href = 'ประวัติการแจ้ง.html';
+        }
+
+        // ปิด modal เมื่อคลิกพื้นที่ด้านนอก
         window.addEventListener('click', function(event) { 
             if (event.target === modal.querySelector('.fixed.inset-0.bg-slate-900\\/60')) {
                 closeModal();
@@ -343,40 +392,29 @@
         // ระบบดึงข้อมูลจาก URL (QR Code) มากรอกลงฟอร์มอัตโนมัติ
         // -------------------------------------------------------------
         window.onload = function() {
-            // 1. ตั้งค่า "วันที่แจ้งซ่อม" ให้เป็นวันที่ปัจจุบันอัตโนมัติ (แบบ วัน/เดือน/ปี)
             const todayInput = document.getElementById('repair_date');
             if(todayInput) {
                 const now = new Date();
-                
-                // ดึง วัน เดือน ปี ออกมา และเติมเลข 0 ข้างหน้าถ้าเป็นเลขตัวเดียว
                 const day = String(now.getDate()).padStart(2, '0');
-                const month = String(now.getMonth() + 1).padStart(2, '0'); // เดือนใน JS เริ่มจาก 0 เลยต้อง +1
-                const year = now.getFullYear() + 543; // แปลงเป็น พ.ศ.
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const year = now.getFullYear() + 543;
 
-                // เปลี่ยน type เป็น text เพื่อให้เราจัดฟอร์แมตเองได้
                 todayInput.type = 'text'; 
-                
-                // นำมาต่อกันแบบ วัน/เดือน/ปี
                 todayInput.value = `${day}/${month}/${year}`; 
-                
                 todayInput.readOnly = true;
                 todayInput.classList.add('locked-field');
             }
 
-            // 2. ดึงค่าจาก URL
             const urlParams = new URLSearchParams(window.location.search);
             
-            // เช็คว่ามีค่าส่งมาหรือไม่ (ดูจาก serial_number)
             if(urlParams.has('serial_number')) {
                 
-                // --- ดึงค่าประเภทอุปกรณ์ ---
                 const deviceType = document.getElementById('device_type');
                 if(deviceType) {
                     deviceType.value = urlParams.get('device_type');
-                    deviceType.classList.add('locked-field'); // ล็อคไม่ให้กดเปลี่ยน
+                    deviceType.classList.add('locked-field');
                 }
 
-                // --- ดึงค่าเลขครุภัณฑ์ ---
                 const serialNumber = document.getElementById('serial_number');
                 if(serialNumber) {
                     serialNumber.value = urlParams.get('serial_number');
@@ -384,14 +422,12 @@
                     serialNumber.classList.add('locked-field');
                 }
 
-                // --- ดึงค่ากอง/สำนัก และ ฝ่าย ---
                 const division = document.getElementById('division');
                 const subdivision = document.getElementById('subdivision');
                 if(division) {
                     division.value = urlParams.get('division');
                     division.classList.add('locked-field');
                     
-                    // รันฟังก์ชันนี้เพื่อให้ช่อง "ฝ่าย" มีตัวเลือกโผล่ขึ้นมา
                     handleDivisionChange(); 
                     
                     if(subdivision) {
@@ -400,7 +436,6 @@
                     }
                 }
 
-                // --- ดึงค่าจัดซื้อมาจาก ---
                 const supplier = document.getElementById('supplier');
                 if(supplier && urlParams.has('supplier')) {
                     supplier.value = urlParams.get('supplier');
@@ -408,7 +443,6 @@
                     supplier.classList.add('locked-field');
                 }
 
-                // --- ดึงค่าวันที่จัดซื้อ ---
                 const purchaseDate = document.getElementById('purchase_date');
                 if(purchaseDate && urlParams.has('purchase_date') && urlParams.get('purchase_date') !== '') {
                     const pDateValue = urlParams.get('purchase_date');
@@ -417,7 +451,7 @@
                     if (!isNaN(pDateObj)) {
                         const pDay = String(pDateObj.getDate()).padStart(2, '0');
                         const pMonth = String(pDateObj.getMonth() + 1).padStart(2, '0');
-                        const pYear = pDateObj.getFullYear() + 543; // แปลงเป็น พ.ศ.
+                        const pYear = pDateObj.getFullYear() + 543;
                         purchaseDate.value = `${pDay}/${pMonth}/${pYear}`;
                     } else {
                         purchaseDate.value = pDateValue;
@@ -426,7 +460,6 @@
                     purchaseDate.classList.add('locked-field');
                 }
 
-                // --- ดึงค่าระยะเวลารับประกันถึง ---
                 const warrantyDate = document.getElementById('warranty_date');
                 if(warrantyDate && urlParams.has('warranty_date') && urlParams.get('warranty_date') !== '') {
                     const wDateValue = urlParams.get('warranty_date');
@@ -435,7 +468,7 @@
                     if (!isNaN(wDateObj)) {
                         const wDay = String(wDateObj.getDate()).padStart(2, '0');
                         const wMonth = String(wDateObj.getMonth() + 1).padStart(2, '0');
-                        const wYear = wDateObj.getFullYear() + 543; // แปลงเป็น พ.ศ.
+                        const wYear = wDateObj.getFullYear() + 543;
                         warrantyDate.value = `${wDay}/${wMonth}/${wYear}`;
                     } else {
                         warrantyDate.value = wDateValue;
@@ -444,19 +477,16 @@
                     warrantyDate.classList.add('locked-field');
                 }
 
-                // --- ดึงค่าตำแหน่งโต๊ะ ---
                 const deskId = urlParams.get('desk_id');
                 if(deskId) {
                     deskIdInput.value = deskId;
                     selectedText.innerText = `โต๊ะหมายเลข ${deskId}`;
                     selectedText.classList.add('font-bold', 'text-blue-800');
-                    // ซ่อนปุ่มเลือกโต๊ะไปเลย เพราะถูกล็อคตำแหน่งมาแล้ว
                     if(selectDeskBtn) {
                         selectDeskBtn.style.display = 'none';
                     }
                 }
 
-                // โฟกัสไปที่ช่องรายละเอียดปัญหาเลย เพื่อให้ผู้ใช้พร้อมพิมพ์ทันที
                 const problemDesc = document.getElementById('problem_desc');
                 if(problemDesc) {
                     problemDesc.focus();
