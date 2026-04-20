@@ -15,16 +15,29 @@
         .sidebar-bg {
             background-color: #21325b;
         }
+        /* แอนิเมชันตอนมีงานเด้งเข้ามาใหม่ */
+        @keyframes highlight-new {
+            0% { background-color: #dbeafe; }
+            100% { background-color: transparent; }
+        }
+        .new-row {
+            animation: highlight-new 3s ease-out;
+        }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden text-gray-800">
 
-    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300 z-10">
-        <div class="p-6">
+    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-900/50 z-20 hidden lg:hidden backdrop-blur-sm transition-opacity opacity-0" onclick="toggleSidebar()"></div>
+
+    <aside id="sidebar" class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-transform duration-300 fixed inset-y-0 left-0 z-30 transform -translate-x-full lg:relative lg:translate-x-0">
+        <div class="p-6 flex justify-between items-center">
             <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+            <button onclick="toggleSidebar()" class="lg:hidden text-gray-300 hover:text-white">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
         </div>
         
-        <nav class="flex-1 px-4 space-y-2 mt-4">
+        <nav class="flex-1 px-4 space-y-2 mt-4 overflow-y-auto">
             <a href="home_it.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-house w-6 text-center"></i>
                 <span class="ml-3 font-medium ">Dashboard</span>
@@ -33,11 +46,15 @@
                 <i class="fa-solid fa-gear w-6 text-center"></i>
                 <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
             </a>
+            <a href="Device registration_it.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-computer w-6 text-center"></i>
+                <span class="ml-3">ทะเบียนอุปกรณ์</span>
+            </a>
             <a href="แจ้งซ่อม_it.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-wrench w-6 text-center"></i>
                 <span class="ml-3">แจ้งซ่อม</span>
             </a>
-            <a href="#" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white">
+            <a href="#" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-clipboard-list w-6 text-center"></i>
                 <span class="ml-3">รับงาน</span>
             </a>
@@ -55,151 +72,230 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-full overflow-y-auto relative">
-        <div class="p-8 max-w-7xl mx-auto w-full">
-            
-            <div class="mb-8">
-                <h2 class="text-2xl font-bold text-[#21325b]">รับงาน</h2>
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        
+        <header class="lg:hidden bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSidebar()" class="text-slate-600 hover:text-blue-600 focus:outline-none transition-colors">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <h1 class="text-xl font-bold text-[#21325b]">Repair System</h1>
             </div>
+        </header>
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-6">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <main class="flex-1 overflow-y-auto">
+            <div class="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+                
+                <div class="mb-6 lg:mb-8 flex justify-between items-end">
                     <div>
-                        <input type="text" id="searchInput" oninput="filterTable()" placeholder="ค้นหาชื่อผู้แจ้ง / ปัญหา" class="w-full border border-gray-300 rounded-lg py-2.5 px-4 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <h2 class="text-2xl font-bold text-[#21325b]">รับงาน</h2>
+                        <p class="text-sm text-gray-500 mt-1">จัดการคำร้องแจ้งซ่อมจากผู้ใช้งาน</p>
                     </div>
-                    
-                    <div class="relative">
-                        <select id="statusInput" onchange="filterTable()" class="w-full appearance-none border border-gray-300 rounded-lg py-2.5 px-4 pr-10 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors">
-                            <option value="">ทุกสถานะ</option>
-                            <option value="รอดำเนินการ">รอดำเนินการ</option>
-                            <option value="รับงานแล้ว">รับงานแล้ว</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
-                            <i class="fa-solid fa-caret-down"></i>
+                </div>
+
+                <div id="newNotification" class="hidden mb-6 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-xl flex items-center justify-between shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-bell text-xl animate-bounce"></i>
+                        <span class="font-medium">อัปเดต: มีรายการแจ้งซ่อมใหม่หรือมีการเปลี่ยนแปลงข้อมูล!</span>
+                    </div>
+                    <button onclick="document.getElementById('newNotification').classList.add('hidden')" class="text-blue-500 hover:text-blue-700 font-bold">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <input type="text" id="searchInput" oninput="filterTable()" placeholder="ค้นหาชื่อผู้แจ้ง / ปัญหา / รหัส" class="w-full border border-gray-300 rounded-lg py-2.5 px-4 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        </div>
+                        
+                        <div class="relative">
+                            <select id="statusInput" onchange="filterTable()" class="w-full appearance-none border border-gray-300 rounded-lg py-2.5 px-4 pr-10 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors">
+                                <option value="">ทุกสถานะ</option>
+                                <option value="รอดำเนินการ">รอดำเนินการ</option>
+                                <option value="รับงานแล้ว">รับงานแล้ว</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <input type="date" id="dateInput" onchange="filterTable()" class="w-full border border-gray-300 rounded-lg py-2.5 px-4 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors" style="color-scheme: light;">
+                        </div>
+
+                        <div>
+                            <button onclick="resetFilters()" class="w-full border border-gray-300 text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-lg py-2.5 px-4 text-sm font-medium transition-colors shadow-sm">
+                                รีเซ็ตตัวกรอง
+                            </button>
                         </div>
                     </div>
+                </div>
 
-                    <div class="relative">
-                        <input type="date" id="dateInput" onchange="filterTable()" class="w-full border border-gray-300 rounded-lg py-2.5 px-4 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors" style="color-scheme: light;">
-                    </div>
-
-                    <div>
-                        <button onclick="resetFilters()" class="w-full border border-gray-300 text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-lg py-2.5 px-4 text-sm font-medium transition-colors shadow-sm">
-                            รีเซ็ตตัวกรอง
-                        </button>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+                    <div class="overflow-x-auto min-h-[300px]"> 
+                        <table class="w-full text-left text-sm whitespace-nowrap">
+                            <thead>
+                                <tr class="text-gray-800 font-bold border-b border-gray-200 bg-gray-50/50">
+                                    <th class="py-4 px-6">เลขที่</th>
+                                    <th class="py-4 px-6">ผู้แจ้ง</th>
+                                    <th class="py-4 px-6 text-center">โต๊ะ</th>
+                                    <th class="py-4 px-6 text-center">แผนก</th>
+                                    <th class="py-4 px-6 text-center">อุปกรณ์</th>
+                                    <th class="py-4 px-6 text-center">ปัญหา</th>
+                                    <th class="py-4 px-6 text-center">วันที่แจ้ง</th>
+                                    <th class="py-4 px-6 text-center w-64">การจัดการ</th> 
+                                </tr>
+                            </thead>
+                            <tbody id="jobTableBody" class="text-gray-600 divide-y divide-gray-100">
+                                </tbody>
+                        </table>
+                        
+                        <div id="noDataMessage" class="hidden flex flex-col items-center justify-center py-16 text-center">
+                            <i class="fa-solid fa-clipboard-check text-4xl text-gray-300 mb-3"></i>
+                            <p class="text-gray-500 font-medium">ยังไม่มีรายการแจ้งซ่อมในระบบ</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-                <div class="overflow-x-auto min-h-[400px]"> 
-                    <table class="w-full text-left text-sm whitespace-nowrap">
-                        <thead>
-                            <tr class="text-gray-800 font-bold border-b border-gray-200 bg-white">
-                                <th class="py-4 px-6">เลขที่</th>
-                                <th class="py-4 px-6">ผู้แจ้ง</th>
-                                <th class="py-4 px-6 text-center">โต๊ะ</th>
-                                <th class="py-4 px-6 text-center">แผนก</th>
-                                <th class="py-4 px-6 text-center">อุปกรณ์</th>
-                                <th class="py-4 px-6 text-center">ปัญหา</th>
-                                <th class="py-4 px-6 text-center">วันที่แจ้ง</th>
-                                <th class="py-4 px-6 text-center w-64">การจัดการ</th> 
-                            </tr>
-                        </thead>
-                        <tbody id="jobTableBody" class="text-gray-600 divide-y divide-gray-100">
-                            
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="py-4 px-6">#001</td>
-                                <td class="py-4 px-6">สมชาย</td>
-                                <td class="py-4 px-6 text-center">A1</td>
-                                <td class="py-4 px-6 text-center">กองสวัสดิการ</td>
-                                <td class="py-4 px-6 text-center">PC</td>
-                                <td class="py-4 px-6 text-center">เปิดไม่ติด</td>
-                                <td class="py-4 px-6 text-center">19/02/2026</td>
-                                <td class="py-4 px-6 text-center action-container" id="action-btn-1">
-                                    <button onclick="acceptJob('action-btn-1')" class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-5 py-1.5 rounded-md text-sm font-medium transition-colors shadow-sm w-28">
-                                        รับงาน
-                                    </button>
-                                </td>
-                            </tr>
-                            
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="py-4 px-6">#002</td>
-                                <td class="py-4 px-6">ชายน้อย</td>
-                                <td class="py-4 px-6 text-center">B1</td>
-                                <td class="py-4 px-6 text-center">กองสาธารณสุข</td>
-                                <td class="py-4 px-6 text-center">Notebook</td>
-                                <td class="py-4 px-6 text-center">หน้าจอกระพริบ</td>
-                                <td class="py-4 px-6 text-center">19/02/2026</td>
-                                <td class="py-4 px-6 text-center action-container" id="action-btn-2">
-                                    <button onclick="acceptJob('action-btn-2')" class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-5 py-1.5 rounded-md text-sm font-medium transition-colors shadow-sm w-28">
-                                        รับงาน
-                                    </button>
-                                </td>
-                            </tr>
-                            
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="py-4 px-6">#003</td>
-                                <td class="py-4 px-6">ชายใหญ่</td>
-                                <td class="py-4 px-6 text-center">C1</td>
-                                <td class="py-4 px-6 text-center">สำนักคลัง</td>
-                                <td class="py-4 px-6 text-center">Printer</td>
-                                <td class="py-4 px-6 text-center">พิมพ์ไม่ออก</td>
-                                <td class="py-4 px-6 text-center">20/02/2026</td>
-                                <td class="py-4 px-6 text-center action-container" id="action-btn-3">
-                                    <button onclick="acceptJob('action-btn-3')" class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-5 py-1.5 rounded-md text-sm font-medium transition-colors shadow-sm w-28">
-                                        รับงาน
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="py-4 px-6">#004</td>
-                                <td class="py-4 px-6">หญิงเล็ก</td>
-                                <td class="py-4 px-6 text-center">D1</td>
-                                <td class="py-4 px-6 text-center">กองการศึกษา</td>
-                                <td class="py-4 px-6 text-center">Monitor</td>
-                                <td class="py-4 px-6 text-center">จอดับ</td>
-                                <td class="py-4 px-6 text-center">20/02/2026</td>
-                                <td class="py-4 px-6 text-center action-container" id="action-btn-4">
-                                    <button onclick="acceptJob('action-btn-4')" class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-5 py-1.5 rounded-md text-sm font-medium transition-colors shadow-sm w-28">
-                                        รับงาน
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="flex justify-center items-center gap-2 pb-8">
+                    <button class="px-4 py-2 rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium text-sm transition-colors border border-transparent hover:border-gray-200">
+                        ก่อนหน้า
+                    </button>
+                    <button class="w-10 h-10 flex justify-center items-center rounded-md bg-[#2563eb] text-white font-medium shadow-sm transition-colors">
+                        1
+                    </button>
+                    <button class="px-4 py-2 rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium text-sm transition-colors border border-transparent hover:border-gray-200">
+                        ถัดไป
+                    </button>
                 </div>
-            </div>
 
-            <div class="flex justify-center items-center gap-2 pb-8">
-                <button class="px-4 py-2 rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium text-sm transition-colors border border-transparent hover:border-gray-200">
-                    ก่อนหน้า
-                </button>
-                <button class="w-10 h-10 flex justify-center items-center rounded-md bg-[#2563eb] text-white font-medium shadow-sm transition-colors">
-                    1
-                </button>
-                <button class="w-10 h-10 flex justify-center items-center rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium transition-colors border border-transparent hover:border-gray-200">
-                    2
-                </button>
-                <button class="w-10 h-10 flex justify-center items-center rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium transition-colors border border-transparent hover:border-gray-200">
-                    3
-                </button>
-                <button class="px-4 py-2 rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium text-sm transition-colors border border-transparent hover:border-gray-200">
-                    ถัดไป
-                </button>
             </div>
-
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script>
+        // ฟังก์ชันจัดการ Sidebar Mobile
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.remove('hidden');
+                setTimeout(() => sidebarOverlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('opacity-0');
+                setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
+            }
+        }
+
+        // ตัวแปรเก็บจำนวนข้อมูลล่าสุด เพื่อเช็คการแจ้งเตือน Real-time
+        let previousJobCount = 0;
+
+        // ฟังก์ชันโหลดข้อมูลจาก LocalStorage
+        function loadJobs(isNewData = false) {
+            let repairHistory = JSON.parse(localStorage.getItem('repairHistory')) || [];
+            const tbody = document.getElementById('jobTableBody');
+            const noDataMessage = document.getElementById('noDataMessage');
+
+            tbody.innerHTML = '';
+
+            if (repairHistory.length === 0) {
+                noDataMessage.classList.remove('hidden');
+            } else {
+                noDataMessage.classList.add('hidden');
+                
+                // เอาข้อมูลล่าสุดขึ้นก่อน (reverse)
+                repairHistory.slice().reverse().forEach((job, index) => {
+                    // หากยังไม่มีชื่อผู้แจ้งในระบบ ให้ใช้ แผนก หรือคำว่า 'เจ้าหน้าที่' ไปก่อน
+                    const reporterName = job.reporter_name ? job.reporter_name : `จนท.${job.division || 'ทั่วไป'}`;
+                    
+                    // จัดการรูปแบบวันที่
+                    let displayDate = job.repair_date || job.created_at || '-';
+                    if(displayDate.includes('-')) {
+                        const parts = displayDate.split('-');
+                        if(parts.length === 3) displayDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                    }
+
+                    // จัดการปุ่ม / สถานะ
+                    let actionHtml = '';
+                    if (job.status === 'รอดำเนินการ') {
+                        actionHtml = `
+                            <button onclick="acceptJob('${job.id}')" class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-5 py-1.5 rounded-md text-sm font-medium transition-colors shadow-sm w-28 active:scale-95">
+                                รับงาน
+                            </button>
+                        `;
+                    } else { // หากสถานะถูกรับงานไปแล้ว (กำลังซ่อม, เสร็จแล้ว)
+                        let acceptedTime = job.accepted_at || '';
+                        actionHtml = `
+                            <div class="flex flex-col items-center justify-center gap-1">
+                                <span class="bg-[#dcfce7] text-[#16a34a] border border-[#bbf7d0] px-4 py-1.5 rounded-md text-sm font-medium whitespace-nowrap flex items-center gap-2">
+                                    <i class="fa-solid fa-check"></i> รับงานแล้ว
+                                </span>
+                                ${acceptedTime ? `<span class="text-xs text-gray-500 font-medium">${acceptedTime}</span>` : ''}
+                            </div>
+                        `;
+                    }
+
+                    // ใส่เอฟเฟกต์สีฟ้าถ้าเป็นงานที่เพิ่งเข้ามาใหม่
+                    const highlightClass = (isNewData && index === 0) ? 'new-row' : '';
+
+                    const tr = document.createElement('tr');
+                    tr.className = `transition-colors border-b border-gray-50 ${highlightClass} ${job.status === 'รอดำเนินการ' ? 'hover:bg-gray-50' : 'bg-gray-50/30'}`;
+                    
+                    tr.innerHTML = `
+                        <td class="py-4 px-6 font-medium text-slate-700">${job.id || '-'}</td>
+                        <td class="py-4 px-6">${reporterName}</td>
+                        <td class="py-4 px-6 text-center">${job.desk_number || '-'}</td>
+                        <td class="py-4 px-6 text-center">${job.division || '-'}</td>
+                        <td class="py-4 px-6 text-center">${job.device_type || '-'}</td>
+                        <td class="py-4 px-6 text-center text-red-500 truncate max-w-[150px]" title="${job.problem_desc || '-'}">${job.problem_desc || '-'}</td>
+                        <td class="py-4 px-6 text-center">${displayDate}</td>
+                        <td class="py-4 px-6 text-center action-container">
+                            ${actionHtml}
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            previousJobCount = repairHistory.length;
+            filterTable(); // สั่งให้ตัวกรองทำงานหลังจากโหลดข้อมูลเสร็จ
+        }
+
+        // ฟังก์ชันรับงาน
+        function acceptJob(jobId) {
+            if(confirm('ยืนยันการรับงานรหัส ' + jobId + ' ใช่หรือไม่?')) {
+                let repairHistory = JSON.parse(localStorage.getItem('repairHistory')) || [];
+                
+                const now = new Date();
+                const dateStr = now.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                const timeStr = now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+                const acceptedTime = `เมื่อ ${dateStr} ${timeStr} น.`;
+
+                // อัปเดตสถานะใน localStorage
+                for(let i = 0; i < repairHistory.length; i++) {
+                    if(repairHistory[i].id === jobId) {
+                        repairHistory[i].status = 'กำลังซ่อม'; // เปลี่ยนสถานะ
+                        repairHistory[i].accepted_at = acceptedTime; // เก็บเวลาที่กดรับ
+                        break;
+                    }
+                }
+                
+                localStorage.setItem('repairHistory', JSON.stringify(repairHistory));
+                loadJobs(); // โหลดตารางใหม่
+            }
+        }
+
         // ฟังก์ชันสำหรับกรองข้อมูลตาราง
         function filterTable() {
             const searchText = document.getElementById('searchInput').value.toLowerCase();
             const statusFilter = document.getElementById('statusInput').value;
             const dateValue = document.getElementById('dateInput').value;
             
-            // แปลงรูปแบบวันที่จาก YYYY-MM-DD เป็น DD/MM/YYYY
+            // แปลงรูปแบบวันที่จาก input date เป็น DD/MM/YYYY
             let filterDate = "";
             if (dateValue) {
                 const parts = dateValue.split('-');
@@ -209,21 +305,20 @@
             const rows = document.querySelectorAll('#jobTableBody tr');
 
             rows.forEach(row => {
+                const idText = row.cells[0].innerText.toLowerCase();
                 const reporter = row.cells[1].innerText.toLowerCase();
                 const problem = row.cells[5].innerText.toLowerCase();
                 const reportedDate = row.cells[6].innerText.trim();
                 const actionCell = row.cells[7].innerText;
 
-                // ตรวจสอบสถานะว่ารับงานหรือยัง
+                // ตรวจสอบสถานะ (อิงจากคำว่า 'รับงานแล้ว' ในช่องการจัดการ)
                 const isAccepted = actionCell.includes('รับงานแล้ว');
                 const rowStatus = isAccepted ? 'รับงานแล้ว' : 'รอดำเนินการ';
 
-                // เช็คเงื่อนไข
-                const matchesSearch = reporter.includes(searchText) || problem.includes(searchText);
+                const matchesSearch = idText.includes(searchText) || reporter.includes(searchText) || problem.includes(searchText);
                 const matchesDate = !filterDate || reportedDate === filterDate;
                 const matchesStatus = !statusFilter || rowStatus === statusFilter;
 
-                // แสดงหรือซ่อนแถว
                 if (matchesSearch && matchesDate && matchesStatus) {
                     row.style.display = '';
                 } else {
@@ -240,28 +335,25 @@
             filterTable();
         }
 
-        // ฟังก์ชันรับงาน (เพิ่มการประทับวันที่/เวลา)
-        function acceptJob(actionId) {
-            const container = document.getElementById(actionId);
-            
-            // สร้างวันที่และเวลาปัจจุบัน
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('th-TH', { day: '2-digit', month: '2-digit', year: 'numeric' });
-            const timeStr = now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
-            
-            // แสดงสถานะ "รับงานแล้ว" พร้อมวัน/เวลา
-            container.innerHTML = `
-                <div class="flex flex-col items-center justify-center gap-1">
-                    <span class="bg-[#dcfce7] text-[#16a34a] border border-[#bbf7d0] px-4 py-1.5 rounded-md text-sm font-medium whitespace-nowrap flex items-center gap-2">
-                        <i class="fa-solid fa-check"></i> รับงานแล้ว
-                    </span>
-                    <span class="text-xs text-gray-500 font-medium">เมื่อ ${dateStr} ${timeStr} น.</span>
-                </div>
-            `;
+        // โหลดข้อมูลครั้งแรกเมื่อเปิดหน้าเว็บ
+        loadJobs();
 
-            // รีเฟรชตัวกรอง เผื่อผู้ใช้กำลังกรองสถานะ "รอดำเนินการ" อยู่
-            filterTable();
-        }
+        // ฟังก์ชัน Real-time ดักจับเมื่อ LocalStorage เปลี่ยนแปลง (มีคนแจ้งซ่อมเข้ามาใหม่จากหน้าอื่น)
+        window.addEventListener('storage', function(e) {
+            if(e.key === 'repairHistory') {
+                let currentData = JSON.parse(localStorage.getItem('repairHistory')) || [];
+                
+                // ถ้ารายการเยอะขึ้นแปลว่ามีงานใหม่เข้ามา
+                if(currentData.length > previousJobCount) {
+                    document.getElementById('newNotification').classList.remove('hidden');
+                    loadJobs(true); // โหลดใหม่และสั่งไฮไลท์แถวบนสุด
+                } else {
+                    // แค่อัปเดตสถานะธรรมดา
+                    loadJobs();
+                }
+            }
+        });
+
     </script>
 </body>
 </html>
