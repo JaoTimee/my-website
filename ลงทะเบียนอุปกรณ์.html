@@ -54,6 +54,10 @@
                 <i class="fa-solid fa-gear w-6 text-center"></i>
                 <span class="ml-3 font-medium">ลงทะเบียนอุปกรณ์</span>
             </a>
+            <a href="Device registration.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-computer w-6 text-center"></i>
+                <span class="ml-3">ทะเบียนอุปกรณ์</span>
+            </a>
             <a href="แจ้งซ่อม1.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-wrench w-6 text-center"></i>
                 <span class="ml-3">แจ้งซ่อม</span>
@@ -336,60 +340,56 @@
             } else { alert('กรุณาเลือกโต๊ะก่อนกดยืนยัน'); }
         }
 
-        // --- ระบบ QR Code แปลงเป็น URL พารามิเตอร์ ---
-        const qrModal = document.getElementById('qrCodeModal');
-        const repairForm = document.getElementById('repairForm');
-        const qrImage = document.getElementById('qrImage');
+ // --- ส่วนจัดการฟอร์มและบันทึกข้อมูลลง LocalStorage ---
+const qrModal = document.getElementById('qrCodeModal');
+const repairForm = document.getElementById('repairForm');
+const qrImage = document.getElementById('qrImage');
 
-        repairForm.addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            if(!deskIdInput.value) {
-                alert('กรุณาเลือกตำแหน่งโต๊ะคอมพิวเตอร์');
-                openModal();
-                return;
-            }
+repairForm.addEventListener('submit', function(event) {
+    event.preventDefault(); 
+    
+    // ตรวจสอบว่าเลือกโต๊ะหรือยัง
+    if(!document.getElementById('deskIdInput').value) {
+        alert('กรุณาเลือกตำแหน่งโต๊ะคอมพิวเตอร์');
+        openModal();
+        return;
+    }
 
-            // 1. ดึงข้อมูลจากฟอร์ม (ดึงข้อมูลให้ครบทุกฟิลด์)
-            const division = document.getElementById('division').value;
-            const subdivision = document.getElementById('subdivision').value;
-            const deviceType = document.getElementById('device_type').value;
-            const serialNumber = document.getElementById('serial_number').value;
-            const deskId = deskIdInput.value;
-            
-            // ข้อมูลที่เพิ่มมาใหม่
-            const supplier = document.getElementById('supplier').value;
-            const purchaseDate = document.getElementById('purchase_date').value;
-            const warrantyDate = document.getElementById('warranty_date').value;
+    // 1. รวบรวมข้อมูลจากฟอร์มทั้งหมดเป็นก้อนเดียว (Object)
+    const newDevice = {
+        id: Date.now(), // ใช้เลขเวลาเป็น ID เพื่อไม่ให้ซ้ำกัน
+        division: document.getElementById('division').value,
+        subdivision: document.getElementById('subdivision').value,
+        supplier: document.getElementById('supplier').value,
+        purchase_date: document.getElementById('purchase_date').value,
+        device_type: document.getElementById('device_type').value,
+        serial_number: document.getElementById('serial_number').value,
+        warranty_date: document.getElementById('warranty_date').value,
+        desk_id: document.getElementById('deskIdInput').value,
+        registration_date: new Date().toLocaleDateString('th-TH')
+    };
 
-            // 2. เปลี่ยนเป็นลิงก์ GitHub Pages ของคุณ ตามด้วยชื่อไฟล์
-            const baseUrl = "https://jaotimee.github.io/my-website/แจ้งซ่อม1.html";
-            
-            // 3. นำข้อมูลมาต่อท้าย URL
-            const queryParams = new URLSearchParams({
-                device_type: deviceType,
-                serial_number: serialNumber,
-                division: division,
-                subdivision: subdivision,
-                desk_id: deskId,
-                supplier: supplier,           // ส่งค่าจัดซื้อมาจาก
-                purchase_date: purchaseDate,  // ส่งค่าวันที่จัดซื้อ
-                warranty_date: warrantyDate   // ส่งค่าระยะเวลารับประกันถึง
-            }).toString();
+    // 2. บันทึกลง localStorage
+    // ดึงข้อมูลเก่าออกมาเป็น List ก่อน (ถ้าไม่มีให้สร้าง List ว่าง [])
+    let deviceList = JSON.parse(localStorage.getItem('my_devices')) || [];
+    
+    // เพิ่มอุปกรณ์ตัวใหม่เข้าไปใน List
+    deviceList.push(newDevice);
+    
+    // เซฟ List ทั้งหมดกลับไปที่เดิม
+    localStorage.setItem('my_devices', JSON.stringify(deviceList));
 
-            const targetUrl = `${baseUrl}?${queryParams}`;
+    // 3. สร้างลิงก์สำหรับ QR Code
+    const baseUrl = "https://jaotimee.github.io/my-website/แจ้งซ่อม1.html";
+    const queryParams = new URLSearchParams(newDevice).toString();
+    const targetUrl = `${baseUrl}?${queryParams}`;
 
-            // 4. สร้าง QR Code
-            const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(targetUrl)}&charset-source=UTF-8`;
-            
-            qrImage.src = qrImageUrl;
-            qrModal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        });
-
-        function closeQrModal() {
-            qrModal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
+    // 4. แสดง QR Code
+    const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(targetUrl)}&charset-source=UTF-8`;
+    qrImage.src = qrImageUrl;
+    qrModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+});
 
         function downloadQrCode() {
             const qrImageUrl = document.getElementById('qrImage').src;
