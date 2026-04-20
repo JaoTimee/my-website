@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair System Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .sidebar-bg {
+            background-color: #21325b;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-gray-800">
+
+    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+        </div>
+        
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+            <a href="home.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-house w-6 text-center"></i>
+                <span class="ml-3 font-medium">Dashboard</span>
+            </a>
+            <a href="ลงทะเบียนอุปกรณ์.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-gear w-6 text-center"></i>
+                <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
+            </a>
+            <a href="Device registration.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white">
+                <i class="fa-solid fa-computer w-6 text-center"></i>
+                <span class="ml-3">ทะเบียนอุปกรณ์</span>
+            </a>
+            <a href="แจ้งซ่อม1.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-wrench w-6 text-center"></i>
+                <span class="ml-3">แจ้งซ่อม</span>
+            </a>
+            <a href="ประวัติการแจ้ง.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-list w-6 text-center"></i>
+                <span class="ml-3">ประวัติการแจ้ง</span>
+            </a>
+        </nav>
+        
+        <div class="p-4 mb-4">
+            <a href="index.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+                <i class="fa-solid fa-arrow-right-from-bracket w-6 text-center"></i>
+                <span class="ml-3">ออกจากระบบ</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto no-scrollbar">
+        
+        <div class="p-8 pb-2">
+            <h2 class="text-[#29354A] text-2xl font-bold mb-1">ทะเบียนอุปกรณ์</h2>
+            <p class="text-gray-500 text-sm">เลือกอุปกรณ์ที่คุณเคยลงทะเบียนไว้ในระบบเพื่อดำเนินการแจ้งปัญหา</p>
+        </div>
+
+        <div class="p-8 pt-4">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 w-full">
+                
+                <form action="#" method="POST">
+                    
+                    <div class="mb-8 p-5 bg-[#f8fafc] rounded-xl border border-gray-200">
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">* ข้อมูลอุปกรณ์ (อ้างอิงจากทะเบียน)</label>
+                        <div class="relative">
+                            <select name="equipment_id" required class="w-full border border-red-300 text-gray-700 rounded-lg p-3.5 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white cursor-pointer">
+                                <option value="" disabled selected>-- กรุณาเลือกอุปกรณ์ของท่าน --</option>
+                                <option value="1">[EQ-66-001] คอมพิวเตอร์ตั้งโต๊ะ (PC) - กองช่าง</option>
+                                <option value="2">[EQ-66-002] ปริ้นเตอร์ HP LaserJet - กองช่าง</option>
+                                <option value="3">[EQ-65-104] เครื่องปรับอากาศ 24000 BTU - สำนักปลัด</option>
+                                <option value="4">[EQ-64-022] โน้ตบุ๊ก ASUS VivoBook - กองคลัง</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2 ml-1">* รายชื่ออุปกรณ์จะแสดงเฉพาะอุปกรณ์ที่อยู่ในความรับผิดชอบของท่าน</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">อาการเสียเบื้องต้น / ปัญหาที่พบ</label>
+                            <textarea name="problem_desc" rows="4" placeholder="โปรดระบุอาการเสีย เช่น เปิดไม่ติด, หน้าจอลาย, พิมพ์ไม่ออก..." class="w-full border border-red-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">วันที่สะดวกให้เข้าตรวจสอบ</label>
+                            <div class="relative">
+                                <input type="date" name="preferred_date" class="w-full border border-red-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">เบอร์โทรศัพท์ติดต่อกลับ</label>
+                            <input type="text" name="contact_phone" placeholder="เช่น เบอร์มือถือ" class="w-full border border-red-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+
+                    <hr class="my-8 border-gray-200">
+
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" class="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium transition-colors">
+                            ยกเลิก
+                        </button>
+                        <button type="submit" class="px-6 py-2.5 rounded-lg bg-[#3366FF] hover:bg-blue-700 text-white font-medium transition-colors shadow-sm flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                            บันทึกการแจ้งซ่อม
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+    <script>
+    // 1. ฟังก์ชันสำหรับโหลดรายการอุปกรณ์จาก localStorage มาใส่ใน Select
+    function loadEquipmentToSelect() {
+        // อ้างอิงไปยัง element select
+        const selectEl = document.querySelector('select[name="equipment_id"]');
+        
+        // ดึงข้อมูลจาก localStorage (ชื่อ key ต้องตรงกับที่หน้าลงทะเบียนใช้)
+        const devices = JSON.parse(localStorage.getItem('my_devices')) || [];
+
+        // ล้างตัวเลือกเดิมออกก่อน (ยกเว้นอันแรกที่เป็น placeholder)
+        const firstOption = selectEl.options[0];
+        selectEl.innerHTML = '';
+        selectEl.appendChild(firstOption);
+
+        if (devices.length > 0) {
+            // วนลูปข้อมูลเพื่อสร้าง <option>
+            devices.forEach(device => {
+                const option = document.createElement('option');
+                option.value = device.id; // ใช้ ID ที่เรา Generate ไว้ตอนบันทึก
+                option.textContent = `[${device.serial_number}] ${device.device_type} - ${device.division}`;
+                selectEl.appendChild(option);
+            });
+        }
+    }
+
+    // 2. ฟังก์ชันจัดการเมื่อกด "บันทึกการแจ้งซ่อม"
+    const repairForm = document.querySelector('form');
+    repairForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // ป้องกันการรีโหลดหน้า
+
+        const formData = new FormData(repairForm);
+        
+        // สร้าง Object ข้อมูลการแจ้งซ่อม
+        const repairJob = {
+            id: Date.now(),
+            equipment_id: formData.get('equipment_id'),
+            problem_desc: formData.get('problem_desc'),
+            preferred_date: formData.get('preferred_date'),
+            contact_phone: formData.get('contact_phone'),
+            status: 'รอดำเนินการ',
+            timestamp: new Date().toLocaleString('th-TH')
+        };
+
+        // บันทึกลง localStorage ใน key ชื่อ 'repair_history' (สำหรับไปแสดงในหน้าประวัติการแจ้ง)
+        let repairHistory = JSON.parse(localStorage.getItem('repair_history')) || [];
+        repairHistory.push(repairJob);
+        localStorage.setItem('repair_history', JSON.stringify(repairHistory));
+
+        alert('บันทึกการแจ้งซ่อมสำเร็จ! คุณสามารถตรวจสอบสถานะได้ที่หน้าประวัติการแจ้ง');
+        repairForm.reset(); // ล้างฟอร์ม
+    });
+
+    // เรียกใช้งานฟังก์ชันโหลดข้อมูลทันทีที่เปิดหน้า
+    document.addEventListener('DOMContentLoaded', loadEquipmentToSelect);
+</script>
+
+</body>
+</html>
