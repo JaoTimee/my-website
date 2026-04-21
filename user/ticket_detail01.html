@@ -25,13 +25,27 @@
         }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden text-gray-800">
+<body class="flex flex-col md:flex-row h-screen overflow-hidden text-gray-800 relative">
 
-    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300">
-        <div class="p-6">
-            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
-        </div>
-       <nav class="flex-1 px-4 space-y-2 mt-4 overflow-y-auto">
+    <div class="md:hidden sidebar-bg text-white p-4 flex items-center z-30 relative shadow-md shrink-0">
+        <button id="mobileMenuBtn" class="focus:outline-none hover:bg-white/10 p-2 mr-3 rounded-lg transition-colors">
+            <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+        <h1 class="text-xl font-bold tracking-wider">Repair System</h1>
+    </div>
+
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity opacity-0 duration-300 md:hidden"></div>
+
+    <aside id="sidebar" class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300 fixed md:relative z-50 h-full transform -translate-x-full md:translate-x-0">
+        
+        <div class="p-6 flex justify-between items-center">
+    <h1 class="text-xl font-bold tracking-wider whitespace-nowrap">Repair System</h1>
+    <button id="closeMenuBtn" class="text-gray-300 hover:text-white p-1 md:hidden transition-colors focus:outline-none ml-2 shrink-0">
+        <i class="fa-solid fa-xmark text-2xl"></i>
+    </button>
+</div>
+
+       <nav class="flex-1 px-4 space-y-2 md:mt-2 overflow-y-auto">
             <a href="home.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-house w-6 text-center"></i>
                 <span class="ml-3 font-medium">Dashboard</span>
@@ -62,22 +76,22 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col overflow-y-auto">
-        <div class="p-10 max-w-6xl w-full mx-auto">
+    <main class="flex-1 flex flex-col overflow-y-auto w-full">
+        <div class="p-4 sm:p-6 md:p-10 max-w-6xl w-full mx-auto">
             
-            <div class="flex justify-between items-start mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-8">
                 <div>
-                    <h2 class="text-3xl font-bold text-slate-800">Ticket #001</h2>
-                    <p class="text-slate-500 mt-1">รายละเอียดงานซ่อม</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-800">Ticket #001</h2>
+                    <p class="text-slate-500 mt-1 text-sm sm:text-base">รายละเอียดงานซ่อม</p>
                 </div>
                 <span class="px-4 py-1.5 bg-blue-100 text-blue-600 text-sm font-semibold rounded-full border border-blue-200">
                     กำลังซ่อม
                 </span>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 mb-8">
-                <h3 class="text-lg font-bold text-slate-800 mb-6">ข้อมูลผู้แจ้ง</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 sm:p-8 mb-6 md:mb-8">
+                <h3 class="text-lg font-bold text-slate-800 mb-6 border-b border-slate-50 pb-2">ข้อมูลผู้แจ้ง</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12 text-sm sm:text-base">
                     <div class="flex">
                         <span class="font-bold text-slate-700 min-w-[100px]">ชื่อ:</span>
                         <span class="text-slate-600">สมชาย</span>
@@ -96,7 +110,7 @@
                     </div>
                     <div class="flex">
                         <span class="font-bold text-slate-700 min-w-[100px]">รหัสเครื่อง:</span>
-                        <span class="text-slate-600">0444-00-8888</span>
+                        <span class="text-slate-600 break-all">0444-00-8888</span>
                     </div>
                     <div class="flex">
                         <span class="font-bold text-slate-700 min-w-[100px]">ที่อยู่:</span>
@@ -109,39 +123,39 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
-                <h3 class="text-lg font-bold text-slate-800 mb-10">สถานะการดำเนินงาน</h3>
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 sm:p-8">
+                <h3 class="text-lg font-bold text-slate-800 mb-8 sm:mb-10">สถานะการดำเนินงาน</h3>
                 
-                <div class="relative max-w-3xl mx-auto space-y-12 before:absolute before:inset-0 before:left-2.5 before:-translate-x-px before:h-full before:w-0.5 before:bg-slate-100">
+                <div class="relative max-w-3xl mx-auto space-y-10 sm:space-y-12 before:absolute before:inset-0 before:left-2.5 before:-translate-x-px before:h-full before:w-0.5 before:bg-slate-100">
                     
-                    <div class="relative flex items-center group is-complete pl-12">
+                    <div class="relative flex items-center group is-complete pl-10 sm:pl-12">
                         <div class="timeline-dot absolute left-0 flex items-center justify-center w-5 h-5 rounded-full border border-white bg-emerald-500 shadow shrink-0"></div>
                         <div>
-                            <div class="font-bold text-slate-800 timeline-text">รับแจ้งงาน</div>
+                            <div class="font-bold text-slate-800 timeline-text text-sm sm:text-base">รับแจ้งงาน</div>
                             <time class="text-xs text-slate-400">19/02/2026 09:00</time>
                         </div>
                     </div>
 
-                    <div class="relative flex items-center group is-complete pl-12">
+                    <div class="relative flex items-center group is-complete pl-10 sm:pl-12">
                         <div class="timeline-dot absolute left-0 flex items-center justify-center w-5 h-5 rounded-full border border-white bg-emerald-500 shadow shrink-0"></div>
                         <div>
-                            <div class="font-bold text-slate-800 timeline-text">รับงานโดยช่าง</div>
+                            <div class="font-bold text-slate-800 timeline-text text-sm sm:text-base">รับงานโดยช่าง</div>
                             <time class="text-xs text-slate-400">19/02/2026 09:30</time>
                         </div>
                     </div>
 
-                    <div class="relative flex items-center group is-current pl-12">
+                    <div class="relative flex items-center group is-current pl-10 sm:pl-12">
                         <div class="timeline-dot absolute left-0 flex items-center justify-center w-5 h-5 rounded-full border border-white bg-blue-500 shadow shrink-0 ring-4 ring-blue-100"></div>
                         <div>
-                            <div class="font-bold text-blue-600 timeline-text">กำลังซ่อม</div>
+                            <div class="font-bold text-blue-600 timeline-text text-sm sm:text-base">กำลังซ่อม</div>
                             <time class="text-xs text-slate-400">19/02/2026 10:15</time>
                         </div>
                     </div>
 
-                    <div class="relative flex items-center group pl-12">
+                    <div class="relative flex items-center group pl-10 sm:pl-12">
                         <div class="timeline-dot absolute left-0 flex items-center justify-center w-5 h-5 rounded-full border border-white bg-slate-300 shadow shrink-0"></div>
                         <div>
-                            <div class="font-bold text-slate-400 timeline-text hover:text-slate-800 transition-colors cursor-default">เสร็จสิ้น</div>
+                            <div class="font-bold text-slate-400 timeline-text hover:text-slate-800 transition-colors cursor-default text-sm sm:text-base">เสร็จสิ้น</div>
                             <time class="text-xs text-slate-300">--/--/---- --:--</time>
                         </div>
                     </div>
@@ -153,7 +167,26 @@
     </main>
 
     <script>
-        // ไม่มี JavaScript ในหน้านี้ แต่สามารถเพิ่มได้เพื่อจัดการสถานะอย่างไดนามิกในอนาคต
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('-translate-x-full');
+            
+            if (sidebarOverlay.classList.contains('hidden')) {
+                sidebarOverlay.classList.remove('hidden');
+                setTimeout(() => sidebarOverlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebarOverlay.classList.add('opacity-0');
+                setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        closeMenuBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
     </script>
 </body>
 </html>
