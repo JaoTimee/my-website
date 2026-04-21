@@ -57,6 +57,17 @@
             position: relative; 
         }
 
+        /* สิ่งที่เพิ่มมา: ปรับขนาดช่องปฏิทินบนหน้าจอมือถือ */
+        @media (max-width: 1023px) {
+            .calendar-grid div {
+                height: 50px;
+                font-size: 1rem;
+            }
+            .event-dot {
+                bottom: 4px;
+            }
+        }
+
         .calendar-grid div.current-month:hover {
             background-color: #f3f4f6; 
             cursor: pointer;
@@ -93,10 +104,10 @@
 </head>
 <body class="flex flex-col lg:flex-row min-h-screen">
 
-    <div class="bg-left w-full lg:w-1/2 min-h-screen relative flex items-center justify-center p-8">
+    <div class="bg-left w-full lg:w-1/2 min-h-[100svh] lg:min-h-screen relative flex items-center justify-center p-6 md:p-8">
         <div class="absolute inset-0 bg-black/40 z-0"></div> 
         
-        <div class="glass-panel w-full max-w-sm rounded-2xl p-10 text-center shadow-2xl relative z-10">
+        <div class="glass-panel w-full max-w-sm rounded-2xl p-8 md:p-10 text-center shadow-2xl relative z-10">
             <h1 class="text-3xl font-bold text-white mb-6 tracking-widest drop-shadow-md uppercase">LOG IN</h1>
             <p class="text-white/80 text-xs mb-8">กรุณาระบุ Username เพื่อแยกสิทธิ์การใช้งาน</p>
             
@@ -128,7 +139,7 @@
     </div>
 
     <div id="passwordModal" class="modal-overlay">
-        <div class="bg-white rounded-2xl w-full max-w-md p-8 shadow-2xl transform transition-all">
+        <div class="bg-white rounded-2xl w-full max-w-md mx-4 p-6 md:p-8 shadow-2xl transform transition-all">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold text-gray-800 tracking-tight">เปลี่ยนรหัสผ่าน</h3>
                 <button id="closeModal" class="text-gray-400 hover:text-gray-600 transition-colors focus:outline-none">
@@ -157,42 +168,42 @@
         </div>
     </div>
 
-    <div class="bg-right w-full lg:w-1/2 min-h-screen flex items-center justify-center p-6 md:p-10">
-        <div class="bg-white rounded-3xl shadow-xl w-full max-w-3xl p-8 md:p-10 flex flex-col h-full max-h-[90vh]">
+    <div class="bg-right w-full lg:w-1/2 min-h-screen flex items-center justify-center p-4 md:p-10">
+        <div class="bg-white rounded-3xl shadow-xl w-full max-w-3xl p-6 md:p-10 flex flex-col h-auto lg:h-full lg:max-h-[90vh]">
             
-            <div class="flex justify-between items-end mb-8">
+            <div class="flex justify-between items-end mb-6 md:mb-8">
                 <div>
-                    <h2 id="monthDisplay" class="text-3xl font-extrabold text-[#1f2937] tracking-tight">May 2026</h2>
-                    <p class="text-gray-400 mt-1 text-sm font-medium">จัดการตารางงานของคุณ</p>
+                    <h2 id="monthDisplay" class="text-2xl md:text-3xl font-extrabold text-[#1f2937] tracking-tight">May 2026</h2>
+                    <p class="text-gray-400 mt-1 text-xs md:text-sm font-medium">จัดการตารางงานของคุณ</p>
                 </div>
-                <div class="flex gap-3">
-                    <button id="prevMonth" class="w-9 h-9 rounded-full bg-gray-50 hover:bg-[#f3f4f6] text-gray-500 transition-colors flex items-center justify-center shadow-sm border border-gray-100 focus:outline-none">
+                <div class="flex gap-2 md:gap-3">
+                    <button id="prevMonth" class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gray-50 hover:bg-[#f3f4f6] text-gray-500 transition-colors flex items-center justify-center shadow-sm border border-gray-100 focus:outline-none">
                         <i class="fa-solid fa-chevron-left text-xs"></i>
                     </button>
-                    <button id="nextMonth" class="w-9 h-9 rounded-full bg-gray-50 hover:bg-[#f3f4f6] text-gray-500 transition-colors flex items-center justify-center shadow-sm border border-gray-100 focus:outline-none">
+                    <button id="nextMonth" class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gray-50 hover:bg-[#f3f4f6] text-gray-500 transition-colors flex items-center justify-center shadow-sm border border-gray-100 focus:outline-none">
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </button>
                 </div>
             </div>
 
             <div class="grid grid-cols-7 text-center mb-2 pb-2">
-                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Mon</div>
-                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Tue</div>
-                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Wed</div>
-                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Thu</div>
-                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Fri</div>
-                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Sat</div>
-                <div class="text-[11px] font-bold text-red-400 uppercase tracking-widest">Sun</div>
+                <div class="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest">Mon</div>
+                <div class="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest">Tue</div>
+                <div class="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest">Wed</div>
+                <div class="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest">Thu</div>
+                <div class="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest">Fri</div>
+                <div class="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest">Sat</div>
+                <div class="text-[10px] md:text-[11px] font-bold text-red-400 uppercase tracking-widest">Sun</div>
             </div>
 
-            <div id="calendarGrid" class="grid grid-cols-7 calendar-grid mb-8 flex-grow border-t border-l border-gray-50"></div>
+            <div id="calendarGrid" class="grid grid-cols-7 calendar-grid mb-6 md:mb-8 flex-grow border-t border-l border-gray-50"></div>
 
             <div class="mt-auto">
                 <h3 id="scheduleTitle" class="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2">
                     <i class="fa-regular fa-calendar-check text-[#cfa45d]"></i>
                     Schedule (18 May)
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                     <div class="flex items-center gap-4 p-4 rounded-xl bg-[#f8f9fa]">
                         <div class="w-10 h-10 rounded-lg bg-[#e8f5e9] flex flex-col items-center justify-center text-[#2e7d32] font-bold flex-shrink-0 leading-none">
                             <span class="text-sm">09</span>
@@ -261,8 +272,6 @@
 
         closeModalBtn.onclick = hideModal;
         cancelBtn.onclick = hideModal;
-
-        // **แก้ไขตรงนี้**: ลบส่วนที่ปิดเมื่อคลิกข้างนอกทิ้งไป เพื่อให้หน้าต่างไม่ปิดเอง
 
         // ฟังก์ชันดำเนินการเปลี่ยนรหัสผ่าน
         document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
