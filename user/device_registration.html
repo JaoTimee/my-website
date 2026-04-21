@@ -18,14 +18,27 @@
         }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden text-gray-800">
+<body class="flex flex-col md:flex-row h-screen overflow-hidden text-gray-800 relative">
 
-    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300">
-        <div class="p-6">
-            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
-        </div>
+    <div class="md:hidden sidebar-bg text-white p-4 flex items-center z-30 relative shadow-md shrink-0">
+        <button id="mobileMenuBtn" class="focus:outline-none hover:bg-white/10 p-2 mr-3 rounded-lg transition-colors">
+            <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+        <h1 class="text-xl font-bold tracking-wider">Repair System</h1>
+    </div>
+
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity opacity-0 duration-300 md:hidden"></div>
+
+    <aside id="sidebar" class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300 fixed md:relative z-50 h-full transform -translate-x-full md:translate-x-0">
         
-        <nav class="flex-1 px-4 space-y-2 mt-4">
+        <div class="p-6 flex justify-between items-center">
+    <h1 class="text-xl font-bold tracking-wider whitespace-nowrap">Repair System</h1>
+    <button id="closeMenuBtn" class="text-gray-300 hover:text-white p-1 md:hidden transition-colors focus:outline-none ml-2 shrink-0">
+        <i class="fa-solid fa-xmark text-2xl"></i>
+    </button>
+</div>
+        
+        <nav class="flex-1 px-4 space-y-2 mt-2 md:mt-4 overflow-y-auto">
             <a href="home.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-house w-6 text-center"></i>
                 <span class="ml-3 font-medium">Dashboard</span>
@@ -34,7 +47,7 @@
                 <i class="fa-solid fa-gear w-6 text-center"></i>
                 <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
             </a>
-            <a href="device_registration.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white">
+            <a href="device_registration.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-computer w-6 text-center"></i>
                 <span class="ml-3">ทะเบียนอุปกรณ์</span>
             </a>
@@ -56,22 +69,22 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-screen overflow-y-auto no-scrollbar">
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto no-scrollbar w-full">
         
-        <div class="p-8 pb-2">
-            <h2 class="text-[#29354A] text-2xl font-bold mb-1">ทะเบียนอุปกรณ์</h2>
-            <p class="text-gray-500 text-sm">เลือกอุปกรณ์ที่คุณเคยลงทะเบียนไว้ในระบบเพื่อดำเนินการแจ้งปัญหา</p>
+        <div class="p-4 sm:p-6 md:p-8 pb-2">
+            <h2 class="text-[#29354A] text-xl md:text-2xl font-bold mb-1">ทะเบียนอุปกรณ์</h2>
+            <p class="text-gray-500 text-xs md:text-sm">เลือกอุปกรณ์ที่คุณเคยลงทะเบียนไว้ในระบบเพื่อดำเนินการแจ้งปัญหา</p>
         </div>
 
-        <div class="p-8 pt-4">
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 w-full">
+        <div class="p-4 sm:p-6 md:p-8 pt-2 md:pt-4">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 md:p-8 w-full">
                 
                 <form action="#" method="POST">
                     
-                    <div class="mb-8 p-5 bg-[#f8fafc] rounded-xl border border-gray-200">
+                    <div class="mb-6 md:mb-8 p-4 md:p-5 bg-[#f8fafc] rounded-xl border border-gray-200">
                         <label class="block text-sm font-semibold text-gray-700 mb-3">* ข้อมูลอุปกรณ์ (อ้างอิงจากทะเบียน)</label>
                         <div class="relative">
-                            <select name="equipment_id" required class="w-full border border-red-300 text-gray-700 rounded-lg p-3.5 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white cursor-pointer">
+                            <select name="equipment_id" required class="w-full border border-red-300 text-gray-700 rounded-lg p-3 md:p-3.5 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white cursor-pointer break-words">
                                 <option value="" disabled selected>-- กรุณาเลือกอุปกรณ์ของท่าน --</option>
                                 <option value="1">[EQ-66-001] คอมพิวเตอร์ตั้งโต๊ะ (PC) - กองช่าง</option>
                                 <option value="2">[EQ-66-002] ปริ้นเตอร์ HP LaserJet - กองช่าง</option>
@@ -82,35 +95,35 @@
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                             </div>
                         </div>
-                        <p class="text-xs text-gray-500 mt-2 ml-1">* รายชื่ออุปกรณ์จะแสดงเฉพาะอุปกรณ์ที่อยู่ในความรับผิดชอบของท่าน</p>
+                        <p class="text-[10px] md:text-xs text-gray-500 mt-2 ml-1">* รายชื่ออุปกรณ์จะแสดงเฉพาะอุปกรณ์ที่อยู่ในความรับผิดชอบของท่าน</p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-gray-700 mb-2">อาการเสียเบื้องต้น / ปัญหาที่พบ</label>
-                            <textarea name="problem_desc" rows="4" placeholder="โปรดระบุอาการเสีย เช่น เปิดไม่ติด, หน้าจอลาย, พิมพ์ไม่ออก..." class="w-full border border-red-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            <textarea name="problem_desc" rows="4" placeholder="โปรดระบุอาการเสีย เช่น เปิดไม่ติด, หน้าจอลาย, พิมพ์ไม่ออก..." class="w-full border border-red-300 rounded-lg p-3 text-sm md:text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                         </div>
 
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">วันที่สะดวกให้เข้าตรวจสอบ</label>
                             <div class="relative">
-                                <input type="date" name="preferred_date" class="w-full border border-red-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                <input type="date" name="preferred_date" class="w-full border border-red-300 rounded-lg p-3 text-sm md:text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                             </div>
                         </div>
 
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">เบอร์โทรศัพท์ติดต่อกลับ</label>
-                            <input type="text" name="contact_phone" placeholder="เช่น เบอร์มือถือ" class="w-full border border-red-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="text" name="contact_phone" placeholder="เช่น เบอร์มือถือ" class="w-full border border-red-300 rounded-lg p-3 text-sm md:text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
                     </div>
 
-                    <hr class="my-8 border-gray-200">
+                    <hr class="my-6 md:my-8 border-gray-200">
 
-                    <div class="flex justify-end space-x-3">
-                        <button type="button" class="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium transition-colors">
+                    <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-0 sm:space-x-3">
+                        <button type="button" class="w-full sm:w-auto px-6 py-3 sm:py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium transition-colors text-center">
                             ยกเลิก
                         </button>
-                        <button type="submit" class="px-6 py-2.5 rounded-lg bg-[#3366FF] hover:bg-blue-700 text-white font-medium transition-colors shadow-sm flex items-center">
+                        <button type="submit" class="w-full sm:w-auto px-6 py-3 sm:py-2.5 rounded-lg bg-[#3366FF] hover:bg-blue-700 text-white font-medium transition-colors shadow-sm flex items-center justify-center">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
                             บันทึกการแจ้งซ่อม
                         </button>
@@ -174,6 +187,30 @@
 
     // เรียกใช้งานฟังก์ชันโหลดข้อมูลทันทีที่เปิดหน้า
     document.addEventListener('DOMContentLoaded', loadEquipmentToSelect);
+
+    // --------------------------------------------------------
+    // ส่วนที่เพิ่มมา: JavaScript สำหรับเปิด-ปิดเมนูด้านข้าง (Sidebar) บนหน้าจอมือถือ
+    // --------------------------------------------------------
+    const sidebar = document.getElementById('sidebar');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('-translate-x-full');
+        
+        if (sidebarOverlay.classList.contains('hidden')) {
+            sidebarOverlay.classList.remove('hidden');
+            setTimeout(() => sidebarOverlay.classList.remove('opacity-0'), 10);
+        } else {
+            sidebarOverlay.classList.add('opacity-0');
+            setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
+        }
+    }
+
+    mobileMenuBtn.addEventListener('click', toggleSidebar);
+    closeMenuBtn.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', toggleSidebar);
 </script>
 
 </body>
