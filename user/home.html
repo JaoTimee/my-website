@@ -16,16 +16,33 @@
         .sidebar-bg {
             background-color: #21325b;
         }
+        /* Custom Scrollbar สำหรับตาราง */
+        .custom-scrollbar::-webkit-scrollbar { height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden text-gray-800">
+<body class="flex flex-col md:flex-row h-screen overflow-hidden text-gray-800 relative">
 
-    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300">
-        <div class="p-6">
-            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+    <div class="md:hidden sidebar-bg text-white p-4 flex items-center z-30 relative shadow-md shrink-0">
+        <button id="mobileMenuBtn" class="focus:outline-none hover:bg-white/10 p-2 mr-3 rounded-lg transition-colors">
+            <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+        <h1 class="text-xl font-bold tracking-wider whitespace-nowrap">Repair System</h1>
+    </div>
+
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity opacity-0 duration-300 md:hidden"></div>
+
+    <aside id="sidebar" class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300 fixed md:relative z-50 h-full transform -translate-x-full md:translate-x-0">
+        
+        <div class="p-6 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold tracking-wider whitespace-nowrap">Repair System</h1>
+            <button id="closeMenuBtn" class="text-gray-300 hover:text-white p-1 md:hidden transition-colors focus:outline-none ml-2 shrink-0">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
         </div>
         
-        <nav class="flex-1 px-4 space-y-2 mt-4 overflow-y-auto">
+        <nav class="flex-1 px-4 space-y-2 mt-2 md:mt-4 overflow-y-auto">
             <a href="home.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-house w-6 text-center"></i>
                 <span class="ml-3 font-medium">Dashboard</span>
@@ -56,90 +73,94 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col overflow-y-auto">
-        <div class="p-8">
+    <main class="flex-1 flex flex-col overflow-y-auto w-full">
+        <div class="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full">
             
-            <div class="flex justify-between items-center mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-8 gap-2">
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                        สวัสดี นาย ข <span class="text-3xl">👋</span>
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-2">
+                        สวัสดี นาย ข <span class="text-2xl md:text-3xl">👋</span>
                     </h2>
-                    <p class="text-sm text-gray-500 mt-1">ข้อมูลการแจ้งซ่อมของคุณ</p>
+                    <p class="text-xs md:text-sm text-gray-500 mt-1">ข้อมูลการแจ้งซ่อมของคุณ</p>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-gray-400 border-y border-r border-gray-100 relative">
-                    <div class="text-sm text-gray-500 mb-2">งานทั้งหมด</div>
-                    <div class="text-2xl font-bold text-gray-500">1</div>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-6 md:mb-8">
+                <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 border-l-4 border-gray-400 border-y border-r border-gray-100 relative">
+                    <div class="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">งานทั้งหมด</div>
+                    <div class="text-xl md:text-2xl font-bold text-gray-500">1</div>
                     <i class="fa-regular fa-rectangle-list absolute top-4 right-4 text-gray-400"></i>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-yellow-400 border-y border-r border-gray-100 relative">
-                    <div class="text-sm text-gray-500 mb-2">รอดำเนินการ</div>
-                    <div class="text-2xl font-bold text-yellow-500">1</div>
+                <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 border-l-4 border-yellow-400 border-y border-r border-gray-100 relative">
+                    <div class="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">รอดำเนินการ</div>
+                    <div class="text-xl md:text-2xl font-bold text-yellow-500">1</div>
                     <i class="fa-regular fa-clock absolute top-4 right-4 text-yellow-400"></i>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-blue-500 border-y border-r border-gray-100 relative">
-                    <div class="text-sm text-gray-500 mb-2">กำลังซ่อม</div>
-                    <div class="text-2xl font-bold text-blue-600">2</div>
+                <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 border-l-4 border-blue-500 border-y border-r border-gray-100 relative">
+                    <div class="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">กำลังซ่อม</div>
+                    <div class="text-xl md:text-2xl font-bold text-blue-600">2</div>
                     <i class="fa-solid fa-screwdriver-wrench absolute top-4 right-4 text-blue-500"></i>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-green-500 border-y border-r border-gray-100 relative">
-                    <div class="text-sm text-gray-500 mb-2">เสร็จแล้ว</div>
-                    <div class="text-2xl font-bold text-green-500">3</div>
+                <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 border-l-4 border-green-500 border-y border-r border-gray-100 relative">
+                    <div class="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">เสร็จแล้ว</div>
+                    <div class="text-xl md:text-2xl font-bold text-green-500">3</div>
                     <i class="fa-regular fa-square-check absolute top-4 right-4 text-green-500"></i>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-red-500 border-y border-r border-gray-100 relative">
-                    <div class="text-sm text-gray-500 mb-2">ไม่สามารถซ่อมได้</div>
-                    <div class="text-2xl font-bold text-red-500">1</div>
+                <div class="col-span-2 md:col-span-1 bg-white rounded-xl shadow-sm p-4 md:p-5 border-l-4 border-red-500 border-y border-r border-gray-100 relative">
+                    <div class="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">ไม่สามารถซ่อมได้</div>
+                    <div class="text-xl md:text-2xl font-bold text-red-500">1</div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
-                <h3 class="text-lg font-bold mb-6">รายการแจ้งซ่อมล่าสุดของฉัน</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
+            <div class="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-6 md:mb-8 border border-gray-100 overflow-hidden">
+                <h3 class="text-base md:text-lg font-bold mb-4 md:mb-6">รายการแจ้งซ่อมล่าสุดของฉัน</h3>
+                <div class="overflow-x-auto custom-scrollbar pb-2">
+                    <table class="w-full text-left text-sm min-w-[700px]">
                         <thead>
                             <tr class="border-b border-gray-100 text-gray-600">
-                                <th class="pb-4 font-semibold">รหัสเครื่อง</th>
-                                <th class="pb-4 font-semibold">อุปกรณ์</th>
-                                <th class="pb-4 font-semibold">ปัญหา</th>
-                                <th class="pb-4 font-semibold">วันที่</th> <th class="pb-4 font-semibold text-center">สถานะ</th>
-                                <th class="pb-4 font-semibold text-right">จัดการ</th>
+                                <th class="pb-3 md:pb-4 font-semibold whitespace-nowrap">รหัสเครื่อง</th>
+                                <th class="pb-3 md:pb-4 font-semibold whitespace-nowrap">อุปกรณ์</th>
+                                <th class="pb-3 md:pb-4 font-semibold whitespace-nowrap">ปัญหา</th>
+                                <th class="pb-3 md:pb-4 font-semibold whitespace-nowrap">วันที่</th> 
+                                <th class="pb-3 md:pb-4 font-semibold text-center whitespace-nowrap">สถานะ</th>
+                                <th class="pb-3 md:pb-4 font-semibold text-right whitespace-nowrap">จัดการ</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="border-b border-gray-50 hover:bg-gray-50">
-                                <td class="py-4">#001</td>
-                                <td class="py-4">PC</td>
-                                <td class="py-4">เปิดไม่ติด</td>
-                                <td class="py-4">19/02/2026</td> <td class="py-4 text-center">
-                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">รอดำเนินการ</span>
+                            <tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                                <td class="py-3 md:py-4 whitespace-nowrap">#001</td>
+                                <td class="py-3 md:py-4 whitespace-nowrap">PC</td>
+                                <td class="py-3 md:py-4 whitespace-nowrap">เปิดไม่ติด</td>
+                                <td class="py-3 md:py-4 whitespace-nowrap">19/02/2026</td> 
+                                <td class="py-3 md:py-4 text-center whitespace-nowrap">
+                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-[10px] md:text-xs font-medium">รอดำเนินการ</span>
                                 </td>
-                                <td class="py-4 text-right">
-                                    <a href="ticket_detail01.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-50 hover:bg-gray-50">
-                                <td class="py-4">#002</td>
-                                <td class="py-4">Notebook</td>
-                                <td class="py-4">หน้าจอกระพริบ</td>
-                                <td class="py-4">19/02/2026</td> <td class="py-4 text-center">
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">กำลังซ่อม</span>
-                                </td>
-                                <td class="py-4 text-right">
-                                    <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+                                <td class="py-3 md:py-4 text-right whitespace-nowrap">
+                                    <a href="ticket_detail01.html" class="text-blue-500 hover:text-blue-700 hover:underline text-xs md:text-sm font-medium transition-colors">ดูรายละเอียด</a>
                                 </td>
                             </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="py-4">#003</td>
-                                <td class="py-4">Printer</td>
-                                <td class="py-4">พิมพ์ไม่ออก</td>
-                                <td class="py-4">19/02/2026</td> <td class="py-4 text-center">
-                                    <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">ไม่สามารถซ่อมได้</span>
+                            <tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                                <td class="py-3 md:py-4 whitespace-nowrap">#002</td>
+                                <td class="py-3 md:py-4 whitespace-nowrap">Notebook</td>
+                                <td class="py-3 md:py-4 whitespace-nowrap">หน้าจอกระพริบ</td>
+                                <td class="py-3 md:py-4 whitespace-nowrap">19/02/2026</td> 
+                                <td class="py-3 md:py-4 text-center whitespace-nowrap">
+                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[10px] md:text-xs font-medium">กำลังซ่อม</span>
                                 </td>
-                                <td class="py-4 text-right">
-                                    <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+                                <td class="py-3 md:py-4 text-right whitespace-nowrap">
+                                    <a href="ticket_detail.html" class="text-blue-500 hover:text-blue-700 hover:underline text-xs md:text-sm font-medium transition-colors">ดูรายละเอียด</a>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-3 md:py-4 whitespace-nowrap">#003</td>
+                                <td class="py-3 md:py-4 whitespace-nowrap">Printer</td>
+                                <td class="py-3 md:py-4 whitespace-nowrap">พิมพ์ไม่ออก</td>
+                                <td class="py-3 md:py-4 whitespace-nowrap">19/02/2026</td> 
+                                <td class="py-3 md:py-4 text-center whitespace-nowrap">
+                                    <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-[10px] md:text-xs font-medium">ไม่สามารถซ่อมได้</span>
+                                </td>
+                                <td class="py-3 md:py-4 text-right whitespace-nowrap">
+                                    <a href="ticket_detail.html" class="text-blue-500 hover:text-blue-700 hover:underline text-xs md:text-sm font-medium transition-colors">ดูรายละเอียด</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -147,36 +168,48 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-8">
-                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 lg:col-span-2">
-                    <h3 class="text-lg font-bold mb-6">สถิติการแจ้งของฉันทั้งหมด</h3>
-                    <div class="relative h-72">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 pb-8">
+                <div class="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-gray-100 lg:col-span-2">
+                    <h3 class="text-base md:text-lg font-bold mb-4 md:mb-6">สถิติการแจ้งของฉันทั้งหมด</h3>
+                    <div class="relative h-64 md:h-72">
                         <canvas id="barChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                    <h3 class="text-lg font-bold mb-6">สรุปสถานะงานซ่อม</h3>
-                    <div class="relative h-48 mb-6 flex justify-center">
+                <div class="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-gray-100">
+                    <h3 class="text-base md:text-lg font-bold mb-4 md:mb-6">สรุปสถานะงานซ่อม</h3>
+                    <div class="relative h-40 md:h-48 mb-6 flex justify-center">
                         <canvas id="pieChart"></canvas>
                     </div>
                     
-                    <div class="space-y-4 pl-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-5 h-5 bg-[#eab308] rounded-sm"></div>
-                            <span class="font-medium text-gray-700 text-sm">รอดำเนินการ</span>
+                    <div class="space-y-3 md:space-y-4 pl-0 md:pl-4">
+                        <div class="flex items-center justify-between md:justify-start md:gap-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 md:w-5 md:h-5 bg-[#eab308] rounded-sm"></div>
+                                <span class="font-medium text-gray-700 text-xs md:text-sm">รอดำเนินการ</span>
+                            </div>
+                            <span class="md:hidden font-bold text-gray-600 text-xs">27%</span>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-5 h-5 bg-[#3b82f6] rounded-sm"></div>
-                            <span class="font-medium text-gray-700 text-sm">กำลังซ่อม</span>
+                        <div class="flex items-center justify-between md:justify-start md:gap-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 md:w-5 md:h-5 bg-[#3b82f6] rounded-sm"></div>
+                                <span class="font-medium text-gray-700 text-xs md:text-sm">กำลังซ่อม</span>
+                            </div>
+                            <span class="md:hidden font-bold text-gray-600 text-xs">16%</span>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-5 h-5 bg-[#22c55e] rounded-sm"></div>
-                            <span class="font-medium text-gray-700 text-sm">เสร็จแล้ว</span>
+                        <div class="flex items-center justify-between md:justify-start md:gap-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 md:w-5 md:h-5 bg-[#22c55e] rounded-sm"></div>
+                                <span class="font-medium text-gray-700 text-xs md:text-sm">เสร็จแล้ว</span>
+                            </div>
+                            <span class="md:hidden font-bold text-gray-600 text-xs">45%</span>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-5 h-5 bg-[#ef4444] rounded-sm"></div>
-                            <span class="font-medium text-gray-700 text-sm">ไม่สามารถซ่อมได้</span>
+                        <div class="flex items-center justify-between md:justify-start md:gap-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 md:w-5 md:h-5 bg-[#ef4444] rounded-sm"></div>
+                                <span class="font-medium text-gray-700 text-xs md:text-sm">ไม่สามารถซ่อมได้</span>
+                            </div>
+                            <span class="md:hidden font-bold text-gray-600 text-xs">1%</span>
                         </div>
                     </div>
                 </div>
@@ -236,7 +269,7 @@
                     data: [27, 16, 45, 1],
                     backgroundColor: ['#eab308', '#3b82f6', '#22c55e', '#ef4444'],
                     borderWidth: 1,
-                    borderColor: '#333'
+                    borderColor: '#ffffff'
                 }]
             },
             options: {
@@ -245,6 +278,30 @@
                 plugins: { legend: { display: false } }
             }
         });
+
+        // --------------------------------------------------------
+        // JavaScript สำหรับเปิด-ปิดเมนูด้านข้าง (Sidebar) บนหน้าจอมือถือ
+        // --------------------------------------------------------
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('-translate-x-full');
+            
+            if (sidebarOverlay.classList.contains('hidden')) {
+                sidebarOverlay.classList.remove('hidden');
+                setTimeout(() => sidebarOverlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebarOverlay.classList.add('opacity-0');
+                setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        closeMenuBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
     </script>
 </body>
 </html>
