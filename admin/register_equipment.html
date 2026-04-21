@@ -34,22 +34,36 @@
         }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden text-gray-800">
+<body class="flex flex-col md:flex-row h-screen overflow-hidden text-gray-800 relative">
 
-    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300">
-        <div class="p-6">
-            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+    <div class="md:hidden sidebar-bg text-white p-4 flex items-center z-30 relative shadow-md shrink-0">
+        <button id="mobileMenuBtn" class="focus:outline-none hover:bg-white/10 p-2 mr-3 rounded-lg transition-colors">
+            <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+        <h1 class="text-xl font-bold tracking-wider whitespace-nowrap">Repair System</h1>
+    </div>
+
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity opacity-0 duration-300 md:hidden"></div>
+
+    <aside id="sidebar" class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300 fixed md:relative z-50 h-full transform -translate-x-full md:translate-x-0">
+        
+        <div class="p-6 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold tracking-wider whitespace-nowrap">Repair System</h1>
+            <button id="closeMenuBtn" class="text-gray-300 hover:text-white p-1 md:hidden transition-colors focus:outline-none ml-2 shrink-0">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
         </div>
-         <nav class="flex-1 px-4 space-y-2 mt-4">
+
+        <nav class="flex-1 px-4 space-y-2 mt-2 md:mt-4 overflow-y-auto no-scrollbar">
             <a href="home.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-house w-6 text-center"></i>
-                <span class="ml-3 font-medium ">Dashboard</span>
+                <span class="ml-3 font-medium">Dashboard</span>
             </a>
-            <a href="register_equipment.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white">
+            <a href="register_equipment.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-gear w-6 text-center"></i>
                 <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
             </a>
-                        <a href="device_registration.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+            <a href="device_registration.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-computer w-6 text-center"></i>
                 <span class="ml-3">ทะเบียนอุปกรณ์</span>
             </a>
@@ -60,12 +74,6 @@
             <a href="manage.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-user w-6 text-center"></i>
                 <span class="ml-3">จัดการผู้ใช้</span>
-            </a>
-            
-            
-    </div>
-    
-    </span>
             </a>
             <a href="list_work.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-list w-6 text-center"></i>
@@ -85,119 +93,118 @@
         </div>
     </aside>
 
-         <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-            <div class="max-w-[1400px] mx-auto w-full transition-all duration-500">
-                
-                <div class="mb-6 lg:mb-10">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-800">เพิ่มข้อมูลอุปกรณ์</h2>
-                    <p class="text-sm sm:text-base text-slate-500 mt-2">กรอกข้อมูลอุปกรณ์ของคุณเพื่อใช้ในการออก QR Code</p>
-                </div>
-
-                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 sm:p-8 lg:p-12">
-                    <form id="repairForm" action="#" method="POST" class="space-y-8 lg:space-y-10">
-                        
-                        <div class="space-y-6 lg:space-y-8">
-                            <span class="block text-sm font-semibold text-slate-500">*ข้อมูลพื้นฐานของอุปกรณ์</span>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-6 lg:gap-y-8">
-                                
-                                <div class="relative">
-                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">กอง / สำนัก</label>
-                                    <select id="division" name="division" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required onchange="handleDivisionChange()">
-                                        <option value="" disabled selected>เลือกกอง/สำนัก</option>
-                                        <option value="สำนักปลัด">สำนักปลัด</option>
-                                        <option value="สำนักงานเลขานุการฯ">สำนักงานเลขานุการฯ</option>
-                                        <option value="สำนักคลัง">สำนักคลัง</option>
-                                        <option value="สำนักช่าง">สำนักช่าง</option>
-                                        <option value="กองสาธารณสุข">กองสาธารณสุข</option>
-                                        <option value="กองยุทธศาสตร์และงบประมาณ">กองยุทธศาสตร์และงบประมาณ</option>
-                                        <option value="สำนักการศึกษา ศาสนาและวัฒนธรรม">สำนักการศึกษา ศาสนาและวัฒนธรรม</option>
-                                        <option value="กองสวัสดิการสังคม">กองสวัสดิการสังคม</option>
-                                        <option value="หน่วยตรวจสอบภายใน">หน่วยตรวจสอบภายใน</option>
-                                        <option value="กองการเจ้าหน้าที่">กองการเจ้าหน้าที่</option>
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 lg:px-5 pt-7 lg:pt-8 text-slate-400">
-                                        <i class="fa-solid fa-chevron-down text-sm"></i>
-                                    </div>
-                                </div>
-
-                                <div class="relative">
-                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">ฝ่าย</label>
-                                    <select id="subdivision" name="subdivision" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required disabled>
-                                        <option value="">กรุณาเลือกกองก่อน</option>
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 lg:px-5 pt-7 lg:pt-8 text-slate-400">
-                                        <i class="fa-solid fa-chevron-down text-sm"></i>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">จัดซื้อมาจาก</label>
-                                    <input type="text" id="supplier" placeholder="กรอกชื่อบริษัท/ร้านค้า" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">วันที่จัดซื้อ</label>
-                                    <input type="date" id="purchase_date" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
-                                </div>
-
-                                <div class="relative">
-                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">ประเภทอุปกรณ์</label>
-                                    <select id="device_type" name="device_type" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required>
-                                        <option value="" disabled selected>เลือกประเภทอุปกรณ์</option>
-                                        <option value="คอมพิวเตอร์">คอมพิวเตอร์ (PC)</option>
-                                        <option value="Notebook">Notebook</option>
-                                        <option value="Printer">Printer</option>
-                                        <option value="โปรแกรม">โปรแกรม</option>
-                                        <option value="เครื่องแสกน">เครื่องแสกน</option>
-                                        <option value="เครื่องปริ้น">เครื่องปริ้น</option>
-                                        <option value="เครื่องฉายโปรเจกเตอร์">เครื่องฉายโปรเจกเตอร์</option>
-                                        <option value="อื่นๆ">อื่นๆ</option>
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 lg:px-5 pt-7 lg:pt-8 text-slate-400">
-                                        <i class="fa-solid fa-chevron-down text-sm"></i>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">เลขครุภัณฑ์</label>
-                                    <input type="text" id="serial_number" placeholder="กรอกเลขครุภัณฑ์" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">ระยะเวลารับประกันถึง</label>
-                                    <input type="date" id="warranty_date" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
-                                </div>
-                                
-                                <div class="md:col-span-2 mt-2 lg:mt-4">
-                                    <div class="p-4 sm:p-6 bg-blue-50 rounded-2xl border border-blue-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                        <div>
-                                            <h4 class="font-bold text-blue-900 mb-1">ตำแหน่งโต๊ะคอมพิวเตอร์</h4>
-                                            <p class="text-sm text-blue-600" id="selectedDeskText">ยังไม่ได้ระบุตำแหน่ง</p>
-                                            <input type="hidden" name="desk_number" id="deskIdInput" required>
-                                        </div>
-                                        <button type="button" onclick="openModal()" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm lg:text-base font-medium py-3 px-8 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 whitespace-nowrap">
-                                            <i class="fa-solid fa-desktop"></i>
-                                            เลือกผังโต๊ะคอม
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-5 pt-8 lg:pt-10 border-t border-slate-50">
-                            <button type="button" class="w-full sm:w-auto bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-sm lg:text-base font-semibold py-3.5 px-10 rounded-xl transition-all">
-                                ยกเลิก
-                            </button>
-                            <button type="submit" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm lg:text-base font-semibold py-3.5 px-10 rounded-xl transition-all shadow-xl shadow-blue-600/20 active:scale-95">
-                                บันทึกเป็น QR Code
-                            </button>
-                        </div>
-                    </form>
-                </div>
+    <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 w-full">
+        <div class="max-w-[1400px] mx-auto w-full transition-all duration-500">
+            
+            <div class="mb-6 lg:mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-800">เพิ่มข้อมูลอุปกรณ์</h2>
+                <p class="text-sm sm:text-base text-slate-500 mt-2">กรอกข้อมูลอุปกรณ์ของคุณเพื่อใช้ในการออก QR Code</p>
             </div>
-        </main>
-    </div>
+
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 sm:p-8 lg:p-12">
+                <form id="repairForm" action="#" method="POST" class="space-y-8 lg:space-y-10">
+                    
+                    <div class="space-y-6 lg:space-y-8">
+                        <span class="block text-sm font-semibold text-slate-500">*ข้อมูลพื้นฐานของอุปกรณ์</span>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-6 lg:gap-y-8">
+                            
+                            <div class="relative">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">กอง / สำนัก</label>
+                                <select id="division" name="division" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required onchange="handleDivisionChange()">
+                                    <option value="" disabled selected>เลือกกอง/สำนัก</option>
+                                    <option value="สำนักปลัด">สำนักปลัด</option>
+                                    <option value="สำนักงานเลขานุการฯ">สำนักงานเลขานุการฯ</option>
+                                    <option value="สำนักคลัง">สำนักคลัง</option>
+                                    <option value="สำนักช่าง">สำนักช่าง</option>
+                                    <option value="กองสาธารณสุข">กองสาธารณสุข</option>
+                                    <option value="กองยุทธศาสตร์และงบประมาณ">กองยุทธศาสตร์และงบประมาณ</option>
+                                    <option value="สำนักการศึกษา ศาสนาและวัฒนธรรม">สำนักการศึกษา ศาสนาและวัฒนธรรม</option>
+                                    <option value="กองสวัสดิการสังคม">กองสวัสดิการสังคม</option>
+                                    <option value="หน่วยตรวจสอบภายใน">หน่วยตรวจสอบภายใน</option>
+                                    <option value="กองการเจ้าหน้าที่">กองการเจ้าหน้าที่</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 lg:px-5 pt-7 lg:pt-8 text-slate-400">
+                                    <i class="fa-solid fa-chevron-down text-sm"></i>
+                                </div>
+                            </div>
+
+                            <div class="relative">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">ฝ่าย</label>
+                                <select id="subdivision" name="subdivision" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required disabled>
+                                    <option value="">กรุณาเลือกกองก่อน</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 lg:px-5 pt-7 lg:pt-8 text-slate-400">
+                                    <i class="fa-solid fa-chevron-down text-sm"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">จัดซื้อมาจาก</label>
+                                <input type="text" id="supplier" placeholder="กรอกชื่อบริษัท/ร้านค้า" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">วันที่จัดซื้อ</label>
+                                <input type="date" id="purchase_date" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all bg-white" required>
+                            </div>
+
+                            <div class="relative">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">ประเภทอุปกรณ์</label>
+                                <select id="device_type" name="device_type" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required>
+                                    <option value="" disabled selected>เลือกประเภทอุปกรณ์</option>
+                                    <option value="คอมพิวเตอร์">คอมพิวเตอร์ (PC)</option>
+                                    <option value="Notebook">Notebook</option>
+                                    <option value="Printer">Printer</option>
+                                    <option value="โปรแกรม">โปรแกรม</option>
+                                    <option value="เครื่องแสกน">เครื่องแสกน</option>
+                                    <option value="เครื่องปริ้น">เครื่องปริ้น</option>
+                                    <option value="เครื่องฉายโปรเจกเตอร์">เครื่องฉายโปรเจกเตอร์</option>
+                                    <option value="อื่นๆ">อื่นๆ</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 lg:px-5 pt-7 lg:pt-8 text-slate-400">
+                                    <i class="fa-solid fa-chevron-down text-sm"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">เลขครุภัณฑ์</label>
+                                <input type="text" id="serial_number" placeholder="กรอกเลขครุภัณฑ์" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all" required>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">ระยะเวลารับประกันถึง</label>
+                                <input type="date" id="warranty_date" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all bg-white" required>
+                            </div>
+                            
+                            <div class="md:col-span-2 mt-2 lg:mt-4">
+                                <div class="p-4 sm:p-6 bg-blue-50 rounded-2xl border border-blue-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                    <div>
+                                        <h4 class="font-bold text-blue-900 mb-1">ตำแหน่งโต๊ะคอมพิวเตอร์</h4>
+                                        <p class="text-sm text-blue-600" id="selectedDeskText">ยังไม่ได้ระบุตำแหน่ง</p>
+                                        <input type="hidden" name="desk_number" id="deskIdInput" required>
+                                    </div>
+                                    <button type="button" onclick="openModal()" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm lg:text-base font-medium py-3 px-8 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 whitespace-nowrap">
+                                        <i class="fa-solid fa-desktop"></i>
+                                        เลือกผังโต๊ะคอม
+                                    </button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-5 pt-8 lg:pt-10 border-t border-slate-50">
+                        <button type="button" class="w-full sm:w-auto bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-sm lg:text-base font-semibold py-3.5 px-10 rounded-xl transition-all">
+                            ยกเลิก
+                        </button>
+                        <button type="submit" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white text-sm lg:text-base font-semibold py-3.5 px-10 rounded-xl transition-all shadow-xl shadow-blue-600/20 active:scale-95">
+                            บันทึกเป็น QR Code
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 
     <div id="floorPlanModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
         <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
@@ -248,8 +255,12 @@
     </div>
 
     <script>
-        // ฟังก์ชันจัดการ Sidebar บนมือถือ
+        // --------------------------------------------------------
+        // JavaScript สำหรับเปิด-ปิดเมนูด้านข้าง (Sidebar) บนหน้าจอมือถือ
+        // --------------------------------------------------------
         const sidebar = document.getElementById('sidebar');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
 
         function toggleSidebar() {
@@ -265,6 +276,13 @@
             }
         }
 
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        closeMenuBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+        
+        // --------------------------------------------------------
+        // โค้ดเดิมทั้งหมดสำหรับจัดการฟอร์มและ Modal
+        // --------------------------------------------------------
         const modal = document.getElementById('floorPlanModal');
         const deskContainer = document.getElementById('deskContainer');
         const selectedText = document.getElementById('selectedDeskText');
@@ -351,14 +369,13 @@
                 return;
             }
 
-            // 1. ดึงข้อมูลจากฟอร์ม (ดึงข้อมูลให้ครบทุกฟิลด์)
+            // 1. ดึงข้อมูลจากฟอร์ม
             const division = document.getElementById('division').value;
             const subdivision = document.getElementById('subdivision').value;
             const deviceType = document.getElementById('device_type').value;
             const serialNumber = document.getElementById('serial_number').value;
             const deskId = deskIdInput.value;
             
-            // ข้อมูลที่เพิ่มมาใหม่
             const supplier = document.getElementById('supplier').value;
             const purchaseDate = document.getElementById('purchase_date').value;
             const warrantyDate = document.getElementById('warranty_date').value;
@@ -373,9 +390,9 @@
                 division: division,
                 subdivision: subdivision,
                 desk_id: deskId,
-                supplier: supplier,           // ส่งค่าจัดซื้อมาจาก
-                purchase_date: purchaseDate,  // ส่งค่าวันที่จัดซื้อ
-                warranty_date: warrantyDate   // ส่งค่าระยะเวลารับประกันถึง
+                supplier: supplier,           
+                purchase_date: purchaseDate,  
+                warranty_date: warrantyDate   
             }).toString();
 
             const targetUrl = `${baseUrl}?${queryParams}`;
