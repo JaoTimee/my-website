@@ -15,16 +15,39 @@
         .sidebar-bg {
             background-color: #21325b;
         }
+        /* Animation สำหรับตัวเลขแจ้งเตือน */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .notification-badge {
+            animation: pulse-ring 2s infinite;
+        }
+        /* ซ่อน Scrollbar ของเมนูเพื่อความสวยงามบนมือถือ */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden text-gray-800">
+<body class="flex flex-col md:flex-row h-screen overflow-hidden text-gray-800 relative">
 
-    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300 z-10">
-        <div class="p-6">
-            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+    <div class="md:hidden sidebar-bg text-white p-4 flex items-center z-30 relative shadow-md shrink-0">
+        <button id="mobileMenuBtn" class="focus:outline-none hover:bg-white/10 p-2 mr-3 rounded-lg transition-colors">
+            <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+        <h1 class="text-xl font-bold tracking-wider whitespace-nowrap">Repair System</h1>
+    </div>
+
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity opacity-0 duration-300 md:hidden"></div>
+
+    <aside id="sidebar" class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300 fixed md:relative z-50 h-full transform -translate-x-full md:translate-x-0">
+        <div class="p-6 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold tracking-wider whitespace-nowrap">Repair System</h1>
+            <button id="closeMenuBtn" class="text-gray-300 hover:text-white p-1 md:hidden transition-colors focus:outline-none ml-2 shrink-0">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
         </div>
         
-        <nav class="flex-1 px-4 space-y-2 mt-4">
+        <nav class="flex-1 px-4 space-y-2 mt-2 md:mt-4 overflow-y-auto no-scrollbar">
             <a href="home.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-house w-6 text-center"></i>
                 <span class="ml-3 font-medium">Dashboard</span>
@@ -48,7 +71,7 @@
                 </div>
                 <span class="notification-badge bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">3</span>
             </a>
-            <a href="list_work.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white">
+            <a href="list_work.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-list w-6 text-center"></i>
                 <span class="ml-3">รายการงาน</span>
             </a>
@@ -62,28 +85,28 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-full overflow-y-auto relative">
-        <div class="p-8 max-w-7xl mx-auto w-full">
+    <main class="flex-1 flex flex-col h-full overflow-y-auto relative w-full">
+        <div class="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full">
             
-            <div class="flex justify-between items-start mb-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-6 md:mb-8">
                 <div>
-                    <h2 class="text-2xl font-bold text-[#21325b]">Ticket #001</h2>
-                    <p class="text-sm text-gray-500 mt-1">รายละเอียดงานซ่อม</p>
+                    <h2 class="text-xl md:text-2xl font-bold text-[#21325b]">Ticket #001</h2>
+                    <p class="text-xs md:text-sm text-gray-500 mt-1">รายละเอียดงานซ่อม</p>
                 </div>
                 <div>
-                    <span class="bg-blue-100 text-blue-600 px-4 py-1.5 rounded-full text-sm font-medium">
+                    <span class="bg-blue-100 text-blue-600 px-3 md:px-4 py-1 md:py-1.5 rounded-full text-xs md:text-sm font-medium">
                         กำลังซ่อม
                     </span>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
                 
-                <div class="lg:col-span-2 space-y-6">
+                <div class="lg:col-span-2 space-y-4 md:space-y-6">
                     
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="text-lg font-bold text-gray-800 border-b border-gray-100 pb-3 mb-4">ข้อมูลผู้แจ้ง</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                    <div class="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-base md:text-lg font-bold text-gray-800 border-b border-gray-100 pb-2 md:pb-3 mb-3 md:mb-4">ข้อมูลผู้แจ้ง</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 md:gap-y-4 gap-x-8">
                             <div class="text-sm">
                                 <span class="font-semibold text-gray-700 mr-2">ชื่อ:</span> 
                                 <span class="text-gray-600">สมชาย</span>
@@ -102,48 +125,48 @@
                             </div>
                             <div class="text-sm md:col-span-2">
                                 <span class="font-semibold text-gray-700 mr-2">ปัญหา:</span> 
-                                <span class="text-gray-600">เครื่องเปิดไม่ติด มีเสียงพัดลมดัง</span>
+                                <span class="text-gray-600 break-words">เครื่องเปิดไม่ติด มีเสียงพัดลมดัง</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="text-lg font-bold text-gray-800 border-b border-gray-100 pb-3 mb-6">สถานะการดำเนินงาน</h3>
+                    <div class="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-base md:text-lg font-bold text-gray-800 border-b border-gray-100 pb-2 md:pb-3 mb-4 md:mb-6">สถานะการดำเนินงาน</h3>
                         
                         <div class="ml-2 border-l-2 border-gray-200">
-                            <div class="relative pl-6 pb-8">
+                            <div class="relative pl-6 pb-6 md:pb-8">
                                 <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-green-500 border-2 border-white ring-2 ring-white"></div>
-                                <h4 class="font-medium text-sm text-gray-800 leading-none">รับแจ้งงาน</h4>
-                                <p class="text-xs text-gray-500 mt-1">19/02/2026 09:00</p>
+                                <h4 class="font-medium text-xs md:text-sm text-gray-800 leading-none">รับแจ้งงาน</h4>
+                                <p class="text-[10px] md:text-xs text-gray-500 mt-1.5">19/02/2026 09:00</p>
                             </div>
                             
-                            <div class="relative pl-6 pb-8">
+                            <div class="relative pl-6 pb-6 md:pb-8">
                                 <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-green-500 border-2 border-white ring-2 ring-white"></div>
-                                <h4 class="font-medium text-sm text-gray-800 leading-none">รับงานโดยช่าง</h4>
-                                <p class="text-xs text-gray-500 mt-1">19/02/2026 09:30</p>
+                                <h4 class="font-medium text-xs md:text-sm text-gray-800 leading-none">รับงานโดยช่าง</h4>
+                                <p class="text-[10px] md:text-xs text-gray-500 mt-1.5">19/02/2026 09:30</p>
                             </div>
                             
-                            <div class="relative pl-6 pb-8">
+                            <div class="relative pl-6 pb-6 md:pb-8">
                                 <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-blue-500 border-2 border-white ring-2 ring-white"></div>
-                                <h4 class="font-medium text-sm text-gray-800 leading-none">กำลังซ่อม</h4>
-                                <p class="text-xs text-gray-500 mt-1">19/02/2026 10:15</p>
+                                <h4 class="font-medium text-xs md:text-sm text-gray-800 leading-none">กำลังซ่อม</h4>
+                                <p class="text-[10px] md:text-xs text-gray-500 mt-1.5">19/02/2026 10:15</p>
                             </div>
                             
                             <div class="relative pl-6">
                                 <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-gray-300 border-2 border-white ring-2 ring-white"></div>
-                                <h4 class="font-medium text-sm text-gray-400 leading-none">เสร็จสิ้น</h4>
+                                <h4 class="font-medium text-xs md:text-sm text-gray-400 leading-none">เสร็จสิ้น</h4>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="text-lg font-bold text-gray-800 mb-4">หมายเหตุ</h3>
+                    <div class="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-base md:text-lg font-bold text-gray-800 mb-3 md:mb-4">หมายเหตุ</h3>
                         <textarea 
                             placeholder="เพิ่มบันทึกการซ่อม..." 
-                            class="w-full border border-gray-300 rounded-lg p-3 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors resize-none h-28"
+                            class="w-full border border-gray-300 rounded-lg p-3 text-xs md:text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors resize-none h-24 md:h-28"
                         ></textarea>
-                        <div class="flex justify-end mt-4">
-                            <button class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                        <div class="flex justify-end mt-3 md:mt-4">
+                            <button class="bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-5 md:px-6 py-2 rounded-lg text-xs md:text-sm font-medium transition-colors shadow-sm">
                                 บันทึก
                             </button>
                         </div>
@@ -151,32 +174,32 @@
 
                 </div>
 
-                <div class="space-y-6">
+                <div class="space-y-4 md:space-y-6">
                     
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="text-lg font-bold text-gray-800 mb-4">อัปเดตสถานะ</h3>
+                    <div class="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-base md:text-lg font-bold text-gray-800 mb-3 md:mb-4">อัปเดตสถานะ</h3>
                         
-                        <div class="relative mb-4">
-                            <select class="w-full appearance-none border border-gray-300 rounded-lg py-2.5 px-4 pr-10 text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors">
+                        <div class="relative mb-3 md:mb-4">
+                            <select class="w-full appearance-none border border-gray-300 rounded-lg py-2 md:py-2.5 px-3 md:px-4 pr-10 text-xs md:text-sm text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-colors">
                                 <option value="รอดำเนินการ">รอดำเนินการ</option>
                                 <option value="กำลังซ่อม" selected>กำลังซ่อม</option>
                                 <option value="ไม่สามารถซ่อมได้">ไม่สามารถซ่อมได้</option>
                             </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
-                                <i class="fa-solid fa-caret-down"></i>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 md:px-4 text-gray-500">
+                                <i class="fa-solid fa-caret-down text-xs md:text-sm"></i>
                             </div>
                         </div>
 
-                        <button class="w-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                        <button class="w-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white py-2 md:py-2.5 rounded-lg text-xs md:text-sm font-medium transition-colors shadow-sm">
                             อัปเดตสถานะ
                         </button>
                     </div>
 
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="text-lg font-bold text-gray-800 mb-4">ปิดงาน</h3>
-                        <p class="text-xs text-gray-500 mb-4">เมื่อซ่อมเสร็จสิ้นและส่งมอบอุปกรณ์เรียบร้อยแล้ว กรุณากดปุ่มด้านล่างเพื่อปิดงาน</p>
+                    <div class="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-base md:text-lg font-bold text-gray-800 mb-2 md:mb-4">ปิดงาน</h3>
+                        <p class="text-[10px] md:text-xs text-gray-500 mb-3 md:mb-4">เมื่อซ่อมเสร็จสิ้นและส่งมอบอุปกรณ์เรียบร้อยแล้ว กรุณากดปุ่มด้านล่างเพื่อปิดงาน</p>
                         
-                        <button class="w-full bg-[#16a34a] hover:bg-[#15803d] text-white py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                        <button class="w-full bg-[#16a34a] hover:bg-[#15803d] text-white py-2 md:py-2.5 rounded-lg text-xs md:text-sm font-medium transition-colors shadow-sm">
                             ปิดงานซ่อม
                         </button>
                     </div>
@@ -187,5 +210,32 @@
 
         </div>
     </main>
+
+    <script>
+        // --------------------------------------------------------
+        // JavaScript สำหรับเปิด-ปิดเมนูด้านข้าง (Sidebar) บนหน้าจอมือถือ
+        // --------------------------------------------------------
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            const isClosed = sidebar.classList.contains('-translate-x-full');
+            if (isClosed) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.remove('hidden');
+                setTimeout(() => sidebarOverlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('opacity-0');
+                setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        closeMenuBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+    </script>
 </body>
 </html>
