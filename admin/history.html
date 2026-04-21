@@ -18,17 +18,34 @@
         .sidebar-bg {
             background-color: #21325b;
         }
-        
+        /* ซ่อน Scrollbar ของเมนูเพื่อความสวยงามบนมือถือ */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        /* Custom Scrollbar สำหรับตาราง */
+        .custom-scrollbar::-webkit-scrollbar { height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden text-gray-800">
+<body class="flex flex-col md:flex-row h-screen overflow-hidden text-gray-800 relative">
 
-    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300 z-10">
-        <div class="p-6">
-            <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+    <div class="md:hidden sidebar-bg text-white p-4 flex items-center z-30 relative shadow-md shrink-0">
+        <button id="mobileMenuBtn" class="focus:outline-none hover:bg-white/10 p-2 mr-3 rounded-lg transition-colors">
+            <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+        <h1 class="text-xl font-bold tracking-wider whitespace-nowrap">Repair System</h1>
+    </div>
+
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity opacity-0 duration-300 md:hidden"></div>
+
+    <aside id="sidebar" class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300 fixed md:relative z-50 h-full transform -translate-x-full md:translate-x-0">
+        <div class="p-6 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold tracking-wider whitespace-nowrap">Repair System</h1>
+            <button id="closeMenuBtn" class="text-gray-300 hover:text-white p-1 md:hidden transition-colors focus:outline-none ml-2 shrink-0">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
         </div>
         
-        <nav class="flex-1 px-4 space-y-2 mt-4">
+        <nav class="flex-1 px-4 space-y-2 mt-2 md:mt-4 overflow-y-auto no-scrollbar">
             <a href="home.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-house w-6 text-center"></i>
                 <span class="ml-3 font-medium ">Dashboard</span>
@@ -37,8 +54,7 @@
                 <i class="fa-solid fa-gear w-6 text-center"></i>
                 <span class="ml-3">ลงทะเบียนอุปกรณ์</span>
             </a>
-             </a>
-                        <a href="device_registration.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
+            <a href="device_registration.html" class="flex items-center px-4 py-3 text-gray-300 hover:bg-white/10 rounded-lg transition-colors">
                 <i class="fa-solid fa-computer w-6 text-center"></i>
                 <span class="ml-3">ทะเบียนอุปกรณ์</span>
             </a>
@@ -54,7 +70,7 @@
                 <i class="fa-solid fa-list w-6 text-center"></i>
                 <span class="ml-3">รายการงาน</span>
             </a>
-            <a href="history.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white">
+            <a href="history.html" class="flex items-center px-4 py-3 bg-blue-600 rounded-lg text-white shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-clock-rotate-left w-6 text-center"></i>
                 <span class="ml-3">ประวัติการทำงาน</span>
             </a>
@@ -68,42 +84,41 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-full overflow-y-auto relative">
-        <div class="p-8 max-w-7xl mx-auto w-full">
+    <main class="flex-1 flex flex-col h-full overflow-y-auto relative w-full">
+        <div class="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full">
             
-            <div class="mb-8">
-                <h2 class="text-2xl font-bold text-[#1e2b4d]">รายงานประวัติการทำงานช่าง</h2>
+            <div class="mb-6 md:mb-8">
+                <h2 class="text-xl md:text-2xl font-bold text-[#1e2b4d]">รายงานประวัติการทำงานช่าง</h2>
             </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-gray-400 border-y border-r border-gray-100 relative">
-                    <div class="text-sm text-gray-500 mb-2">งานทั้งหมด</div>
-                    <div class="text-2xl font-bold text-gray-500">1</div>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-6 md:mb-8">
+                <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 border-l-4 border-gray-400 border-y border-r border-gray-100 relative">
+                    <div class="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">งานทั้งหมด</div>
+                    <div class="text-xl md:text-2xl font-bold text-gray-500">1</div>
                     <i class="fa-regular fa-rectangle-list absolute top-4 right-4 text-gray-400"></i>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-yellow-400 border-y border-r border-gray-100 relative">
-                    <div class="text-sm text-gray-500 mb-2">รอดำเนินการ</div>
-                    <div class="text-2xl font-bold text-yellow-500">1</div>
+                <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 border-l-4 border-yellow-400 border-y border-r border-gray-100 relative">
+                    <div class="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">รอดำเนินการ</div>
+                    <div class="text-xl md:text-2xl font-bold text-yellow-500">1</div>
                     <i class="fa-regular fa-clock absolute top-4 right-4 text-yellow-400"></i>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-blue-500 border-y border-r border-gray-100 relative">
-                    <div class="text-sm text-gray-500 mb-2">กำลังซ่อม</div>
-                    <div class="text-2xl font-bold text-blue-600">2</div>
+                <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 border-l-4 border-blue-500 border-y border-r border-gray-100 relative">
+                    <div class="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">กำลังซ่อม</div>
+                    <div class="text-xl md:text-2xl font-bold text-blue-600">2</div>
                     <i class="fa-solid fa-screwdriver-wrench absolute top-4 right-4 text-blue-500"></i>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-green-500 border-y border-r border-gray-100 relative">
-                    <div class="text-sm text-gray-500 mb-2">เสร็จแล้ว</div>
-                    <div class="text-2xl font-bold text-green-500">3</div>
+                <div class="bg-white rounded-xl shadow-sm p-4 md:p-5 border-l-4 border-green-500 border-y border-r border-gray-100 relative">
+                    <div class="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">เสร็จแล้ว</div>
+                    <div class="text-xl md:text-2xl font-bold text-green-500">3</div>
                     <i class="fa-regular fa-square-check absolute top-4 right-4 text-green-500"></i>
                 </div>
-                <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-red-500 border-y border-r border-gray-100 relative">
-                    <div class="text-sm text-gray-500 mb-2">ไม่สามารถซ่อมได้</div>
-                    <div class="text-2xl font-bold text-red-500">1</div>
+                <div class="col-span-2 md:col-span-1 bg-white rounded-xl shadow-sm p-4 md:p-5 border-l-4 border-red-500 border-y border-r border-gray-100 relative">
+                    <div class="text-xs md:text-sm text-gray-500 mb-1 md:mb-2">ไม่สามารถซ่อมได้</div>
+                    <div class="text-xl md:text-2xl font-bold text-red-500">1</div>
                 </div>
             </div>
 
-
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6 flex flex-col md:flex-row gap-4 items-center">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-5 mb-6 flex flex-col md:flex-row gap-3 md:gap-4 items-center">
                 <div class="flex-1 w-full">
                     <input type="text" placeholder="ค้นหาชื่อช่าง" class="w-full border border-gray-300 rounded-lg py-2.5 px-4 text-sm text-gray-700 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors">
                 </div>
@@ -120,10 +135,10 @@
                     </div>
                 </div>
 
-                <button onclick="exportToExcel()" class="bg-[#10b981] hover:bg-[#059669] text-white rounded-lg shadow-sm flex items-center overflow-hidden transition-colors w-full md:w-auto h-[42px] cursor-pointer">
+                <button onclick="exportToExcel()" class="bg-[#10b981] hover:bg-[#059669] text-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden transition-colors w-full md:w-auto h-[42px] cursor-pointer active:scale-95">
                     <div class="px-4 py-2 flex items-center gap-2 h-full">
                         <i class="fa-solid fa-file-excel"></i>
-                        <span class="font-medium text-sm">Export Excel</span>
+                        <span class="font-medium text-sm whitespace-nowrap">Export Excel</span>
                     </div>
                     <div class="px-3 py-2 bg-black/10 border-l border-white/20 flex items-center justify-center hover:bg-black/20 h-full">
                         <i class="fa-solid fa-chevron-down text-sm"></i>
@@ -132,51 +147,51 @@
             </div>
 
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-                <div class="p-6 border-b border-gray-100">
-                    <h3 class="text-lg font-bold text-gray-800">ประวัติการทำงานช่าง</h3>
+                <div class="p-4 md:p-6 border-b border-gray-100">
+                    <h3 class="text-base md:text-lg font-bold text-gray-800">ประวัติการทำงานช่าง</h3>
                 </div>
                 
-                <div class="overflow-x-auto min-h-[300px]">
-                    <table id="technicianTable" class="w-full text-left text-sm whitespace-nowrap">
+                <div class="overflow-x-auto min-h-[300px] custom-scrollbar p-2">
+                    <table id="technicianTable" class="w-full text-left text-sm whitespace-nowrap min-w-[700px]">
                         <thead>
                             <tr class="text-gray-800 font-bold border-b border-gray-200 bg-white">
-                                <th class="py-4 px-6 w-[20%]">ชื่อช่าง</th>
-                                <th class="py-4 px-6 w-[15%] text-center">งานทั้งหมด</th>
-                                <th class="py-4 px-6 w-[15%] text-center">เสร็จแล้ว</th>
-                                <th class="py-4 px-6 w-[15%] text-center">ค้าง</th>
-                                <th class="py-4 px-6 w-[15%] text-center">กำลังทำ</th>
-                                <th class="py-4 px-6 w-[20%] text-center">จัดการ</th>
+                                <th class="py-3 md:py-4 px-4 md:px-6 w-[20%]">ชื่อช่าง</th>
+                                <th class="py-3 md:py-4 px-4 md:px-6 w-[15%] text-center">งานทั้งหมด</th>
+                                <th class="py-3 md:py-4 px-4 md:px-6 w-[15%] text-center">เสร็จแล้ว</th>
+                                <th class="py-3 md:py-4 px-4 md:px-6 w-[15%] text-center">ค้าง</th>
+                                <th class="py-3 md:py-4 px-4 md:px-6 w-[15%] text-center">กำลังทำ</th>
+                                <th class="py-3 md:py-4 px-4 md:px-6 w-[20%] text-center">จัดการ</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 divide-y divide-gray-100">
                             <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="py-4 px-6 font-medium text-gray-700">สมชาย</td>
-                                <td class="py-4 px-6 text-center">20</td>
-                                <td class="py-4 px-6 text-center">18</td>
-                                <td class="py-4 px-6 text-center">1</td>
-                                <td class="py-4 px-6 text-center">1</td>
-                                <td class="py-4 px-6 text-center">
-                                    <a href="reporthistory_ad.html" class="text-blue-500 hover:text-blue-700 hover:underline transition-colors text-sm">ดูรายละเอียด</a>
+                                <td class="py-3 md:py-4 px-4 md:px-6 font-medium text-gray-700">สมชาย</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center">20</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center text-green-600">18</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center text-red-500">1</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center text-blue-500">1</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center">
+                                    <a href="reporthistory.html" class="text-blue-500 hover:text-blue-700 hover:underline transition-colors text-xs md:text-sm">ดูรายละเอียด</a>
                                 </td>
                             </tr>
                             <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="py-4 px-6 font-medium text-gray-700">นายแดง</td>
-                                <td class="py-4 px-6 text-center">25</td>
-                                <td class="py-4 px-6 text-center">23</td>
-                                <td class="py-4 px-6 text-center">2</td>
-                                <td class="py-4 px-6 text-center">1</td>
-                                <td class="py-4 px-6 text-center">
-                                    <a href="ticket_detail.html" class="text-blue-500 hover:text-blue-700 hover:underline transition-colors text-sm">ดูรายละเอียด</a>
+                                <td class="py-3 md:py-4 px-4 md:px-6 font-medium text-gray-700">นายแดง</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center">25</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center text-green-600">23</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center text-red-500">2</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center text-blue-500">1</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center">
+                                    <a href="ticket_detail.html" class="text-blue-500 hover:text-blue-700 hover:underline transition-colors text-xs md:text-sm">ดูรายละเอียด</a>
                                 </td>
                             </tr>
                             <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="py-4 px-6 font-medium text-gray-700">นายเขียว</td>
-                                <td class="py-4 px-6 text-center">30</td>
-                                <td class="py-4 px-6 text-center">26</td>
-                                <td class="py-4 px-6 text-center">2</td>
-                                <td class="py-4 px-6 text-center">2</td>
-                                <td class="py-4 px-6 text-center">
-                                    <a href="ticket_detail.html" class="text-blue-500 hover:text-blue-700 hover:underline transition-colors text-sm">ดูรายละเอียด</a>
+                                <td class="py-3 md:py-4 px-4 md:px-6 font-medium text-gray-700">นายเขียว</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center">30</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center text-green-600">26</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center text-red-500">2</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center text-blue-500">2</td>
+                                <td class="py-3 md:py-4 px-4 md:px-6 text-center">
+                                    <a href="ticket_detail.html" class="text-blue-500 hover:text-blue-700 hover:underline transition-colors text-xs md:text-sm">ดูรายละเอียด</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -184,22 +199,22 @@
                 </div>
             </div>
 
-            <div class="flex justify-center items-center gap-2 pb-8">
-                <button class="px-4 py-2 rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium text-sm transition-colors border border-transparent hover:border-gray-200">
+            <div class="flex justify-center items-center gap-1 md:gap-2 pb-8">
+                <button class="px-2 md:px-4 py-1.5 md:py-2 rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium text-[10px] md:text-sm transition-colors border border-transparent hover:border-gray-200">
                     ก่อนหน้า
                 </button>
                 
-                <button class="w-10 h-10 flex justify-center items-center rounded-md bg-[#2563eb] text-white font-medium shadow-sm transition-colors">
+                <button class="w-8 h-8 md:w-10 md:h-10 flex justify-center items-center rounded-md bg-[#2563eb] text-white font-medium shadow-sm transition-colors text-sm">
                     1
                 </button>
-                <button class="w-10 h-10 flex justify-center items-center rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium transition-colors border border-transparent hover:border-gray-200">
+                <button class="w-8 h-8 md:w-10 md:h-10 flex justify-center items-center rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium transition-colors border border-transparent hover:border-gray-200 text-sm">
                     2
                 </button>
-                <button class="w-10 h-10 flex justify-center items-center rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium transition-colors border border-transparent hover:border-gray-200">
+                <button class="w-8 h-8 md:w-10 md:h-10 flex justify-center items-center rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium transition-colors border border-transparent hover:border-gray-200 text-sm">
                     3
                 </button>
                 
-                <button class="px-4 py-2 rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium text-sm transition-colors border border-transparent hover:border-gray-200">
+                <button class="px-2 md:px-4 py-1.5 md:py-2 rounded-md bg-white/50 text-gray-600 hover:bg-white font-medium text-[10px] md:text-sm transition-colors border border-transparent hover:border-gray-200">
                     ถัดไป
                 </button>
             </div>
@@ -208,17 +223,44 @@
     </main>
 
     <script>
+        // --------------------------------------------------------
+        // JavaScript สำหรับเปิด-ปิดเมนูด้านข้าง (Sidebar) บนหน้าจอมือถือ
+        // --------------------------------------------------------
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            const isClosed = sidebar.classList.contains('-translate-x-full');
+            if (isClosed) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.remove('hidden');
+                setTimeout(() => sidebarOverlay.classList.remove('opacity-0'), 10);
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('opacity-0');
+                setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        closeMenuBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // --------------------------------------------------------
+        // โค้ดเดิม (ระบบโหลด Excel)
+        // --------------------------------------------------------
         function exportToExcel() {
             // 1. ดึงตาราง HTML จากหน้าเว็บ
             let originalTable = document.getElementById("technicianTable");
             
-            // 2. จำลอง (Clone) ตารางนี้ขึ้นมาไว้ในหน่วยความจำ (เพื่อไม่ให้กระทบตารางบนหน้าเว็บ)
+            // 2. จำลอง (Clone) ตารางนี้ขึ้นมาไว้ในหน่วยความจำ
             let clonedTable = originalTable.cloneNode(true);
             
             // 3. วนลูปเพื่อลบคอลัมน์สุดท้าย (คอลัมน์ "จัดการ") ออกจากทุกแถวในตารางจำลอง
-            // แถว (rows) รวมถึงทั้งส่วนหัว (thead) และข้อมูล (tbody)
             for (let i = 0; i < clonedTable.rows.length; i++) {
-                clonedTable.rows[i].deleteCell(-1); // -1 หมายถึงให้ลบเซลล์ "สุดท้าย" ของแถวนั้นๆ
+                clonedTable.rows[i].deleteCell(-1);
             }
             
             // 4. แปลงตารางที่ลบคอลัมน์แล้วให้กลายเป็นสมุดงาน Excel
