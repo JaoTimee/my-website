@@ -18,11 +18,19 @@
         }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden text-gray-800">
+<body class="flex h-screen overflow-hidden text-gray-800 relative">
 
-    <aside class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white transition-all duration-300">
-        <div class="p-6">
+    <!-- แบ็คดรอปพื้นหลังเมื่อเปิดเมนูบนมือถือ -->
+    <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+
+    <!-- แถบเมนูด้านซ้าย (Responsive Sidebar) -->
+    <aside id="sidebar" class="sidebar-bg w-64 flex-shrink-0 flex flex-col text-white fixed lg:static inset-y-0 left-0 -translate-x-full lg:translate-x-0 z-50 transition-transform duration-300 ease-in-out">
+        <div class="p-6 flex justify-between items-center">
             <h1 class="text-2xl font-bold tracking-wider">Repair System</h1>
+            <!-- ปุ่มปิดเมนูเฉพาะบนมือถือ -->
+            <button onclick="toggleSidebar()" class="text-white hover:text-gray-300 lg:hidden">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
         </div>
         
         <nav class="flex-1 px-4 space-y-2 mt-4 overflow-y-auto">
@@ -56,25 +64,38 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col overflow-y-auto">
-        <div class="p-8">
+    <!-- พื้นที่แสดงผลเนื้อหาหลัก -->
+    <main class="flex-1 flex flex-col overflow-y-auto w-full">
+        
+        <!-- แถบด้านบนสำหรับมือถือ (Mobile Header Bar) -->
+        <header class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between lg:hidden flex-shrink-0">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSidebar()" class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <span class="text-xl font-bold text-[#21325b]">Repair System</span>
+            </div>
+        </header>
+
+        <div class="p-4 sm:p-6 lg:p-8">
             
-            <!-- ส่วนหัวข้อและปุ่มแจ้งซ่อมมุมขวาบน -->
-            <div class="flex justify-between items-center mb-8">
+            <!-- ส่วนหัวข้อหลักและปุ่มแจ้งซ่อมใหม่ -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                        สวัสดี นาย ข <span class="text-3xl">👋</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 flex items-center gap-2">
+                        สวัสดี นาย ข <span class="text-2xl sm:text-3xl">👋</span>
                     </h2>
                     <p class="text-sm text-gray-500 mt-1">ข้อมูลการแจ้งซ่อมของคุณ</p>
                 </div>
-                <!-- ปุ่มแจ้งซ่อมที่เพิ่มเข้ามาใหม่ -->
-                <button onclick="checkRegistrationAndRepair()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium shadow-md shadow-blue-500/20 transition-all duration-200">
+                <!-- ปุ่มแจ้งซ่อมใหม่ (ปรับขนาดตามหน้าจอ) -->
+                <button onclick="checkRegistrationAndRepair()" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium shadow-md shadow-blue-500/20 transition-all duration-200">
                     <i class="fa-solid fa-circle-plus"></i>
                     <span>แจ้งซ่อมใหม่</span>
                 </button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+            <!-- ชุดการ์ดตัวเลขสรุปงาน (Responsive Grid) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 mb-8">
                 <div class="bg-white rounded-xl shadow-sm p-5 border-l-4 border-gray-400 border-y border-r border-gray-100 relative">
                     <div class="text-sm text-gray-500 mb-2">งานทั้งหมด</div>
                     <div class="text-2xl font-bold text-gray-500">1</div>
@@ -101,88 +122,99 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
+            <!-- ตารางแสดงรายการล่าสุด -->
+            <div class="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-8 border border-gray-100">
                 <h3 class="text-lg font-bold mb-6">รายการแจ้งซ่อมล่าสุดของฉัน</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead>
-                            <tr class="border-b border-gray-100 text-gray-600">
-                                <th class="pb-4 font-semibold">รหัสเครื่อง</th>
-                                <th class="pb-4 font-semibold">อุปกรณ์</th>
-                                <th class="pb-4 font-semibold">ปัญหา</th>
-                                <th class="pb-4 font-semibold">วันที่</th> <th class="pb-4 font-semibold text-center">สถานะ</th>
-                                <th class="pb-4 font-semibold text-right">จัดการ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b border-gray-50 hover:bg-gray-50">
-                                <td class="py-4">#001</td>
-                                <td class="py-4">PC</td>
-                                <td class="py-4">เปิดไม่ติด</td>
-                                <td class="py-4">19/02/2026</td> <td class="py-4 text-center">
-                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">รอดำเนินการ</span>
-                                </td>
-                                <td class="py-4 text-right">
-                                    <a href="ticket_detail01.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-50 hover:bg-gray-50">
-                                <td class="py-4">#002</td>
-                                <td class="py-4">Notebook</td>
-                                <td class="py-4">หน้าจอกระพริบ</td>
-                                <td class="py-4">19/02/2026</td> <td class="py-4 text-center">
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">กำลังซ่อม</span>
-                                </td>
-                                <td class="py-4 text-right">
-                                    <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="py-4">#003</td>
-                                <td class="py-4">Printer</td>
-                                <td class="py-4">พิมพ์ไม่ออก</td>
-                                <td class="py-4">19/02/2026</td> <td class="py-4 text-center">
-                                    <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">ไม่สามารถซ่อมได้</span>
-                                </td>
-                                <td class="py-4 text-right">
-                                    <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="overflow-x-auto -mx-4 sm:mx-0">
+                    <div class="inline-block min-w-full align-middle px-4 sm:px-0">
+                        <table class="w-full text-left text-sm whitespace-nowrap">
+                            <thead>
+                                <tr class="border-b border-gray-100 text-gray-600">
+                                    <th class="pb-4 font-semibold">รหัสเครื่อง</th>
+                                    <th class="pb-4 font-semibold">อุปกรณ์</th>
+                                    <th class="pb-4 font-semibold">ปัญหา</th>
+                                    <th class="pb-4 font-semibold">วันที่</th> 
+                                    <th class="pb-4 font-semibold text-center">สถานะ</th>
+                                    <th class="pb-4 font-semibold text-right">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-50 hover:bg-gray-50">
+                                    <td class="py-4">#001</td>
+                                    <td class="py-4">PC</td>
+                                    <td class="py-4">เปิดไม่ติด</td>
+                                    <td class="py-4">19/02/2026</td> 
+                                    <td class="py-4 text-center">
+                                        <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">รอดำเนินการ</span>
+                                    </td>
+                                    <td class="py-4 text-right">
+                                        <a href="ticket_detail01.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-50 hover:bg-gray-50">
+                                    <td class="py-4">#002</td>
+                                    <td class="py-4">Notebook</td>
+                                    <td class="py-4">หน้าจอกระพริบ</td>
+                                    <td class="py-4">19/02/2026</td> 
+                                    <td class="py-4 text-center">
+                                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">กำลังซ่อม</span>
+                                    </td>
+                                    <td class="py-4 text-right">
+                                        <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-4">#003</td>
+                                    <td class="py-4">Printer</td>
+                                    <td class="py-4">พิมพ์ไม่ออก</td>
+                                    <td class="py-4">19/02/2026</td> 
+                                    <td class="py-4 text-center">
+                                        <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">ไม่สามารถซ่อมได้</span>
+                                    </td>
+                                    <td class="py-4 text-right">
+                                        <a href="ticket_detail.html" class="text-blue-500 hover:underline text-sm font-medium">ดูรายละเอียด</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
+            <!-- ส่วนสรุปสถิติและกราฟ (Responsive Layout) -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-8">
-                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 lg:col-span-2">
+                <!-- บาร์ชาร์ต -->
+                <div class="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-gray-100 lg:col-span-2">
                     <h3 class="text-lg font-bold mb-6">สถิติการแจ้งของฉันทั้งหมด</h3>
-                    <div class="relative h-72">
+                    <div class="relative h-64 sm:h-72 w-full">
                         <canvas id="barChart"></canvas>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <!-- พายชาร์ต -->
+                <div class="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-gray-100">
                     <h3 class="text-lg font-bold mb-6">สรุปสถานะงานซ่อม</h3>
-                    <div class="relative h-48 mb-6 flex justify-center">
+                    <div class="relative h-44 sm:h-48 mb-6 flex justify-center">
                         <canvas id="pieChart"></canvas>
                     </div>
                     
-                    <div class="space-y-4 pl-4">
+                    <!-- ส่วนอธิบายสีสถานะ -->
+                    <div class="grid grid-cols-2 gap-3 sm:block sm:space-y-4 pl-2 sm:pl-4">
                         <div class="flex items-center gap-3">
-                            <div class="w-5 h-5 bg-[#eab308] rounded-sm"></div>
-                            <span class="font-medium text-gray-700 text-sm">รอดำเนินการ</span>
+                            <div class="w-4 h-4 sm:w-5 sm:h-5 bg-[#eab308] rounded-sm flex-shrink-0"></div>
+                            <span class="font-medium text-gray-700 text-xs sm:text-sm">รอดำเนินการ</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <div class="w-5 h-5 bg-[#3b82f6] rounded-sm"></div>
-                            <span class="font-medium text-gray-700 text-sm">กำลังซ่อม</span>
+                            <div class="w-4 h-4 sm:w-5 sm:h-5 bg-[#3b82f6] rounded-sm flex-shrink-0"></div>
+                            <span class="font-medium text-gray-700 text-xs sm:text-sm">กำลังซ่อม</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <div class="w-5 h-5 bg-[#22c55e] rounded-sm"></div>
-                            <span class="font-medium text-gray-700 text-sm">เสร็จแล้ว</span>
+                            <div class="w-4 h-4 sm:w-5 sm:h-5 bg-[#22c55e] rounded-sm flex-shrink-0"></div>
+                            <span class="font-medium text-gray-700 text-xs sm:text-sm">เสร็จแล้ว</span>
                         </div>
                         <div class="flex items-center gap-3">
-                            <div class="w-5 h-5 bg-[#ef4444] rounded-sm"></div>
-                            <span class="font-medium text-gray-700 text-sm">ไม่สามารถซ่อมได้</span>
+                            <div class="w-4 h-4 sm:w-5 sm:h-5 bg-[#ef4444] rounded-sm flex-shrink-0"></div>
+                            <span class="font-medium text-gray-700 text-xs sm:text-sm">ไม่สามารถซ่อมได้</span>
                         </div>
                     </div>
                 </div>
@@ -192,35 +224,38 @@
     </main>
 
     <script>
-        // ฟังก์ชันสำหรับตรวจสอบการลงทะเบียนและเปลี่ยนหน้า
-        function checkRegistrationAndRepair() {
-            // ในระบบจริง ส่วนนี้จะทำการตรวจสอบค่าจาก Database หรือ localStorage เช่น:
-            // const hasRegisteredDevice = localStorage.getItem('hasDevice') === 'true';
+        // ฟังก์ชัน เปิด/ปิด Sidebar บนสมาร์ทโฟน
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
             
-            // ตัวอย่างจำลองสถานะ: เปลี่ยนเป็น false เพื่อทดสอบเคสที่ "ยังไม่เคยลงทะเบียน"
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+
+        // ฟังก์ชันตรวจสอบสิทธิ์การลงทะเบียนก่อนแจ้งซ่อม
+        function checkRegistrationAndRepair() {
             const hasRegisteredDevice = false; 
 
             if (hasRegisteredDevice) {
-                // ถ้ามีข้อมูลอุปกรณ์แล้ว ให้ไปที่หน้าทะเบียนอุปกรณ์
                 window.location.href = "Device registration.html";
             } else {
-                // ถ้าไม่มีข้อมูล ให้แจ้งเตือนและเด้งไปหน้าลงทะเบียนอุปกรณ์
                 alert("คุณยังไม่มีข้อมูลที่ลงทะเบียนในระบบ กรุณาลงทะเบียนอุปกรณ์ก่อนแจ้งซ่อม");
                 window.location.href = "ลงทะเบียนอุปกรณ์.html";
             }
         }
 
-        // Bar Chart
+        // Bar Chart config
         const barCtx = document.getElementById('barChart').getContext('2d');
         new Chart(barCtx, {
             type: 'bar',
             data: {
-                labels: ['PC', 'Note Book', 'Printer', 'Monitor', 'โทรศัพท์ ip phone', 'เว็บไซต์'],
+                labels: ['PC', 'Note Book', 'Printer', 'Monitor', 'IP Phone', 'เว็บไซต์'],
                 datasets: [{
                     data: [16, 45, 27, 30, 50, 10],
                     backgroundColor: ['#00c2ff', '#ff7a45', '#f5a623', '#fcd34d', '#bbf7d0', '#86efac'],
                     borderWidth: 0,
-                    borderRadius: 2,
+                    borderRadius: 4,
                     barPercentage: 0.6
                 }]
             },
@@ -250,7 +285,7 @@
             }
         });
 
-        // Pie Chart
+        // Pie Chart config
         const pieCtx = document.getElementById('pieChart').getContext('2d');
         new Chart(pieCtx, {
             type: 'pie',
@@ -260,7 +295,7 @@
                     data: [27, 16, 45, 1],
                     backgroundColor: ['#eab308', '#3b82f6', '#22c55e', '#ef4444'],
                     borderWidth: 1,
-                    borderColor: '#333'
+                    borderColor: '#fff'
                 }]
             },
             options: {
