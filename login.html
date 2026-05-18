@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             font-family: 'Prompt', sans-serif;
@@ -45,7 +46,7 @@
             background-color: #e6dac3; 
         }
 
-        /* สไตล์ช่องปฏิทิน (คงเดิมจากโค้ดเก่าของคุณ) */
+        /* สไตล์ช่องปฏิทิน */
         .calendar-grid div {
             border: 1px solid #f9fafb;
             display: flex;
@@ -57,7 +58,7 @@
             position: relative; 
         }
 
-        /* สิ่งที่เพิ่มมา: ปรับขนาดช่องปฏิทินบนหน้าจอมือถือ */
+        /* ปรับขนาดช่องปฏิทินบนหน้าจอมือถือ */
         @media (max-width: 1023px) {
             .calendar-grid div {
                 height: 50px;
@@ -99,6 +100,12 @@
             width: 5px;
             height: 5px;
             border-radius: 50%;
+        }
+
+        /* ปรับแต่งสไตล์ฟอนต์กล่อง SweetAlert2 ให้เข้ากับโปรเจกต์ */
+        .swal2-popup {
+            font-family: 'Prompt', sans-serif !important;
+            border-radius: 1rem !important;
         }
     </style>
 </head>
@@ -232,7 +239,7 @@
     </div>
 
     <script>
-        // --- 1. ฐานข้อมูลผู้ใช้จำลอง (ทำให้รหัสเปลี่ยนตามการใช้งานได้) ---
+        // --- 1. ฐานข้อมูลผู้ใช้จำลอง ---
         let userDatabase = {
             'admin': '1234',
             'it': '1234',
@@ -260,12 +267,10 @@
         const closeModalBtn = document.getElementById('closeModal');
         const cancelBtn = document.getElementById('cancelBtn');
 
-        // ฟังก์ชันเปิด Modal
         openModalBtn.onclick = () => {
             passwordModal.style.display = 'flex';
         };
 
-        // ฟังก์ชันปิด Modal
         const hideModal = () => {
             passwordModal.style.display = 'none';
         };
@@ -273,7 +278,7 @@
         closeModalBtn.onclick = hideModal;
         cancelBtn.onclick = hideModal;
 
-        // ฟังก์ชันดำเนินการเปลี่ยนรหัสผ่าน
+        // อัปเดตสคริปต์เปลี่ยนรหัสผ่านด้วย SweetAlert2
         document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const user = document.getElementById('changeUser').value.trim().toLowerCase();
@@ -282,19 +287,39 @@
 
             if (userDatabase[user]) {
                 if (oldP === userDatabase[user]) {
-                    userDatabase[user] = newP; // อัปเดตรหัสใหม่เข้าไปในตัวแปร
-                    alert('เปลี่ยนรหัสผ่านสำหรับ ' + user + ' สำเร็จแล้ว! สามารถใช้รหัสใหม่ล็อกอินได้ทันที');
+                    userDatabase[user] = newP;
+                    
+                    Swal.fire({
+                        title: 'เปลี่ยนรหัสผ่านสำเร็จ!',
+                        text: `เปลี่ยนรหัสผ่านสำหรับ ${user.toUpperCase()} เรียบร้อยแล้ว`,
+                        icon: 'success',
+                        confirmButtonColor: '#cfa45d',
+                        confirmButtonText: 'ตกลง'
+                    });
+
                     hideModal();
                     this.reset();
                 } else {
-                    alert('รหัสผ่านปัจจุบันไม่ถูกต้อง!');
+                    Swal.fire({
+                        title: 'เกิดข้อผิดพลาด!',
+                        text: 'รหัสผ่านปัจจุบันไม่ถูกต้อง!',
+                        icon: 'error',
+                        confirmButtonColor: '#1f2937',
+                        confirmButtonText: 'ลองใหม่'
+                    });
                 }
             } else {
-                alert('ไม่พบชื่อผู้ใช้นี้ในระบบ!');
+                Swal.fire({
+                    title: 'ไม่พบผู้ใช้!',
+                    text: 'ไม่พบชื่อผู้ใช้นี้ในระบบ!',
+                    icon: 'warning',
+                    confirmButtonColor: '#1f2937',
+                    confirmButtonText: 'ตรวจสอบอีกครั้ง'
+                });
             }
         });
 
-        // --- 4. สคริปต์ Login เช็คข้อมูลจาก userDatabase ---
+        // --- 4. สคริปต์ Login อัปเดตใช้ SweetAlert2 ---
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
             
@@ -303,25 +328,47 @@
 
             if (userDatabase[username]) {
                 if (password === userDatabase[username]) {
-                    alert('ยินดีต้อนรับ ' + username.toUpperCase() + ': กำลังพาคุณไปยังหน้าหลัก...');
                     
-                    // แยกหน้าตามสิทธิ์
-                    if (username === 'admin') {
-                        window.location.href = 'admin/home.html'; 
-                    } else if (username === 'it') {
-                        window.location.href = 'staff/home.html';
-                    } else if (username === 'user') {
-                        window.location.href = 'user/home.html';
-                    }
+                    Swal.fire({
+                        title: 'เข้าสู่ระบบสำเร็จ',
+                        text: 'ยินดีต้อนรับ ' + username.toUpperCase() + ': กำลังพาคุณไปยังหน้าหลัก...',
+                        icon: 'success',
+                        confirmButtonColor: '#cfa45d',
+                        confirmButtonText: 'ตกลง',
+                        timer: 1800,
+                        timerProgressBar: true
+                    }).then(() => {
+                        // แยกหน้าตามสิทธิ์หลังหมดเวลาหรือกด OK
+                        if (username === 'admin') {
+                            window.location.href = 'admin/home.html'; 
+                        } else if (username === 'it') {
+                            window.location.href = 'staff/home.html';
+                        } else if (username === 'user') {
+                            window.location.href = 'user/home.html';
+                        }
+                    });
+
                 } else {
-                    alert('รหัสผ่านไม่ถูกต้อง!');
+                    Swal.fire({
+                        title: 'เกิดข้อผิดพลาด!',
+                        text: 'รหัสผ่านไม่ถูกต้อง!',
+                        icon: 'error',
+                        confirmButtonColor: '#1f2937',
+                        confirmButtonText: 'ลองอีกครั้ง'
+                    });
                 }
             } else {
-                alert('ไม่พบชื่อผู้ใช้นี้ในระบบ!');
+                Swal.fire({
+                    title: 'ไม่พบข้อมูล!',
+                    text: 'ไม่พบชื่อผู้ใช้นี้ในระบบ!',
+                    icon: 'warning',
+                    confirmButtonColor: '#1f2937',
+                    confirmButtonText: 'ตรวจสอบอีกครั้ง'
+                });
             }
         });
 
-        // --- 5. สคริปต์จัดการปฏิทิน (คงเดิมจากโค้ดเก่าของคุณ) ---
+        // --- 5. สคริปต์จัดการปฏิทิน ---
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         
         let currentDate = new Date(2026, 4, 18); 
