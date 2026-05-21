@@ -380,7 +380,7 @@ repairForm.addEventListener('submit', function(event) {
     localStorage.setItem('my_devices', JSON.stringify(deviceList));
 
     // 3. สร้างลิงก์สำหรับ QR Code
-    const baseUrl = "https://jaotimee.github.io/my-website/แจ้งซ่อม1.html";
+    const baseUrl = "https://jaotimee.github.io/my-website/report_repair.html";
     const queryParams = new URLSearchParams(newDevice).toString();
     const targetUrl = `${baseUrl}?${queryParams}`;
 
