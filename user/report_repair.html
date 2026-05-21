@@ -184,7 +184,7 @@
                                 <div class="p-4 lg:p-5 bg-blue-50 rounded-2xl border border-blue-100">
                                     <h4 class="font-bold text-blue-900 mb-1">ตำแหน่งโต๊ะ</h4>
                                     <p class="text-sm text-blue-600 mb-4" id="selectedDeskText">ยังไม่ได้ระบุตำแหน่ง</p>
-                                    <input type="hidden" name="desk_number" id="deskIdInput" required>
+                                    <input type="hidden" name="desk_id" id="deskIdInput" required>
                                     <button type="button" id="selectDeskBtn" onclick="openModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm lg:text-base font-medium py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2">
                                         <i class="fa-solid fa-desktop"></i>
                                         เลือกผังโต๊ะคอม
@@ -250,6 +250,10 @@
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
 
+        /***************************************************************
+         *  จุดแก้ไขที่ 1: เปลี่ยนชื่อจาก desk_number เป็น desk_id ทั้งหมด 
+         *  เพื่อรองรับการดึงค่าจาก QR Code หน้าแรกแบบไร้รอยต่อ
+         ***************************************************************/
         function toggleSidebar() {
             const isClosed = sidebar.classList.contains('-translate-x-full');
             if (isClosed) {
@@ -266,7 +270,7 @@
         const modal = document.getElementById('floorPlanModal');
         const deskContainer = document.getElementById('deskContainer');
         const selectedText = document.getElementById('selectedDeskText');
-        const deskIdInput = document.getElementById('deskIdInput');
+        const deskIdInput = document.getElementById('deskIdInput'); // ใช้ ID เดิม
         const selectDeskBtn = document.getElementById('selectDeskBtn');
         const successModal = document.getElementById('successModal');
         
@@ -359,7 +363,7 @@
                 repair_date: document.getElementById('repair_date').value,
                 warranty_date: document.getElementById('warranty_date').value,
                 problem_desc: document.getElementById('problem_desc').value,
-                desk_number: deskIdInput.value,
+                desk_id: deskIdInput.value, // ✨ แก้ไขจาก desk_number เป็น desk_id เพื่อให้ข้อมูลเชื่อมกัน
                 status: 'รอดำเนินการ', // สถานะเริ่มต้น
                 created_at: new Date().toLocaleString('th-TH') // วันที่แจ้ง
             };
@@ -447,16 +451,19 @@
                     supplier.classList.add('locked-field');
                 }
 
+                /***************************************************************
+                 *  จุดแก้ไขที่ 2: เปลี่ยนจากการใช้ Object Date มาใช้วิธี split('-')
+                 *  เพื่อแปลงค่าปี ค.ศ. เป็น พ.ศ. ลงบนหน้าจอมือถือได้แบบชัวร์ๆ ไม่เจอ NaN
+                 ***************************************************************/
                 const purchaseDate = document.getElementById('purchase_date');
                 if(purchaseDate && urlParams.has('purchase_date') && urlParams.get('purchase_date') !== '') {
                     const pDateValue = urlParams.get('purchase_date');
                     purchaseDate.type = 'text'; 
-                    const pDateObj = new Date(pDateValue);
-                    if (!isNaN(pDateObj)) {
-                        const pDay = String(pDateObj.getDate()).padStart(2, '0');
-                        const pMonth = String(pDateObj.getMonth() + 1).padStart(2, '0');
-                        const pYear = pDateObj.getFullYear() + 543;
-                        purchaseDate.value = `${pDay}/${pMonth}/${pYear}`;
+                    
+                    if (pDateValue.includes('-')) {
+                        const parts = pDateValue.split('-');
+                        const yearBE = parseInt(parts[0]) + 543;
+                        purchaseDate.value = `${parts[2]}/${parts[1]}/${yearBE}`;
                     } else {
                         purchaseDate.value = pDateValue;
                     }
@@ -468,12 +475,11 @@
                 if(warrantyDate && urlParams.has('warranty_date') && urlParams.get('warranty_date') !== '') {
                     const wDateValue = urlParams.get('warranty_date');
                     warrantyDate.type = 'text';
-                    const wDateObj = new Date(wDateValue);
-                    if (!isNaN(wDateObj)) {
-                        const wDay = String(wDateObj.getDate()).padStart(2, '0');
-                        const wMonth = String(wDateObj.getMonth() + 1).padStart(2, '0');
-                        const wYear = wDateObj.getFullYear() + 543;
-                        warrantyDate.value = `${wDay}/${wMonth}/${wYear}`;
+                    
+                    if (wDateValue.includes('-')) {
+                        const parts = wDateValue.split('-');
+                        const yearBE = parseInt(parts[0]) + 543;
+                        warrantyDate.value = `${parts[2]}/${parts[1]}/${yearBE}`;
                     } else {
                         warrantyDate.value = wDateValue;
                     }
