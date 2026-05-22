@@ -383,7 +383,7 @@
             localStorage.setItem('my_devices', JSON.stringify(deviceList));
 
             // 3. ยิงเฉพาะค่า serial_number ไปบน URL เพื่อให้ขนาดของ QR Code มีขนาดเล็ก สแกนง่าย
-            const baseUrl = "https://jaotimee.github.io/my-website/report_repair.html";
+            const baseUrl = "https://jaotimee.github.io/my-website/user/report_repair.html";
             const targetUrl = `${baseUrl}?serial_number=${encodeURIComponent(serialNumValue)}`;
 
             // 4. แสดง QR Code
