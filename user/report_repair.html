@@ -134,7 +134,7 @@
 
                                 <div>
                                     <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">จัดซื้อมาจาก</label>
-                                    <input type="text" id="supplier" placeholder="กรอกที่อยู่จัดซื้อ" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                                    <input type="text" id="supplier" placeholder="กรอกที่อยู่จัดซื้อ" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all">
                                 </div>
                                 
                                 <div>
@@ -143,7 +143,7 @@
                                 </div>
                                 <div class="relative">
                                     <label class="block text-sm font-semibold text-slate-700 mb-2 lg:mb-3">ประเภทอุปกรณ์</label>
-                                    <select id="device_type" name="device_type" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required onchange="handleDeviceChange()">
+                                    <select id="device_type" name="device_type" class="w-full border border-slate-200 rounded-xl px-4 lg:px-5 py-3 lg:py-3.5 text-sm lg:text-base focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-white appearance-none cursor-pointer transition-all" required>
                                         <option value="" disabled selected>เลือกประเภทอุปกรณ์</option>
                                         <option value="คอมพิวเตอร์">คอมพิวเตอร์ (PC)</option>
                                         <option value="Notebook">Notebook</option>
@@ -221,7 +221,7 @@
                     <div id="deskContainer" class="grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-4"></div>
                 </div>
                 <div class="mt-6 sm:mt-8 flex justify-end">
-                    <button onclick="confirmSelection()" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/20">
+                    <button type="button" onclick="confirmSelection()" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/20">
                         ยืนยันตำแหน่ง
                     </button>
                 </div>
@@ -238,7 +238,7 @@
                 </div>
                 <h3 class="text-2xl font-bold text-slate-800 mb-2">แจ้งซ่อมสำเร็จ!</h3>
                 <p class="text-sm text-slate-500 mb-8">ระบบได้บันทึกข้อมูลการแจ้งซ่อมของคุณเรียบร้อยแล้ว</p>
-                <button onclick="goToHistory()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-blue-600/20 active:scale-95">
+                <button type="button" onclick="goToHistory()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-blue-600/20 active:scale-95">
                     ไปที่หน้าประวัติการแจ้งซ่อม
                 </button>
             </div>
@@ -308,6 +308,7 @@
         let tempSelected = null;
 
         function initDesks() {
+            deskContainer.innerHTML = ''; // ป้องกันปุ่มโต๊ะงอกเพิ่มซ้ำซ้อน
             for (let i = 1; i <= 12; i++) {
                 const btn = document.createElement('button');
                 btn.type = 'button';
@@ -339,7 +340,7 @@
 
         // --- ระบบการกด Submit และบันทึกลง LocalStorage ---
         document.getElementById('repairForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // ป้องกันการรีเฟรชหน้าเว็บ
+            e.preventDefault(); 
 
             if(!deskIdInput.value) {
                 alert('กรุณาเลือกตำแหน่งโต๊ะคอมพิวเตอร์ก่อนส่งคำร้อง');
@@ -347,9 +348,8 @@
                 return;
             }
 
-            // 1. ดึงข้อมูลที่กรอกทั้งหมด
             const newRepair = {
-                id: 'REP' + Date.now().toString().slice(-5), // สร้างรหัสอ้างอิงจำลอง
+                id: 'REP' + Date.now().toString().slice(-5), 
                 division: document.getElementById('division').value,
                 subdivision: document.getElementById('subdivision').value,
                 supplier: document.getElementById('supplier').value,
@@ -360,30 +360,22 @@
                 warranty_date: document.getElementById('warranty_date').value,
                 problem_desc: document.getElementById('problem_desc').value,
                 desk_number: deskIdInput.value,
-                status: 'รอดำเนินการ', // สถานะเริ่มต้น
-                created_at: new Date().toLocaleString('th-TH') // วันที่แจ้ง
+                status: 'รอดำเนินการ', 
+                created_at: new Date().toLocaleString('th-TH') 
             };
 
-            // 2. ดึงข้อมูลประวัติเก่าจาก localStorage (ถ้ามี)
             let repairHistory = JSON.parse(localStorage.getItem('repairHistory')) || [];
-            
-            // 3. เอาข้อมูลใหม่ใส่เข้าไป
             repairHistory.push(newRepair);
-            
-            // 4. บันทึกกลับลง localStorage
             localStorage.setItem('repairHistory', JSON.stringify(repairHistory));
 
-            // 5. แสดงหน้าต่าง Popup สำเร็จ
             successModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         });
 
-        // ฟังก์ชันไปหน้าประวัติเมื่อกดปุ่มใน Popup
         function goToHistory() {
             window.location.href = 'history.html';
         }
 
-        // ปิด modal เมื่อคลิกพื้นที่ด้านนอก
         window.addEventListener('click', function(event) { 
             if (event.target === modal.querySelector('.fixed.inset-0.bg-slate-900\\/60')) {
                 closeModal();
@@ -393,9 +385,10 @@
         initDesks();
 
         // -------------------------------------------------------------
-        // ระบบดึงข้อมูลจาก URL (QR Code) มากรอกลงฟอร์มอัตโนมัติ
+        // ✨ จุดแก้ไขสำคัญ: ระบบดึงข้อมูลย้อนกลับจาก LocalStorage ด้วย Serial Number
         // -------------------------------------------------------------
         window.onload = function() {
+            // เซ็ตวันที่แจ้งซ่อมปัจจุบันแบบ พ.ศ. อัตโนมัติ
             const todayInput = document.getElementById('repair_date');
             if(todayInput) {
                 const now = new Date();
@@ -409,91 +402,117 @@
                 todayInput.classList.add('locked-field');
             }
 
+            // แกะค่า Parameter จาก URL
             const urlParams = new URLSearchParams(window.location.search);
+            const serialNumParam = urlParams.get('serial_number');
             
-            if(urlParams.has('serial_number')) {
+            if(serialNumParam) {
+                // ดึงลิสต์อุปกรณ์ทั้งหมดจากคีย์ 'my_devices' ใน LocalStorage
+                const deviceList = JSON.parse(localStorage.getItem('my_devices')) || [];
                 
-                const deviceType = document.getElementById('device_type');
-                if(deviceType) {
-                    deviceType.value = urlParams.get('device_type');
-                    deviceType.classList.add('locked-field');
-                }
+                // ค้นหาอุปกรณ์ที่มีเลขครุภัณฑ์ตรงกับที่ส่งมาจาก QR Code
+                const matchedDevice = deviceList.find(dev => dev.serial_number === serialNumParam.trim());
 
-                const serialNumber = document.getElementById('serial_number');
-                if(serialNumber) {
-                    serialNumber.value = urlParams.get('serial_number');
-                    serialNumber.readOnly = true;
-                    serialNumber.classList.add('locked-field');
-                }
+                if(matchedDevice) {
+                    
+                    // 1. เติมข้อมูล กอง/สำนัก และสั่งเปลี่ยนฝ่ายย่อยให้ทำงาน
+                    const division = document.getElementById('division');
+                    if(division) {
+                        division.value = matchedDevice.division;
+                        division.classList.add('locked-field');
+                        handleDivisionChange(); // เรียกชุดข้อมูลฝ่ายมารอ
+                    }
 
-                const division = document.getElementById('division');
-                const subdivision = document.getElementById('subdivision');
-                if(division) {
-                    division.value = urlParams.get('division');
-                    division.classList.add('locked-field');
-                    
-                    handleDivisionChange(); 
-                    
+                    // 2. เติมข้อมูล ฝ่าย (ใส่ Delay เล็กน้อยให้การเปลี่ยนชุดข้อมูลใน handleDivisionChange ทำงานเสร็จก่อน)
+                    const subdivision = document.getElementById('subdivision');
                     if(subdivision) {
-                        subdivision.value = urlParams.get('subdivision');
-                        subdivision.classList.add('locked-field');
+                        setTimeout(() => {
+                            subdivision.value = matchedDevice.subdivision;
+                            subdivision.classList.add('locked-field');
+                        }, 50);
                     }
-                }
 
-                const supplier = document.getElementById('supplier');
-                if(supplier && urlParams.has('supplier')) {
-                    supplier.value = urlParams.get('supplier');
-                    supplier.readOnly = true;
-                    supplier.classList.add('locked-field');
-                }
-
-                const purchaseDate = document.getElementById('purchase_date');
-                if(purchaseDate && urlParams.has('purchase_date') && urlParams.get('purchase_date') !== '') {
-                    const pDateValue = urlParams.get('purchase_date');
-                    purchaseDate.type = 'text'; 
-                    const pDateObj = new Date(pDateValue);
-                    if (!isNaN(pDateObj)) {
-                        const pDay = String(pDateObj.getDate()).padStart(2, '0');
-                        const pMonth = String(pDateObj.getMonth() + 1).padStart(2, '0');
-                        const pYear = pDateObj.getFullYear() + 543;
-                        purchaseDate.value = `${pDay}/${pMonth}/${pYear}`;
-                    } else {
-                        purchaseDate.value = pDateValue;
+                    // 3. เติมข้อมูลประเภทอุปกรณ์
+                    const deviceType = document.getElementById('device_type');
+                    if(deviceType) {
+                        deviceType.value = matchedDevice.device_type;
+                        deviceType.classList.add('locked-field');
                     }
-                    purchaseDate.readOnly = true;
-                    purchaseDate.classList.add('locked-field');
-                }
 
-                const warrantyDate = document.getElementById('warranty_date');
-                if(warrantyDate && urlParams.has('warranty_date') && urlParams.get('warranty_date') !== '') {
-                    const wDateValue = urlParams.get('warranty_date');
-                    warrantyDate.type = 'text';
-                    const wDateObj = new Date(wDateValue);
-                    if (!isNaN(wDateObj)) {
-                        const wDay = String(wDateObj.getDate()).padStart(2, '0');
-                        const wMonth = String(wDateObj.getMonth() + 1).padStart(2, '0');
-                        const wYear = wDateObj.getFullYear() + 543;
-                        warrantyDate.value = `${wDay}/${wMonth}/${wYear}`;
-                    } else {
-                        warrantyDate.value = wDateValue;
+                    // 4. เติมข้อมูลเลขครุภัณฑ์
+                    const serialNumber = document.getElementById('serial_number');
+                    if(serialNumber) {
+                        serialNumber.value = matchedDevice.serial_number;
+                        serialNumber.readOnly = true;
+                        serialNumber.classList.add('locked-field');
                     }
-                    warrantyDate.readOnly = true;
-                    warrantyDate.classList.add('locked-field');
-                }
 
-                const deskId = urlParams.get('desk_id');
-                if(deskId) {
-                    deskIdInput.value = deskId;
-                    selectedText.innerText = `โต๊ะหมายเลข ${deskId}`;
-                    selectedText.classList.add('font-bold', 'text-blue-800');
-                    if(selectDeskBtn) {
-                        selectDeskBtn.style.display = 'none';
+                    // 5. เติมข้อมูลร้านค้าจัดซื้อ
+                    const supplier = document.getElementById('supplier');
+                    if(supplier) {
+                        supplier.value = matchedDevice.supplier;
+                        supplier.readOnly = true;
+                        supplier.classList.add('locked-field');
                     }
-                }
 
-                const problemDesc = document.getElementById('problem_desc');
-                if(problemDesc) {
-                    problemDesc.focus();
+                    // 6. แปลงและเติมข้อมูล วันที่จัดซื้อ (แปลงกลับเป็นรูปแบบวันที่ไทย วว/ดด/ปปปป พ.ศ.)
+                    const purchaseDate = document.getElementById('purchase_date');
+                    if(purchaseDate && matchedDevice.purchase_date) {
+                        purchaseDate.type = 'text'; 
+                        const pDateObj = new Date(matchedDevice.purchase_date);
+                        if (!isNaN(pDateObj)) {
+                            const pDay = String(pDateObj.getDate()).padStart(2, '0');
+                            const pMonth = String(pDateObj.getMonth() + 1).padStart(2, '0');
+                            const pYear = pDateObj.getFullYear() + 543;
+                            purchaseDate.value = `${pDay}/${pMonth}/${pYear}`;
+                        } else {
+                            purchaseDate.value = matchedDevice.purchase_date;
+                        }
+                        purchaseDate.readOnly = true;
+                        purchaseDate.classList.add('locked-field');
+                    }
+
+                    // 7. แปลงและเติมข้อมูล ระยะเวลารับประกัน
+                    const warrantyDate = document.getElementById('warranty_date');
+                    if(warrantyDate && matchedDevice.warranty_date) {
+                        warrantyDate.type = 'text';
+                        const wDateObj = new Date(matchedDevice.warranty_date);
+                        if (!isNaN(wDateObj)) {
+                            const wDay = String(wDateObj.getDate()).padStart(2, '0');
+                            const wMonth = String(wDateObj.getMonth() + 1).padStart(2, '0');
+                            const wYear = wDateObj.getFullYear() + 543;
+                            warrantyDate.value = `${wDay}/${wMonth}/${wYear}`;
+                        } else {
+                            warrantyDate.value = matchedDevice.warranty_date;
+                        }
+                        warrantyDate.readOnly = true;
+                        warrantyDate.classList.add('locked-field');
+                    }
+
+                    // 8. ดึงข้อมูลตำแหน่งโต๊ะคอมพิวเตอร์มาแปะใส่ฟอร์มให้
+                    if(matchedDevice.desk_id) {
+                        deskIdInput.value = matchedDevice.desk_id;
+                        selectedText.innerText = `โต๊ะหมายเลข ${matchedDevice.desk_id}`;
+                        selectedText.className = "text-sm text-blue-800 font-bold mb-4";
+                        if(selectDeskBtn) {
+                            selectDeskBtn.style.display = 'none'; // ซ่อนปุ่มเลือกผังโต๊ะคอมเนื่องจากมีตำแหน่งแล้ว
+                        }
+                    }
+
+                    // 9. สั่งโฟกัสกล่องข้อความอธิบายปัญหา เพื่อให้ผู้ใช้งานเริ่มพิมพ์แจ้งซ่อมได้ทันที
+                    const problemDesc = document.getElementById('problem_desc');
+                    if(problemDesc) {
+                        problemDesc.focus();
+                    }
+
+                } else {
+                    // หากผู้ใช้สแกน QR Code แล้วไม่เจอรหัสครุภัณฑ์ใน LocalStorage ของเครื่องนั้น
+                    // ระบบจะเอาเลขครุภัณฑ์กรอกแช่ไว้ให้ในช่อง เพื่อลดขั้นตอนการพิมพ์เลขยาว ๆ ด้วยตัวเอง
+                    const serialNumber = document.getElementById('serial_number');
+                    if(serialNumber) {
+                        serialNumber.value = serialNumParam;
+                    }
+                    console.log("ไม่พบข้อมูลอุปกรณ์เลขครุภัณฑ์นี้ภายใน LocalStorage เครื่องนี้");
                 }
             }
         };
